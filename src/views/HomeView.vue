@@ -1,17 +1,19 @@
 <template>
-  <v-container>
     <div>
-      <h2>메인이다</h2>
+      <FooterPage/>
     </div>
-  </v-container>
 </template>
 
 <script>
+import FooterPage from '../views/footer/FooterPage.vue'
+export default {
+  name: 'Home',
 
-  export default {
-    name: 'Home',
-
-    components: {
-    },
-  }
+  components: {
+    FooterPage,
+  },
+}
 </script>
+
+<style scoped>
+</style>
