@@ -7,7 +7,11 @@
                 <v-text-field v-model="email" label="이메일" :rules="email_rule" color="red" required></v-text-field>  
                 <div>
                     <v-btn class="checkValue" @click="checkEmail">중복확인</v-btn>
-                    <span>{{ guide }}</span>
+                    <span>{{ guide1 }}</span>
+                </div>
+                <div>
+                    <v-btn class="checkValue" @click="sendEmail">인증하기</v-btn>
+                    <span>{{ guide2 }}</span>
                 </div>
                 <v-text-field v-model="password" label="비밀번호" :rules="password_rule" color="red"></v-text-field>
                 <v-text-field v-model="passwordCheck" label="비밀번호 확인" color="red"></v-text-field>
@@ -49,7 +53,9 @@ const memberModule = 'memberModule'
 export default {
     data () {
         return {
-            guide: '중복 확인이 필요합니다.',
+            guide1: '중복 확인이 필요합니다.',
+            guide2: '이메일 인증을 진행해주세요.',
+            authCode: 0,
             email: '',
             password: '',
             passwordCheck: '',
@@ -76,7 +82,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(memberModule, ['requestCheckEmailDuplicate']),
+        ...mapActions(memberModule, ['requestCheckEmailDuplicate', 'requestAuthorizeEmailToSpring']),
         onSubmit () {
             this.checkPassword()
             if(this.checkPasswordValid == true && this.emailDuplicate == false && this.email != null  && this.password != null) {
@@ -108,6 +114,10 @@ export default {
                 this.guide = "중복된 이메일입니다."
                 this.checkEmailDuplicate = true;
             }
+        },
+        async sendEmail () {
+            this.authCode = await this.requestAuthorizeEmailToSpring({email: this.email})
+            console.log("받은 인증 코드는?" + this.authCode);
         }
     }
 }

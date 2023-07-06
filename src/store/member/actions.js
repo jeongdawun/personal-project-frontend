@@ -55,4 +55,14 @@ export default {
                 }
             })
     },
+    requestAuthorizeEmailToSpring ({}, payload) {
+        return axiosInst.post('/member/check-email-authorize', payload)
+            .then((res) => {
+                if(res.data > 0) {
+                    return res.data
+                } else {
+                    alert("문제 발생")
+                }
+            })
+    },
 }
