@@ -89,6 +89,8 @@ export default {
     text-decoration: none;
     padding-left: 20px;
     color: #73916A;
+    display: inline-block;
+    white-space: nowrap;
 }
 .bar2 a {
     font-weight: 400;
@@ -96,6 +98,8 @@ export default {
     text-decoration: none;
     padding-left: 20px;
     color: #000000;
+    display: inline-block;
+    white-space: nowrap;
 }
 .v-application span {
     font-family: 'GmarketSans';
