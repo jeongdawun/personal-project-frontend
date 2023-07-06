@@ -12,6 +12,8 @@
                 <div>
                     <v-btn class="checkValue" @click="sendEmail">인증하기</v-btn>
                     <span>{{ guide2 }}</span>
+                    <input type="text" v-model="inputAuthCode">
+                    <v-btn class="checkValue" @click="checkCode">확인</v-btn>
                 </div>
                 <v-text-field v-model="password" label="비밀번호" :rules="password_rule" color="red"></v-text-field>
                 <v-text-field v-model="passwordCheck" label="비밀번호 확인" color="red"></v-text-field>
@@ -54,8 +56,9 @@ export default {
     data () {
         return {
             guide1: '중복 확인이 필요합니다.',
-            guide2: '이메일 인증을 진행해주세요.',
+            guide2: '인증코드 입력: ',
             authCode: 0,
+            inputAuthCode: 0,
             email: '',
             password: '',
             passwordCheck: '',
@@ -64,6 +67,7 @@ export default {
             emailDuplicate: true,
             checkPasswordValid: false,
             checkEmailDuplicate: false,
+            checkEmailAuthorize: false,
 
             email_rule: [
                 v => {
@@ -85,7 +89,7 @@ export default {
         ...mapActions(memberModule, ['requestCheckEmailDuplicate', 'requestAuthorizeEmailToSpring']),
         onSubmit () {
             this.checkPassword()
-            if(this.checkPasswordValid == true && this.emailDuplicate == false && this.email != null  && this.password != null) {
+            if(this.checkPasswordValid == true && this.emailDuplicate == false && this.email != null  && this.password != null && this.checkEmailAuthorize == true) {
                 const { email, password, roleType } = this
                 this.$emit('submit', { email, password, roleType })
             } else if (this.emailDuplicate == true && this.checkEmailDuplicate == true) {
@@ -117,7 +121,14 @@ export default {
         },
         async sendEmail () {
             this.authCode = await this.requestAuthorizeEmailToSpring({email: this.email})
-            console.log("받은 인증 코드는?" + this.authCode);
+        },
+        checkCode () {
+            if(this.inputAuthCode == this.authCode) {
+                alert("인증완료")
+                this.checkEmailAuthorize = true
+            } else {
+                alert("인증되지 않은 이메일입니다.")
+            }
         }
     }
 }
