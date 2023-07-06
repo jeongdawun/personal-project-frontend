@@ -34,9 +34,32 @@ export default {
                 }
             })
     },
+    requestBusinessMemberSignupToSpring ({ }, payload) {
+
+        return axiosInst.post('/member/signup-business', payload)
+            .then((res) => {
+                if(res.data == true) {
+                    alert('사업자 회원 가입 성공')
+                    router.push('/login')
+                } else {
+                    alert('회원가입 실패!')
+                }
+            })
+    },
     requestCheckEmailDuplicate ({ }, payload) {
 
         return axiosInst.post('member/check-email-duplicate', payload)
+        .then((res) => {
+            if(res.data == true) {
+                return res.data
+            } else {
+                return res.data
+            }
+        })
+    },
+    requestCheckBusinessNumberDuplicate ({ }, payload) {
+
+        return axiosInst.post('member/check-businessNumber-duplicate', payload)
         .then((res) => {
             if(res.data == true) {
                 return res.data
