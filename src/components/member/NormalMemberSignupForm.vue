@@ -5,14 +5,14 @@
             <hr class="signupFormTopLine">
             <form>
                 <v-text-field v-model="email" label="이메일" :rules="email_rule" color="red" required></v-text-field>  
-                <div>
+                <div class="checkEmailInfo">
                     <v-btn class="checkValue" @click="checkEmail">중복확인</v-btn>
                     <span>{{ guide1 }}</span>
                 </div>
-                <div>
+                <div class="checkEmailInfo">
                     <v-btn class="checkValue" @click="sendEmail">인증하기</v-btn>
                     <span>{{ guide2 }}</span>
-                    <input type="text" v-model="inputAuthCode">
+                    <input type="text" id="inputCode" v-model="inputAuthCode">
                     <v-btn class="checkValue" @click="checkCode">확인</v-btn>
                 </div>
                 <v-text-field v-model="password" label="비밀번호" :rules="password_rule" color="red"></v-text-field>
@@ -27,6 +27,7 @@
                     </v-col>
                 </v-row>
             </form>
+            <div class="snsForm">
             <v-row align="center" justify="center">
                 <v-col cols="auto" id="SNS">
                     SNS로 가입
@@ -41,6 +42,7 @@
                     <v-img class="snsLogo" src="@/assets/snsLogo/naver.png"></v-img>
                 </v-col>
             </v-row>
+            </div>
             <hr class="signupFormBottomLine">
         </div>
     </div>
@@ -58,7 +60,7 @@ export default {
             guide1: '중복 확인이 필요합니다.',
             guide2: '인증코드 입력: ',
             authCode: 0,
-            inputAuthCode: 0,
+            inputAuthCode: '',
             email: '',
             password: '',
             passwordCheck: '',
@@ -112,10 +114,10 @@ export default {
         async checkEmail () {
             this.emailDuplicate = await this.requestCheckEmailDuplicate({email: this.email})
             if(this.emailDuplicate == false) {
-                this.guide = "확인이 완료되었습니다."
+                this.guide1 = "확인이 완료되었습니다."
                 this.checkEmailDuplicate = true;
             } else {
-                this.guide = "중복된 이메일입니다."
+                this.guide1 = "중복된 이메일입니다."
                 this.checkEmailDuplicate = true;
             }
         },
@@ -130,7 +132,7 @@ export default {
                 alert("인증되지 않은 이메일입니다.")
             }
         }
-    }
+    },
 }
 </script>
 
@@ -219,5 +221,13 @@ span {
     font-weight: 600;
     color: rgb(73, 73, 73);
 }
-
+.checkEmailInfo {
+    margin-top: 10px;
+}
+.snsForm {
+    margin-top: 60px;
+}
+#inputCode{
+    width: 310px;
+}
 </style>
