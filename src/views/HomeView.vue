@@ -53,40 +53,9 @@ export default {
 p {
   font-size: 700px;
 }
-.searchKeyWord {
-  width: 100%;
-  height: 40px;
-  background-color: #f8f8f8;
-  padding: 8px 20px;
-  margin-left: 30px;
-  font-size: 16px;
-  border: none;
-  outline: none;
-
-}
-.searchBtn {
-  height: 40px;
-  width: 12%;
-  background-color: #73916A;
-  border-radius: 33px;
-
-}
-.searchDiv {
-  border-radius: 33px;
-  height: 40px;
-  background-color: #f8f8f8;
-  width: 30%;
-  margin-left: 700px;
-  justify-content: center;
-  font-family: 'GmarketSans';
-  font-weight: 200;
-}
 .carouselDiv {
   width: 100%;
   justify-content: center;
-  padding-top: 20px;
-}
-.container {
-  width: 60%;
+  padding-top: 60px;
 }
 </style>
