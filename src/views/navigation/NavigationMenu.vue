@@ -53,6 +53,7 @@ export default {
         },
         signOut () {
             sessionStorage.removeItem("accessToken")
+            sessionStorage.removeItem("refreshToken")
             this.isLogin = false
         },
         myPage () {
