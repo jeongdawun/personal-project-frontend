@@ -15,10 +15,10 @@ export default {
         NormalMemberSignupForm
     },
     methods: {
-        ...mapActions(memberModule, ['requestLoginMemberToSpring']),
+        ...mapActions(memberModule, ['requestNormalMemberSignupToSpring']),
         async onSubmit (payload) {
-            const { email, password } = payload
-            await this.requestLoginMemberToSpring({ email, password })
+            const { email, password, roleType } = payload
+            await this.requestNormalMemberSignupToSpring({ email, password, roleType })
         },
     }
 }
