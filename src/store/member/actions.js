@@ -35,7 +35,7 @@ export default {
             })
     },
     requestCheckEmailDuplicate ({ }, payload) {
-        
+
         return axiosInst.post('member/check-email-duplicate', payload)
         .then((res) => {
             if(res.data == true) {
@@ -44,5 +44,15 @@ export default {
                 return res.data
             }
         })
-    }
+    },
+    requestAuthorizeToSpring ({}, payload) {
+        return axiosInst.post('/member/auth', payload)
+            .then((res) => {
+                if(res.data != null) {
+                    return res.data
+                } else {
+                    alert("문제 발생")
+                }
+            })
+    },
 }
