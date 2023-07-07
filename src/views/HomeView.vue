@@ -5,7 +5,7 @@
             class="mainbanner"
             :continuous="false"
             :show-arrows="false"
-            hide-delimiter-background
+            hide-delimiters
             :cycle="cycle"
             :interval="interval" 
             :height="height" 
@@ -42,7 +42,7 @@ export default {
             ],
             cycle: true,
             interval: 100000000,
-            height: 320,
+            height: 720,
         }
     }
 }
