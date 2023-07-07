@@ -99,6 +99,17 @@ export default {
                 }
             })
     },
+    requestAuthorizeForSellerInfoToSpring ({}, payload) {
+        return axiosInst.post('/member/auth-sellerInfo', payload)
+            .then((res) => {
+                console.log("궁금해 액션 잘 하는지: " + JSON.stringify(res.data))
+                if(res.data != null) {
+                    return res.data
+                } else {
+                    alert("문제 발생")
+                }
+            })
+    },
     requestAuthorizeEmailToSpring ({}, payload) {
         return axiosInst.post('/member/check-email-authorize', payload)
             .then((res) => {
@@ -111,6 +122,17 @@ export default {
     },
     requestRegisterProfileToSpring ({}, payload) {
         return axiosInst.post('/member/profile-register', payload)
+            .then((res) => {
+                if(res.data == true) {
+                    router.push('/')
+                    return res.data
+                } else {
+                    alert("문제 발생")
+                }
+            })
+    },
+    requestRegisterSellerInfoToSpring ({}, payload) {
+        return axiosInst.post('/member/sellerInfo-register', payload)
             .then((res) => {
                 if(res.data == true) {
                     router.push('/')
