@@ -1,49 +1,46 @@
 <template lang="">
     <div>
-        <div class="loginFormTop">
-            <p>LOGIN</p>
-            <hr>
-        </div>
         <div class="loginForm">
-            <table>
-            <td class="item">
-                <tr>
-                    <td>
-                        이메일
-                    </td>
-                </tr>
-                <p></p>
-                <tr>
-                    <td>
-                        비밀번호
-                    </td>
-                </tr>
-            </td>
-            <td class="value">
-                <tr>
-                    <td>
-                        <input type="text" class="inputValue" v-model="email">
-                    </td>
-                </tr>
-                <p></p>
-                <tr>
-                    <td>
-                        <input type="text" class="inputValue" v-model="password">
-                    </td>
-                </tr>
-            </td>
-            <div>
-                <button class="loginButton" @click="onSubmit">로그인</button>
+            <h2>LOGIN</h2>
+            <hr class="signInFormTopLine">
+            <form>
+                <v-text-field v-model="email" label="이메일" color="red"></v-text-field>
+                <v-text-field v-model="password" label="비밀번호" color="red"></v-text-field>
+                            
+                <v-row align="center" justify="center">
+                    <v-col cols="auto">
+                        <v-btn class="submitBtn" color="#73916A" elevation="0" @click="onSubmit">로그인</v-btn>
+                    </v-col>
+                    <v-col cols="auto">
+                        <v-btn class="clearBtn" elevation="0" @click="clear">취소</v-btn>
+                    </v-col>
+                </v-row>
+            </form>
+
+            <div class="snsForm">
+            <v-row align="center" justify="center">
+                <v-col cols="auto" id="SNS">
+                    SNS로 로그인
+                </v-col>
+                <v-col cols="auto">
+                    <v-img class="snsLogo" src="@/assets/snsLogo/kakao.png"></v-img>
+                </v-col>
+                <v-col cols="auto">
+                    <v-img class="snsLogo" src="@/assets/snsLogo/google.jpg"></v-img>
+                </v-col>
+                <v-col cols="auto">
+                    <v-img class="snsLogo" src="@/assets/snsLogo/naver.png"></v-img>
+                </v-col>
+            </v-row>
             </div>
-            </table>
-        </div>
-        <div class="loginFormBottom">
-            <hr>
+            <hr class="signInFormBottomLine">
         </div>
     </div>
 </template>
 
 <script>
+import router from '@/router'
+
 export default {
     data () {
         return {
@@ -55,73 +52,73 @@ export default {
         onSubmit () {
             const { email, password } = this
             this.$emit('submit', { email, password })
-        }
+        },
+        clear () {
+            router.push('/')
+        },
     }
 }
 </script>
 
 <style scoped>
 @import "../../assets/styles/fonts.css";
-.loginFormTop p{
+.loginForm {
+    padding: 100px;
+}
+h2{
     text-align: center;
     font-family: 'GmarketSans';
     font-weight: 200;
     font-size: 40px;
     padding-top: 20px;
 }
-.loginFormBottom {
-    padding: 60px;
-}
-.loginFormTop {
-    padding: 60px;
-}
-hr {
+.signInFormTopLine {
     width: 40%;
-    margin-left : auto;
-    margin-right : auto;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
-ul {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    justify-content: center;
-    background-color: rgb(247, 247, 247);
-    height: 46px; 
+.signInFormBottomLine {
+    width: 40%;
+    margin: auto;
+    margin-top: 80px;
 }
-.loginForm {
-    width: 50%;
-    margin-left : auto;
-    margin-right : auto;
-    align-items: center;
+form {
+    width: 30%;
+    height: 100px;
+    margin: auto;
+    padding-top: 40px;
+    padding-bottom: 180px;
     font-family: 'GmarketSans';
-    font-weight: 200;
-    padding-left: 180px;
+    font-weight: 100;
 }
-.item {
-    font-weight: 300;
-    color: rgb(177, 177, 177);
-    padding-right: 40px;
-    width: 20%
-}
-.value td{
-    color: rgb(177, 177, 177);
-    background-color: rgb(238, 238, 238);
-    width: 360px;
-}
-td {
-    height: 28px;
-}
-.inputValue {
-    border: none;
-    outline: none;
-    font-size: 12px;
-    padding-left: 10px;
-}
-.loginButton {
-    background-color: #73916A;
+.submitBtn {
+    width: 140px;
+    margin-top: 40px;
     color: white;
-    height: 78px;
-    display: inline-flex;
-    width: 80px;    
+    font-family: 'GmarketSans';
+    font-size: 15px;
+    font-weight: 200;
+}
+.clearBtn {
+    width: 140px;
+    margin-top: 40px;
+    font-family: 'GmarketSans';
+    font-size: 15px;
+    font-weight: 200;
+}
+.snsLogo {
+    width: 40px;
+}
+#SNS {
+    font-size: 20px;
+    padding-left: 20px;
+    padding-right: 60px;
+    font-family: 'GmarketSans';
+    font-weight: 600;
+    color: rgb(73, 73, 73);
+}
+.snsForm {
+    margin-top: 80px;
 }
 </style>

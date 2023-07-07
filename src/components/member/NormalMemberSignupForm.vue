@@ -1,6 +1,6 @@
 <template lang="">
     <div>  
-        <div class="myPageMenu">
+        <div class="signupForm">
             <h2>회원가입</h2>
             <hr class="signupFormTopLine">
             <form>
@@ -138,26 +138,8 @@ export default {
 
 <style scoped>
 
-.myPageMenu {
+.signupForm {
     padding-top: 100px;
-}
-.myPageMenu ul {
-    margin-left: auto;
-    margin-right: auto;
-    justify-content: center;
-    background-color: rgb(255, 0, 0);
-    height: 46px;
-    margin-top: 20px;
-    width: 60%;
-}
-.myPageMenu li {
-    display: block;
-    width: 100%;
-    text-align:center;
-    font-weight: lighter;
-    font-size: 14px;
-    color: rgb(0, 255, 34);
-    padding-top: 12px;
 }
 h2{
     text-align: center;

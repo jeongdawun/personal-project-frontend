@@ -131,7 +131,7 @@ h2{
 .profileFormBottomLine {
     width: 40%;
     margin: auto;
-    margin-top: 80px;
+    margin-top: 160px;
 }
 form {
     width: 30%;
