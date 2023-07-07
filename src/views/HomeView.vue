@@ -19,6 +19,12 @@
                 </v-carousel-item>
             </v-carousel>
         </div>
+        <p>테스트할거야</p>
+        <div>
+          <v-icon class="moveTop" @click="move">
+            mdi-chevron-up
+          </v-icon>
+        </div>
       <FooterPage/>
     </div>
 </template>
@@ -44,6 +50,15 @@ export default {
             interval: 100000000,
             height: 720,
         }
+    },
+    methods: {
+      move() {
+      const $topBtn = document.querySelector(".moveTop");
+        
+      $topBtn.addEventListener("click", () => {
+        window.scrollTo({top: 0, behavior: "smooth"});
+      });
+    }
     }
 }
 </script>
@@ -57,5 +72,15 @@ p {
   width: 100%;
   justify-content: center;
   padding-top: 60px;
+}
+.moveTop {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 2rem;
+  height: 2rem;
+  background-color: rgb(255, 131, 59);
+  border-radius: 60%;
+  color: rgb(255, 255, 255)
 }
 </style>
