@@ -10,7 +10,9 @@
       <v-card-text class="menu text-center">
         <ul style="">
           <li>회사소개</li>
-          <li>파트너 신청</li>
+          <li>
+              <a href="/signup-business">파트너 신청</a>
+          </li>
           <li>개인정보처리</li>
           <li>고객센터</li>
         </ul>
@@ -59,13 +61,23 @@
   height: 40px;
   padding: 4px;
 }
+.menu li {
+  display: block;
+  width: 20%;
+  text-align:center;
+  font-weight: lighter;
+  font-size: 14px;
+  padding-top: 2px;
+}
+.menu a {
+  text-decoration: none;
+  display: inline-block;
+  white-space: nowrap;
+  color: rgb(109, 109, 109);
+}
 .companyinfo{
   height: 120px;
   font-family: 'GmarketSans';
-}
-.btnmenu {
-  margin-left: 120px;
-  font-size: 13px;
 }
 .white {
   padding-top: 30px;
@@ -76,12 +88,5 @@ ul {
   list-style:none;
   text-align: center;
   font-family: 'GmarketSans';
-}
-li {
-  float: left;
-  padding-left: 60px;
-  padding-right: 60px;
-  align-items: center;
-  color: rgb(109, 109, 109);
 }
 </style>
