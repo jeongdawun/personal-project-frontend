@@ -68,8 +68,29 @@ export default {
             }
         })
     },
+    requestCheckNickNameDuplicate ({ }, payload) {
+
+        return axiosInst.post('member/check-nickName-duplicate', payload)
+        .then((res) => {
+            if(res.data == true) {
+                return res.data
+            } else {
+                return res.data
+            }
+        })
+    },
     requestAuthorizeToSpring ({}, payload) {
         return axiosInst.post('/member/auth', payload)
+            .then((res) => {
+                if(res.data != null) {
+                    return res.data
+                } else {
+                    alert("문제 발생")
+                }
+            })
+    },
+    requestAuthorizeForUserProfileToSpring ({}, payload) {
+        return axiosInst.post('/member/auth-userProfile', payload)
             .then((res) => {
                 if(res.data != null) {
                     return res.data
@@ -82,6 +103,17 @@ export default {
         return axiosInst.post('/member/check-email-authorize', payload)
             .then((res) => {
                 if(res.data > 0) {
+                    return res.data
+                } else {
+                    alert("문제 발생")
+                }
+            })
+    },
+    requestRegisterProfileToSpring ({}, payload) {
+        return axiosInst.post('/member/profile-register', payload)
+            .then((res) => {
+                if(res.data == true) {
+                    router.push('/')
                     return res.data
                 } else {
                     alert("문제 발생")

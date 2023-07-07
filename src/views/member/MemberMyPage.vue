@@ -7,7 +7,7 @@
         <div class="myPageMenu">
             <ul>
                 <li>
-                    <a>나의정보관리</a>
+                    <a href="/myProfilePage">나의정보관리</a>
                 </li>
                 <li> | </li>
                 <li>

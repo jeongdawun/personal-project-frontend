@@ -1,0 +1,29 @@
+<template lang="">
+    <div>
+        <normal-member-profile-register-form @submit="onSubmit"/>
+    </div>
+</template>
+
+<script>
+import NormalMemberProfileRegisterForm from '@/components/member/NormalMemberProfileRegisterForm.vue'
+import { mapActions } from 'vuex';
+
+const memberModule = 'memberModule'
+
+export default {
+    components: {
+        NormalMemberProfileRegisterForm
+    },
+    methods: {
+        ...mapActions(memberModule, ['requestRegisterProfileToSpring']),
+        async onSubmit (payload) {
+            const { email, name, contactNumber, nickName, birthday } = payload
+            await this.requestRegisterProfileToSpring({ email, name, contactNumber, nickName, birthday })
+        },
+    }
+}
+</script>
+
+<style lang="">
+    
+</style>

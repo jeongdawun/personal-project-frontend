@@ -5,6 +5,7 @@ import MemberLoginPage from '@/views/member/MemberLoginPage.vue'
 import NormalMemberSignupPage from '@/views/member/NormalMemberSignupPage.vue'
 import BusinessMemberSignupPage from '@/views/member/BusinessMemberSignupPage.vue'
 import MemberMyPage from '@/views/member/MemberMyPage.vue'
+import NormalMemberProfileRegisterPage from '@/views/member/NormalMemberProfileRegisterPage.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,11 @@ const memberRoutes = [
     path: '/myPage',
     name: 'MemberMyPage',
     component: MemberMyPage
+  },
+  {
+    path: '/myProfilePage',
+    name: 'NormalMemberProfileRegisterPage',
+    component: NormalMemberProfileRegisterPage
   },
 ]
 
