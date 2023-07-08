@@ -17,6 +17,7 @@ export default {
                 sessionStorage.setItem("refreshToken", refreshToken);
 
                 alert('로그인되었습니다.')
+                router.push('/')
             })
             .catch(() => {
                 alert('로그인이 실패하였습니다.')

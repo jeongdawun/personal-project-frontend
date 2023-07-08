@@ -29,17 +29,20 @@ const memberRoutes = [
   {
     path: '/myPage',
     name: 'MemberMyPage',
-    component: MemberMyPage
+    component: MemberMyPage,
+    meta: { requiresAuth: true }
   },
   {
     path: '/myProfilePage',
     name: 'NormalMemberProfileRegisterPage',
-    component: NormalMemberProfileRegisterPage
+    component: NormalMemberProfileRegisterPage,
+    meta: { requiresAuth: true }
   },
   {
     path: '/sellerInfoPage',
     name: 'BusinessMemberSellerInfoRegisterPage',
-    component: BusinessMemberSellerInfoRegisterPage
+    component: BusinessMemberSellerInfoRegisterPage,
+    meta: { requiresAuth: true }
   },
 ]
 

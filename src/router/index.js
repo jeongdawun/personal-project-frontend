@@ -20,4 +20,15 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = sessionStorage.getItem('accessToken') !== null;
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+  if (requiresAuth && !isAuthenticated) {
+    next('/login'); // 로그인 페이지로 리디렉션합니다.
+  } else {
+    next();
+  }
+});
+
 export default router
