@@ -1,22 +1,25 @@
 <template lang="">
     <div>  
         <div class="mySellerInfoMenu">
-            <h2>파트너 정보수정</h2>
+            <h2>판매자 정보수정</h2>
             <hr class="sellerInfoFormTopLine">
             <form>
                 <v-text-field v-model="email" label="이메일" readonly disabled></v-text-field>
                 <v-text-field v-model="businessNumber" label="사업자 번호" readonly disabled></v-text-field>
                 <v-text-field v-model="businessName" label="사업장명" readonly disabled></v-text-field>
-                <v-text-field v-model="address" label="주소"></v-text-field>
-                <v-btn class="button primary-button" @click="postOpen">주소검색</v-btn>
-                <input type="text" id="address" placeholder="전체 주소"><br>
-                <!-- <v-text-field v-model="city" label="도시" color="red"></v-text-field>
-                <v-text-field v-model="street" label="도로명" color="red"></v-text-field>
-                <v-text-field v-model="addressDetail" label="상세주소" color="red"></v-text-field>
-                <v-text-field v-model="zipcode" label="우편번호" color="red"></v-text-field> -->
+                <v-text-field v-model="address" id="address" label="사업장 소재지" readonly></v-text-field>
+
+                <v-btn class="serchBtn" @click="postOpen">주소검색</v-btn>
+                
+                <v-text-field v-model="city" id="city" label="도시" readonly></v-text-field>
+                <v-text-field v-model="street" id="street" label="도로명" readonly></v-text-field>
+                <v-text-field v-model="addressDetail" id="addressDetail" label="상세주소" color="red"></v-text-field>
+                <v-text-field v-model="zipcode" id="zipcode" label="우편번호"></v-text-field>
+
                 <v-text-field v-model="contactNumber" label="고객센터 연락처" color="red"></v-text-field>       
                 <v-text-field v-model="bank" label="은행" color="red"></v-text-field>       
-                <v-text-field v-model="accountNumber" label="계좌번호" color="red"></v-text-field>                         
+                <v-text-field v-model="accountNumber" label="계좌번호" color="red"></v-text-field>     
+
                 <v-row align="center" justify="center">
                     <v-col cols="auto">
                         <v-btn class="submitBtn" color="#73916A" elevation="0" @click="onSubmit">수정하기</v-btn>
@@ -26,7 +29,7 @@
                     </v-col>
                 </v-row>
             </form>
-            <hr class="sellerInfoFormBottomLine">
+            <!-- <hr class="sellerInfoFormBottomLine"> -->
         </div>
     </div>
 </template>
@@ -67,7 +70,6 @@ export default {
         ...mapActions(memberModule, ['requestRegisterSellerInfoToSpring', 'requestAuthorizeToSpring', 'requestAuthorizeForSellerInfoToSpring']),
         async onSubmit () {
             const { email, city, street, addressDetail, zipcode, contactNumber, bank, accountNumber } = this
-            console.log("궁금해 들어갈 땐 어떄? " + email + city)
             this.$emit('submit', { email, city, street, addressDetail, zipcode, contactNumber, bank, accountNumber })
         },
         clear () {
@@ -77,22 +79,16 @@ export default {
             const vm = this;
             new daum.Postcode({
             oncomplete: function(data) {
-                console.log(data)
-                console.log(data.sido)
-                console.log(data.sigungu)
-                console.log(data.roadname)
-                console.log(data.query)
-                this.address = data.address
-                this.city = data.sido + data.sigungu
-                this.street = data.roadname
-                this.addressDetail = data.buildingName
-                this.zipcode = data.zonecode
-                console.log("궁금해: " + this.address)
-                console.log("궁금해: " + this.city)
-                console.log("궁금해: " + this.street)
-                console.log("궁금해: " + this.addressDetail)
-                console.log("궁금해: " + this.zipcode)
-                document.getElementById("address").value = data.address
+                vm.address = data.address;
+                vm.city = data.sido + data.sigungu;
+                vm.street = data.roadname;
+                vm.addressDetail = data.buildingName;
+                vm.zipcode = data.zonecode;
+                document.getElementById("address").value = data.address;
+                document.getElementById("city").value = data.sido + data.sigungu;
+                document.getElementById("street").value = data.roadname;
+                document.getElementById("addressDetail").value = data.buildingName;
+                document.getElementById("zipcode").value = data.zonecode;
         }
         }).open();
       }
@@ -102,9 +98,15 @@ export default {
         this.sellerInfo = await this.requestAuthorizeForSellerInfoToSpring({authorizationHeader: this.userToken})
         console.log("가져온 정보: " + JSON.stringify(this.sellerInfo))
 
-        this.address = this.sellerInfo.city + this.sellerInfo.street + this.sellerInfo.addressDetail + this.sellerInfo.zipcode
+        this.address = this.sellerInfo.city + " " + this.sellerInfo.street + " " + this.sellerInfo.addressDetail + " " + this.sellerInfo.zipcode
+        this.city = this.sellerInfo.city
+        this.street = this.sellerInfo.street
+        this.addressDetail = this.sellerInfo.addressDetail
+        this.zipcode = this.sellerInfo.zipcode
 
         this.email = this.sellerInfo.email
+        this.businessNumber = this.sellerInfo.businessNumber
+        this.businessName = this.sellerInfo.businessName
         this.contactNumber = this.sellerInfo.contactNumber
         this.bank = this.sellerInfo.bank
         this.accountNumber = this.sellerInfo.accountNumber
@@ -176,5 +178,8 @@ form {
     font-family: 'GmarketSans';
     font-size: 15px;
     font-weight: 200;
+}
+.serchBtn {
+    margin-bottom: 10px;
 }
 </style>
