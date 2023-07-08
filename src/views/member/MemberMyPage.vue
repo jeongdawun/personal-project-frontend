@@ -11,7 +11,7 @@
                 </li>
                 <li> | </li>
                 <li>
-                    <a>주문내역</a>
+                    <a href="/myOrderPage">나의주문내역</a>
                 </li>
             </ul>
         </div>
