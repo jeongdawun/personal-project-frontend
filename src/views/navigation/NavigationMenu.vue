@@ -82,6 +82,7 @@ export default {
 @import "../../assets/styles/fonts.css";
 .bar2 {
     position: fixed;
+    z-index: 999;
 }
 .bar1 a {
     font-size: 24px;
