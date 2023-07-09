@@ -6,17 +6,17 @@
         </div>
         <div class="myPageMenu">
             <ul>
-                <li v-if="this.role === 'NORMAL'">
+                <li v-if="this.roleType === 'NORMAL'">
                     <a href="/myProfilePage">나의정보관리</a>
                 </li>
-                <li v-if="this.role === 'BUSINESS'">
+                <li v-if="this.roleType === 'BUSINESS'">
                     <a href="/sellerInfoPage">파트너정보관리</a>
                 </li>
                 <li> | </li>
-                <li v-if="this.role === 'NORMAL'">
+                <li v-if="this.roleType === 'NORMAL'">
                     <a href="/myOrderPage">나의주문내역</a>
                 </li>
-                <li v-if="this.role === 'BUSINESS'">
+                <li v-if="this.roleType === 'BUSINESS'">
                     <a href="/myProductList">나의상품목록</a>
                 </li>
             </ul>
@@ -33,22 +33,27 @@ export default {
     data () {
         return {
             email: '',
-            role: '',
-            // response: { email: '', whatIsYourType: false },
-            memberInfo: {accountId: -1, roleType: ''},
+            roleType: '',
+            accessToken: '',
         }
     },
     components: {
     },
     methods: {
-        ...mapActions(memberModule, ['requestAuthorizeToSpring', 'requestMemberIdToSpring']),
+        ...mapActions(memberModule, ['requestAuthorizeToSpring', 'requestMemberIdToSpring', 'requestAccessTokenWithRefreshTokenToSpring']),
     },
     async mounted() {
         this.userToken = sessionStorage.getItem("accessToken")
         this.response = await this.requestAuthorizeToSpring({authorizationHeader: this.userToken})
-        console.log("reponse: " + JSON.stringify(this.response))
-        this.email = this.response.email
-        this.role = this.response.role.roleType
+
+        if(this.response != '') {
+            console.log("reponse: " + JSON.stringify(this.response))
+            this.email = this.response.email
+            this.roleType = this.response.roleType
+        } else if(this.response == '') {
+            console.log("다시 받아와 accessToken")
+            this.requestAccessTokenWithRefreshTokenToSpring()
+        }
     },
 }
 </script>

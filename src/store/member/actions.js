@@ -86,6 +86,23 @@ export default {
                 }
             })
     },
+    requestAccessTokenWithRefreshTokenToSpring ({}) {
+        return axiosInst.post('/member/auth-refreshToken')
+        .then((response) => {
+            const receivedToken = response.headers.get("Authorization")
+
+            const accessToken = receivedToken.split(' ')[1];
+            console.log("accessToken: " + accessToken);
+
+            sessionStorage.setItem("accessToken", accessToken);
+
+            alert('accessToken 재발행 완료')
+            router.push('/')
+        })
+        .catch(() => {
+            alert('accessToken 재발행 실패!!')
+        })
+    },
     requestAuthorizeForUserProfileToSpring ({}, payload) {
         return axiosInst.post('/member/auth-userProfile', payload)
             .then((res) => {
