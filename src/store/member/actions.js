@@ -8,13 +8,9 @@ export default {
                 const receivedToken = response.headers.get("Authorization")
 
                 const accessToken = receivedToken.split(' ')[1];
-                const refreshToken = receivedToken.split(' ')[2];
-
                 console.log("accessToken: " + accessToken);
-                console.log("refreshToken: " + refreshToken);
 
                 sessionStorage.setItem("accessToken", accessToken);
-                sessionStorage.setItem("refreshToken", refreshToken);
 
                 alert('로그인되었습니다.')
                 router.push('/')
