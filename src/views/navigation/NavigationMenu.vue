@@ -1,12 +1,16 @@
 <template lang="">
     <nav>
         <v-app-bar color="white" elevation="0" class="bar1" height="60px" v-show="isBar1Visible">
-            <a href="/">HAPPY CAMPER</a>
+            <a href="/">
+                <!-- HAPPY CAMPER -->
+                <span id="happy">HAPPY </span>
+                <span id="camper">CAMPER</span>
+            </a>
         </v-app-bar>
-        <v-app-bar color="white" elevation="0" class="bar2" height="40px">
-            <a href="/category1">오토캠핑</a>
-            <a href="/category2">글램핑</a>
-            <a href="/category3">카라반</a>
+        <v-app-bar color="white" elevation="0" class="bar2" height="60px">
+            <a href="/category1">AUTO</a>
+            <a href="/category2">GLAMPING</a>
+            <a href="/category3">CARAVAN</a>
             <div class="searchBox">
                 <input type="text" class="inputKeyword">
                 <button text class="searchBtn">
@@ -14,10 +18,10 @@
                 </button>
             </div>
             <v-btn v-if="!isLogin" text @click="signUp">
-                <span>회원가입</span>
+                <span>JOINUS</span>
             </v-btn>
             <v-btn v-if="!isLogin" text @click="signIn">
-                <span>로그인</span>
+                <span>LOGIN</span>
             </v-btn>
             <v-btn v-if="isLogin" text @click="signOut">
                 <span>로그아웃</span>
@@ -86,38 +90,53 @@ export default {
 }
 .bar1 a {
     font-size: 24px;
+    font-family: 'SUIT-Regular';
     font-weight: 600;
-    font-family: 'GmarketSans';
     text-decoration: none;
-    padding-left: 20px;
+    padding-left: 40px;
     color: #73916A;
     display: inline-block;
     white-space: nowrap;
 }
-.bar2 a {
+#happy {
+    font-size: 24px;
+    font-family: 'SUIT-Regular';
+    font-weight: 600;
+    color: #73916A;
+}
+#camper {
+    font-size: 24px;
+    font-family: 'SUIT-Regular';
     font-weight: 400;
-    font-family: 'GmarketSans';
+    color: #73916A;
+}
+.bar2 a {
+    font-family: 'SUIT-Regular';
+    font-weight: 600;
+    font-size: 18px;
     text-decoration: none;
-    padding-left: 20px;
+    padding-left: 40px;
     color: #000000;
     display: inline-block;
     white-space: nowrap;
 }
 .v-application span {
-    font-family: 'GmarketSans';
+    font-family: 'SUIT-Regular';
+    font-weight: 400;
+    font-size: 16px;
     color: rgb(0, 0, 0);
-    font-weight: 200;
 }
 .searchBox {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 77%;
+  width: 68%;
+  padding-right: 90px;
 }
 .inputKeyword {
     border: none;
     outline: none;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgb(122, 122, 122);
     width: 300px;
 }
 </style>
