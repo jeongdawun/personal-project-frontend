@@ -67,7 +67,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(memberModule, ['requestRegisterSellerInfoToSpring', 'requestAuthorizeToSpring', 'requestAuthorizeForSellerInfoToSpring']),
+        ...mapActions(memberModule, ['requestRegisterSellerInfoToSpring', 'requestAuthorizeForSellerInfoToSpring']),
         async onSubmit () {
             const { email, city, street, addressDetail, zipcode, contactNumber, bank, accountNumber } = this
             this.$emit('submit', { email, city, street, addressDetail, zipcode, contactNumber, bank, accountNumber })

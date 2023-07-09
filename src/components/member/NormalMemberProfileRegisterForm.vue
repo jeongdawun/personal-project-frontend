@@ -50,7 +50,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(memberModule, ['requestRegisterProfileToSpring', 'requestAuthorizeToSpring', 'requestCheckNickNameDuplicate', 'requestAuthorizeForUserProfileToSpring']),
+        ...mapActions(memberModule, ['requestRegisterProfileToSpring', 'requestCheckNickNameDuplicate', 'requestAuthorizeForUserProfileToSpring']),
         onSubmit () {
             if(this.nickName != '') {
                 console.log("닉네임: " + this.nickName)
