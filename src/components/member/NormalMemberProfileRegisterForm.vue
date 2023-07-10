@@ -80,9 +80,7 @@ export default {
         },
     },
     async mounted () {
-        this.userToken = sessionStorage.getItem("accessToken")
-        console.log(this.userToken)
-        this.userProfile = await this.requestAuthorizeForUserProfileToSpring({authorizationHeader: this.userToken})
+        this.userProfile = await this.requestAuthorizeForUserProfileToSpring()
         this.email = this.userProfile.email
         this.name = this.userProfile.name
         this.contactNumber = this.userProfile.contactNumber

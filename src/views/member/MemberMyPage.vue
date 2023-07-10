@@ -48,10 +48,9 @@ export default {
         if(this.response != '') {
             console.log("reponse: " + JSON.stringify(this.response))
             this.email = this.response.email
-            this.roleType = this.response.roleType
-        } else if(this.response == '') {
-            console.log("다시 받아와 accessToken")
-            this.requestAccessTokenWithRefreshTokenToSpring()
+            this.roleType = this.response.role
+        } else {
+            alert("문제 발생")
         }
     },
 }

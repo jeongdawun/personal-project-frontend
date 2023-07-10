@@ -67,7 +67,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(memberModule, ['requestRegisterSellerInfoToSpring', 'requestAuthorizeForSellerInfoToSpring']),
+        ...mapActions(memberModule, ['requestAuthorizeForSellerInfoToSpring']),
         async onSubmit () {
             const { email, city, street, addressDetail, zipcode, contactNumber, bank, accountNumber } = this
             this.$emit('submit', { email, city, street, addressDetail, zipcode, contactNumber, bank, accountNumber })
@@ -94,8 +94,7 @@ export default {
       }
     },
     async mounted () {
-        this.userToken = sessionStorage.getItem("accessToken")
-        this.sellerInfo = await this.requestAuthorizeForSellerInfoToSpring({authorizationHeader: this.userToken})
+        this.sellerInfo = await this.requestAuthorizeForSellerInfoToSpring()
         console.log("가져온 정보: " + JSON.stringify(this.sellerInfo))
 
         this.address = this.sellerInfo.city + " " + this.sellerInfo.street + " " + this.sellerInfo.addressDetail + " " + this.sellerInfo.zipcode

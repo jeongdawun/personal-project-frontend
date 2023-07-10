@@ -7,6 +7,7 @@ export default {
             .then((res) => {
                 const cookieString = document.cookie;
                 const cookies = cookieString.split(';');
+                console.log("궁금해: " + cookies)
 
                 for (var i = 0; i < cookies.length; i++) {
                     var cookie = cookies[i].trim();
@@ -101,34 +102,8 @@ export default {
                 }
             })
     },
-    requestAccessTokenWithRefreshTokenToSpring ({}) {
-        return axiosInst.post('/member/auth-refreshToken')
-        .then((res) => {
-            const cookieString = document.cookie;
-            const cookies = cookieString.split(';');
-
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = cookies[i].trim();
-
-                var separatorIndex = cookie.indexOf('=');
-                var name = cookie.substring(0, separatorIndex);
-                var value = cookie.substring(separatorIndex + 1);
-            
-                if (name === "AccessToken") {
-                    localStorage.setItem("AccessToken", value)
-                } else {
-                    alert("refreshToken으로 accessToken 발급 실패!")
-                }
-              }
-            alert('accessToken 재발행 완료')
-            router.push('/')
-        })
-        .catch(() => {
-            alert('통신 실패!!')
-        })
-    },
-    requestAuthorizeForUserProfileToSpring ({}, payload) {
-        return axiosInst.post('/member/auth-userProfile', payload)
+    requestAuthorizeForUserProfileToSpring ({}) {
+        return axiosInst.post('/member/auth-userProfile')
             .then((res) => {
                 if(res.data != null) {
                     return res.data
@@ -137,10 +112,9 @@ export default {
                 }
             })
     },
-    requestAuthorizeForSellerInfoToSpring ({}, payload) {
-        return axiosInst.post('/member/auth-sellerInfo', payload)
+    requestAuthorizeForSellerInfoToSpring ({}) {
+        return axiosInst.post('/member/auth-sellerInfo')
             .then((res) => {
-                console.log("궁금해 액션 잘 하는지: " + JSON.stringify(res.data))
                 if(res.data != null) {
                     return res.data
                 } else {
