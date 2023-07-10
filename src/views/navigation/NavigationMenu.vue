@@ -24,10 +24,10 @@
                 <span>LOGIN</span>
             </v-btn>
             <v-btn v-if="isLogin" text @click="signOut">
-                <span>로그아웃</span>
+                <span>LOGOUT</span>
             </v-btn>
             <v-btn v-if="isLogin" text @click="myPage">
-                <span>마이페이지</span>
+                <span>MYPAGE</span>
             </v-btn>
         </v-app-bar>
     </nav>
