@@ -20,8 +20,6 @@
 </template>
 
 <script>
-import AWS from 'aws-sdk'
-
 export default {
     props: {
         products: {
@@ -30,9 +28,6 @@ export default {
     },
     data () {
         return {
-            awsBucketName: 'vue-s3-test-3737',
-            awsBucketRegion: 'ap-northeast-2',
-            awsIdentityPoolId: 'ap-northeast-2:88f54e9d-6025-4bd4-8285-058401d99eb5',
             s3: null,
         }
     },
@@ -41,24 +36,8 @@ export default {
             console.log("요청한 사진 파일명: " + imageName)
             return`https://vue-s3-test-3737.s3.ap-northeast-2.amazonaws.com/${imageName}`;
         },
-        awsS3Config() {
-            AWS.config.update({
-                region: this.awsBucketRegion,
-                credentials: new AWS.CognitoIdentityCredentials({
-                    IdentityPoolId: this.awsIdentityPoolId
-                })
-            })
-
-            this.s3 = new AWS.S3({
-                apiVersion: '2006-03-01',
-                params: {
-                    Bucket: this.awsBucketName
-                }
-            })
-        },
     },
     async mounted(){
-        this.awsS3Config()
         await this.getImage()
     },
 }
