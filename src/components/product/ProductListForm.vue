@@ -8,9 +8,11 @@
                     aspect-ratio="0.8" />
                     <div class="productCategory"><Strong>{{ product.category }}</Strong></div>
                     <div class="productName">
-                        <a :href="`/product/${product.id}`">
-                            <Strong>{{ product.productName }}</Strong>
-                        </a>
+                        <router-link :to="{ 
+                            name: 'ProductReadPage', 
+                            params: { id: product.id }}">
+                            <p>{{ product.productName }}</p>
+                        </router-link>
                     </div>
                     <div class="productprice">{{ product.minOptionPrice }}원</div>
                 </div>
@@ -53,13 +55,14 @@ export default {
     font-family: 'GmarketSans';
     font-weight: 200;
 }
-.productName a {
+.productName p {
     font-family: 'GmarketSans';
-    font-weight: 200;
+    font-weight: 400;
     text-decoration: none;
     display: inline-block;
     white-space: nowrap;
-    color: black
+    color: black;
+    margin-bottom: 0;
 }
 .productprice {
     padding-top: 4px;
