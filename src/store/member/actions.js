@@ -4,19 +4,34 @@ import axiosInst from '@/utility/axiosInst'
 export default {
     requestLoginMemberToSpring ({ }, { email, password }) {
         return axiosInst.post('/member/login', { email, password })
-            .then((response) => {
-                const receivedToken = response.headers.get("Authorization")
+            .then((res) => {
+                const cookieString = document.cookie;
+                const cookies = cookieString.split(';');
 
-                const accessToken = receivedToken.split(' ')[1];
-                console.log("accessToken: " + accessToken);
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
 
-                sessionStorage.setItem("accessToken", accessToken);
-
+                    var separatorIndex = cookie.indexOf('=');
+                    var name = cookie.substring(0, separatorIndex);
+                    var value = cookie.substring(separatorIndex + 1);
+                
+                    if (name === "AccessToken") {
+                        localStorage.setItem("AccessToken", value)
+                    }
+                  }
                 alert('로그인되었습니다.')
                 router.push('/')
             })
             .catch(() => {
                 alert('로그인이 실패하였습니다.')
+            })
+    },
+    requestMemberLogoutToSpring ({ }) {
+
+        return axiosInst.post('/member/logout')
+            .then((res) => {
+                localStorage.removeItem("AccessToken")
+                alert("로그아웃")
             })
     },
     requestNormalMemberSignupToSpring ({ }, payload) {
@@ -76,8 +91,8 @@ export default {
             }
         })
     },
-    requestAuthorizeToSpring ({}, payload) {
-        return axiosInst.post('/member/auth', payload)
+    requestAuthorizeToSpring ({}) {
+        return axiosInst.post('/member/auth')
             .then((res) => {
                 if(res.data != null) {
                     return res.data
@@ -88,19 +103,28 @@ export default {
     },
     requestAccessTokenWithRefreshTokenToSpring ({}) {
         return axiosInst.post('/member/auth-refreshToken')
-        .then((response) => {
-            const receivedToken = response.headers.get("Authorization")
+        .then((res) => {
+            const cookieString = document.cookie;
+            const cookies = cookieString.split(';');
 
-            const accessToken = receivedToken.split(' ')[1];
-            console.log("accessToken: " + accessToken);
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
 
-            sessionStorage.setItem("accessToken", accessToken);
-
+                var separatorIndex = cookie.indexOf('=');
+                var name = cookie.substring(0, separatorIndex);
+                var value = cookie.substring(separatorIndex + 1);
+            
+                if (name === "AccessToken") {
+                    localStorage.setItem("AccessToken", value)
+                } else {
+                    alert("refreshToken으로 accessToken 발급 실패!")
+                }
+              }
             alert('accessToken 재발행 완료')
             router.push('/')
         })
         .catch(() => {
-            alert('accessToken 재발행 실패!!')
+            alert('통신 실패!!')
         })
     },
     requestAuthorizeForUserProfileToSpring ({}, payload) {

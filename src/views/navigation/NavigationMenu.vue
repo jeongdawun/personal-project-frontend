@@ -35,6 +35,10 @@
 
 <script>
 import router from '@/router'
+import { mapActions } from 'vuex';
+
+const memberModule = 'memberModule'
+
 export default {
     data () {
         return {
@@ -43,6 +47,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions(memberModule, ['requestMemberLogoutToSpring']),
         signUp () {
             router.push('/signup')
             .catch(() => {})
@@ -50,14 +55,13 @@ export default {
         signIn () {
             router.push('/login')
             .catch(() => {})
-            this.userToken = sessionStorage.getItem("accessToken")
+            this.userToken = localStorage.getItem("AccessToken")
             if (this.userToken != null) {
                 this.isLogin = true
             }
         },
         signOut () {
-            sessionStorage.removeItem("accessToken")
-            sessionStorage.removeItem("refreshToken")
+            this.requestMemberLogoutToSpring()
             this.isLogin = false
         },
         myPage () {
@@ -70,7 +74,7 @@ export default {
         }
     },
     mounted () {
-        this.userToken = sessionStorage.getItem("accessToken")
+        this.userToken = localStorage.getItem("AccessToken")
         if (this.userToken != null) {
         this.isLogin = true
         }

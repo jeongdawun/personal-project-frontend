@@ -40,11 +40,10 @@ export default {
     components: {
     },
     methods: {
-        ...mapActions(memberModule, ['requestAuthorizeToSpring', 'requestMemberIdToSpring', 'requestAccessTokenWithRefreshTokenToSpring']),
+        ...mapActions(memberModule, ['requestAuthorizeToSpring', 'requestAccessTokenWithRefreshTokenToSpring']),
     },
     async mounted() {
-        this.userToken = sessionStorage.getItem("accessToken")
-        this.response = await this.requestAuthorizeToSpring({authorizationHeader: this.userToken})
+        this.response = await this.requestAuthorizeToSpring()
 
         if(this.response != '') {
             console.log("reponse: " + JSON.stringify(this.response))
