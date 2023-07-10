@@ -8,7 +8,7 @@
                     aspect-ratio="0.8" />
                     <div class="productCategory"><Strong>{{ product.category }}</Strong></div>
                     <div class="productName">
-                        <a :href="`/ProductReadPage/${product.id}`">
+                        <a :href="`/product/${product.id}`">
                             <Strong>{{ product.productName }}</Strong>
                         </a>
                     </div>
