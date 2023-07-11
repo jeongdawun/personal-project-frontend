@@ -39,32 +39,45 @@
             <p id="date">CHECK OUT</p>
             <input type="date" v-model="checkOutDate">
         </v-col>
-        <v-col>
-            <v-btn @click="chkStock">빈자리 조회하기</v-btn>
+        <v-col cols="2" id="checkStock">
+            <v-btn @click="chkStock" id="checkStockBtn">빈자리 조회하기</v-btn>
         </v-col>
     </v-row>
     <v-row no-gutters class="productDetailsInfo">
-        <v-col cols="8">
+        <v-col cols="10">
             <p id="date">숙소 상세 정보</p>
-            <textarea cols="170" rows="10" :value="product.productDetails" readonly/>
+            <span>{{ product.productDetails }}</span>
         </v-col>
     </v-row>
     <v-row no-gutters class="options">
         <v-col cols="6">
-            <input type="text" :value="product.productOptionList[0].optionName" readonly/>
+            <Strong><span>{{ product.productOptionList[0].optionName }}</span></Strong>
         </v-col>
         <v-col cols="6">
-            <input type="text" :value="product.productOptionList[0].optionPrice" readonly/>
-            <Strong>빈자리 {{ stock1 }}</Strong>
+            <v-col class="stock">
+                <Strong>빈자리 {{ stock1 }}개</Strong>
+            </v-col>
+            <v-col class="price">
+                </Strong><span>{{ product.productOptionList[0].optionPrice }}</span>원
+            </v-col>
         </v-col>
     </v-row>
     <v-row no-gutters class="options">
         <v-col cols="6">
-            <input type="text" :value="product.productOptionList[1].optionName" readonly/>
+            <Strong><span>{{ product.productOptionList[1].optionName }}</span></Strong>
         </v-col>
         <v-col cols="6">
-            <input type="text" :value="product.productOptionList[1].optionPrice" readonly/>
-            <Strong>빈자리 {{ stock2 }}</Strong>
+            <v-col class="stock">
+                <Strong>빈자리 {{ stock2 }}개</Strong>
+            </v-col>
+            <v-col class="price">
+                <span>{{ product.productOptionList[1].optionPrice }}</span>원
+            </v-col>
+        </v-col>
+    </v-row>
+    <v-row no-gutters class="sellerInfo">
+        <v-col cols="12">
+            <Strong>판매자 정보 들어갈 자리</Strong>
         </v-col>
     </v-row>
     </v-container>
@@ -87,7 +100,7 @@ export default {
         ...mapActions(productModule, ['requestStockToSpring']),
         getImage(imageName) {
             console.log("요청한 사진 파일명: " + imageName)
-            // return`https://vue-s3-test-3737.s3.ap-northeast-2.amazonaws.com/${imageName}`;
+            return`https://vue-s3-test-3737.s3.ap-northeast-2.amazonaws.com/${imageName}`;
         },
         async chkStock() {
             this.id = this.product.id
@@ -151,7 +164,6 @@ h2 {
     margin: auto;
     color: black;
     font-family: 'SUIT-Regular';
-    padding-right: 120px;
     font-weight: 600;
 }
 #middleLine {
@@ -184,6 +196,7 @@ h2 {
     padding-left: 60px;
     font-family: 'SUIT-Regular';
     font-size: 20px;
+    margin-bottom: 120px;
 }
 textarea {
     outline-style: none;
@@ -192,16 +205,48 @@ textarea {
 .options {
     background-color: rgb(247, 247, 247);
     padding-left: 60px;
+    padding-right: 60px;
     border-radius:33px;
     height: 80px;
+    margin: auto;
     margin-top: 20px;
     margin-bottom: 20px;
     text-align: center;
     align-items: center;
     font-family: 'SUIT-Regular';
     font-size: 20px;
+    width: 60%; 
 }
-Strong {
+.stock Strong {
     color: red;
+}
+#checkStockBtn {
+    background-color: #73916A;
+    font-family: 'SUIT-Regular';
+    font-weight: 200;
+    color: white;
+    margin-right: 30px;
+}
+.stock {
+    display: inline-block;
+    font-size: 14px;
+    padding: 0px;
+    padding-right: 20%;
+    text-align: right;
+}
+.price {
+    display: inline-block;
+    font-weight: 600;
+    padding-top: 0px;
+    padding-right: 20%;
+    text-align: right;
+}
+.sellerInfo {
+    margin: auto;
+    margin-bottom: 200px;
+    text-align: center;
+    font-size: 80px;
+    background-color: red;
+    width: 100%;
 }
 </style>
