@@ -2,15 +2,14 @@
     <nav>
         <v-app-bar color="white" elevation="0" class="bar1" height="60px" v-show="isBar1Visible">
             <a href="/">
-                <!-- HAPPY CAMPER -->
                 <span id="happy">HAPPY </span>
                 <span id="camper">CAMPER</span>
             </a>
         </v-app-bar>
         <v-app-bar color="white" elevation="0" class="bar2" height="60px">
-            <a href="/category1">AUTO</a>
-            <a href="/category2">GLAMPING</a>
-            <a href="/category3">CARAVAN</a>
+            <a @click="showAuto">AUTO</a>
+            <a @click="showGlamping">GLAMPING</a>
+            <a @click="showCaravan">CARAVAN</a>
             <div class="searchBox">
                 <input type="text" class="inputKeyword">
                 <button text class="searchBtn">
@@ -36,14 +35,19 @@
 <script>
 import router from '@/router'
 import { mapActions } from 'vuex';
+import ProductListByCategoryPage from '@/views/product/ProductListByCategoryPage.vue'
 
 const memberModule = 'memberModule'
 
 export default {
+    components: {
+        ProductListByCategoryPage
+    },
     data () {
         return {
             isLogin: false,
             isBar1Visible: true,
+            category: ""
         }
     },
     methods: {
@@ -71,7 +75,19 @@ export default {
         handleScroll () {
             const scrollPosition = window.scrollY
             this.isBar1Visible = scrollPosition <= 0
-        }
+        },
+        showAuto() {
+            this.category = "오토캠핑";
+            this.$router.push(`/list/${this.category}`);
+        },
+        showGlamping() {
+            this.category = "글램핑";
+            this.$router.push(`/list/${this.category}`);
+        },
+        showCaravan() {
+            this.category = "카라반";
+            this.$router.push(`/list/${this.category}`);
+        },
     },
     mounted () {
         this.userToken = localStorage.getItem("AccessToken")

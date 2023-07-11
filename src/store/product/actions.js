@@ -13,6 +13,13 @@ export default {
                 console.log("res.data: " + JSON.stringify(res.data))
             });
     },
+    requestProductListByCategoryToSpring({ commit }, category) {
+        return axiosInst.get(`/product/category/${category}`)
+            .then((res) => {
+                commit(REQUEST_PRODUCT_LIST_TO_SPRING, res.data);
+                console.log("res.data: " + JSON.stringify(res.data))
+            });
+    },
     requestProductToSpring({ commit }, id) {
         return axiosInst.get(`/product/${id}`)
             .then((res) => {
