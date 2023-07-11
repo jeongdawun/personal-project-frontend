@@ -5,23 +5,28 @@ export default {
     requestLoginMemberToSpring ({ }, { email, password }) {
         return axiosInst.post('/member/login', { email, password })
             .then((res) => {
-                const cookieString = document.cookie;
-                const cookies = cookieString.split(';');
-                console.log("궁금해: " + cookies)
-
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = cookies[i].trim();
-
-                    var separatorIndex = cookie.indexOf('=');
-                    var name = cookie.substring(0, separatorIndex);
-                    var value = cookie.substring(separatorIndex + 1);
-                
-                    if (name === "AccessToken") {
-                        localStorage.setItem("AccessToken", value)
+                console.log("궁금쓰 res: " + res.data)
+                if(res.data == true) {
+                    const cookieString = document.cookie;
+                    const cookies = cookieString.split(';');
+                    console.log("궁금해: " + cookies)
+    
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+    
+                        var separatorIndex = cookie.indexOf('=');
+                        var name = cookie.substring(0, separatorIndex);
+                        var value = cookie.substring(separatorIndex + 1);
+                    
+                        if (name === "AccessToken") {
+                            localStorage.setItem("AccessToken", value)
+                        }
                     }
-                  }
-                alert('로그인되었습니다.')
-                router.push('/')
+                    alert('로그인되었습니다.')
+                    router.push('/')
+                } else {
+                    alert('로그인이 실패하였습니다.')
+                }
             })
             .catch(() => {
                 alert('로그인이 실패하였습니다.')
