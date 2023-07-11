@@ -34,10 +34,13 @@
     <v-row no-gutters class="checkDate">
         <v-col cols="8" id="selectDate">
             <p id="date">CHECK IN</p>
-            <input type="date">
+            <input type="date" v-model="checkInDate">
             <p id="middleLine"> | </p>
             <p id="date">CHECK OUT</p>
-            <input type="date">
+            <input type="date" v-model="checkOutDate">
+        </v-col>
+        <v-col>
+            <v-btn @click="chkStock">빈자리 조회하기</v-btn>
         </v-col>
     </v-row>
     <v-row no-gutters class="productDetailsInfo">
@@ -52,6 +55,7 @@
         </v-col>
         <v-col cols="6">
             <input type="text" :value="product.productOptionList[0].optionPrice" readonly/>
+            <Strong>빈자리 {{ stock1 }}</Strong>
         </v-col>
     </v-row>
     <v-row no-gutters class="options">
@@ -60,12 +64,17 @@
         </v-col>
         <v-col cols="6">
             <input type="text" :value="product.productOptionList[1].optionPrice" readonly/>
+            <Strong>빈자리 {{ stock2 }}</Strong>
         </v-col>
     </v-row>
     </v-container>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
+const productModule = 'productModule'
+
 export default {
     name: "ProductReadForm",
         props: {
@@ -75,14 +84,32 @@ export default {
         },
     },
     methods: {
+        ...mapActions(productModule, ['requestStockToSpring']),
         getImage(imageName) {
             console.log("요청한 사진 파일명: " + imageName)
-            return`https://vue-s3-test-3737.s3.ap-northeast-2.amazonaws.com/${imageName}`;
+            // return`https://vue-s3-test-3737.s3.ap-northeast-2.amazonaws.com/${imageName}`;
         },
+        async chkStock() {
+            this.id = this.product.id
+            const { id, checkInDate, checkOutDate } = this
+            this.stock = await this.requestStockToSpring({ id, checkInDate, checkOutDate })
+            this.stock1 = this.stock.stockList[0]
+            this.stock2 = this.stock.stockList[1]
+        }
     },
     async mounted(){
         await this.getImage()
     },
+    data () {
+        return {
+            stock: [],
+            checkInDate: 0,
+            checkOutDate: 0,
+            id: 0,
+            stock1: 0,
+            stock2: 0,
+        }
+    }
 }
 </script>
 
@@ -173,5 +200,8 @@ textarea {
     align-items: center;
     font-family: 'SUIT-Regular';
     font-size: 20px;
+}
+Strong {
+    color: red;
 }
 </style>

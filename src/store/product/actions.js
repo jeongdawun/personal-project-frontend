@@ -23,4 +23,10 @@ export default {
                 alert("상품이 존재하지 않습니다.");
             });
     },
+    requestStockToSpring({ }, { id, checkInDate, checkOutDate }) {
+        return axiosInst.post('/product/check-stock', { id, checkInDate, checkOutDate })
+        .then((res) => {
+            return res.data
+        })
+    }
 }
