@@ -2,14 +2,14 @@
     <div>
         <div class="loginForm">
             <h2>LOGIN</h2>
-            <hr class="signInFormTopLine">
+            <!-- <hr class="signInFormTopLine"> -->
             <form>
                 <v-text-field v-model="email" label="이메일" color="red"></v-text-field>
                 <v-text-field v-model="password" label="비밀번호" color="red"></v-text-field>
                             
                 <v-row align="center" justify="center">
                     <v-col cols="auto">
-                        <v-btn class="submitBtn" color="#73916A" elevation="0" @click="onSubmit">로그인</v-btn>
+                        <v-btn class="submitBtn" color="black" elevation="0" @click="onSubmit">로그인</v-btn>
                     </v-col>
                     <v-col cols="auto">
                         <v-btn class="clearBtn" elevation="0" @click="clear">취소</v-btn>
@@ -20,20 +20,20 @@
             <div class="snsForm">
             <v-row align="center" justify="center">
                 <v-col cols="auto" id="SNS">
-                    SNS로 로그인
-                </v-col>
-                <v-col cols="auto">
-                    <v-img class="snsLogo" src="@/assets/snsLogo/kakao.png"></v-img>
-                </v-col>
-                <v-col cols="auto">
-                    <v-img class="snsLogo" src="@/assets/snsLogo/google.jpg"></v-img>
-                </v-col>
-                <v-col cols="auto">
-                    <v-img class="snsLogo" src="@/assets/snsLogo/naver.png"></v-img>
+                    카카오 1초 로그인
                 </v-col>
             </v-row>
             </div>
-            <hr class="signInFormBottomLine">
+            <div class="signup">
+            <v-row align="center" justify="center">
+                <v-col cols="auto">
+                    <a href="/signup">
+                        이메일로 가입하기
+                    </a>
+                </v-col>
+            </v-row>
+            </div>
+            <!-- <hr class="signInFormBottomLine"> -->
         </div>
     </div>
 </template>
@@ -63,7 +63,7 @@ export default {
 <style scoped>
 @import "../../assets/styles/fonts.css";
 .loginForm {
-    padding: 100px;
+    padding-top: 100px;
 }
 h2{
     text-align: center;
@@ -71,6 +71,7 @@ h2{
     font-weight: 200;
     font-size: 40px;
     padding-top: 20px;
+        padding-bottom: 20px;
 }
 .signInFormTopLine {
     width: 40%;
@@ -84,41 +85,63 @@ h2{
     margin-top: 80px;
 }
 form {
-    width: 30%;
+    width: 40%;
     height: 100px;
     margin: auto;
-    padding-top: 40px;
-    padding-bottom: 180px;
-    font-family: 'GmarketSans';
+    padding-top: 60px;
+    padding-bottom: 260px;
+    font-family: 'SUIT-Regular';
     font-weight: 100;
 }
 .submitBtn {
-    width: 140px;
-    margin-top: 40px;
+    width: 200px;
+    min-height: 60px;
+    margin-top: 80px;
+    margin-bottom: 80px;
     color: white;
-    font-family: 'GmarketSans';
-    font-size: 15px;
+    font-family: 'SUIT-Regular';
+    font-size: 18px;
     font-weight: 200;
 }
 .clearBtn {
-    width: 140px;
-    margin-top: 40px;
-    font-family: 'GmarketSans';
-    font-size: 15px;
+    width: 200px;
+    min-height: 60px;
+    margin-top: 80px;
+    margin-bottom: 80px;
+    font-family: 'SUIT-Regular';
+    font-size: 18px;
     font-weight: 200;
 }
-.snsLogo {
-    width: 40px;
-}
 #SNS {
-    font-size: 20px;
-    padding-left: 20px;
-    padding-right: 60px;
-    font-family: 'GmarketSans';
-    font-weight: 600;
-    color: rgb(73, 73, 73);
+    font-size: 18px;
+    font-family: 'SUIT-Regular';
+    font-weight: 400;
+    color: rgb(255, 255, 255);
 }
 .snsForm {
-    margin-top: 80px;
+    margin-top: 120px;
+    height: 40px;
+    background-color: rgb(0, 0, 0);
+    text-align: center;
+    display: flex;
+}
+.signup {
+    /* padding-top: 20px; */
+    font-size: 18px;
+    font-family: 'SUIT-Regular';
+    font-weight: 400;
+    color: rgb(255, 255, 255);
+    background-color: rgb(13, 178, 255);
+    margin-top: auto;
+    height: 40px;
+    text-align: center;
+    display: flex;
+}
+.signup a {
+    color: white;
+}
+a {
+    text-decoration: none;
+    display: inline-block;
 }
 </style>

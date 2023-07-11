@@ -2,7 +2,7 @@
     <div>  
         <div class="signupForm">
             <h2>회원가입</h2>
-            <hr class="signupFormTopLine">
+            <!-- <hr class="signupFormTopLine"> -->
             <form>
                 <v-text-field v-model="email" label="이메일" :rules="email_rule" color="red" required></v-text-field>  
                 <div class="checkEmailInfo">
@@ -20,26 +20,18 @@
                             
                 <v-row align="center" justify="center">
                     <v-col cols="auto">
-                        <v-btn class="submitBtn" color="#73916A" elevation="0" @click="onSubmit">가입</v-btn>
+                        <v-btn class="submitBtn" color="black" elevation="0" @click="onSubmit">가입</v-btn>
                     </v-col>
                     <v-col cols="auto">
                         <v-btn class="clearBtn" elevation="0" @click="clear">취소</v-btn>
                     </v-col>
                 </v-row>
             </form>
+
             <div class="snsForm">
             <v-row align="center" justify="center">
                 <v-col cols="auto" id="SNS">
-                    SNS로 가입
-                </v-col>
-                <v-col cols="auto">
-                    <v-img class="snsLogo" src="@/assets/snsLogo/kakao.png"></v-img>
-                </v-col>
-                <v-col cols="auto">
-                    <v-img class="snsLogo" src="@/assets/snsLogo/google.jpg"></v-img>
-                </v-col>
-                <v-col cols="auto">
-                    <v-img class="snsLogo" src="@/assets/snsLogo/naver.png"></v-img>
+                    카카오 1초 회원가입
                 </v-col>
             </v-row>
             </div>
@@ -58,7 +50,7 @@ export default {
     data () {
         return {
             guide1: '중복 확인이 필요합니다.',
-            guide2: '인증코드 입력: ',
+            guide2: '입력: ',
             authCode: 0,
             inputAuthCode: '',
             email: '',
@@ -150,16 +142,17 @@ export default {
 </script>
 
 <style scoped>
-
+@import "../../assets/styles/fonts.css";
 .signupForm {
     padding-top: 100px;
 }
 h2{
     text-align: center;
-    font-family: 'GmarketSans';
+    font-family: 'SUIT-Regular';
     font-weight: 200;
-    font-size: 40px;
+    font-size: 38px;
     padding-top: 20px;
+    padding-bottom: 20px;
 }
 .signupFormTopLine {
     width: 40%;
@@ -173,17 +166,18 @@ h2{
     margin-top: 80px;
 }
 form {
-    width: 30%;
+    width: 60%;
     height: 400px;
     margin: auto;
     padding-top: 20px;
     padding-bottom: 40px;
-    font-family: 'GmarketSans';
+    font-family: 'SUIT-Regular';
     font-weight: 100;
 }
 span {
     padding-left: 10px;
     font-size: 14px;
+    color: red;
 }
 .checkValue {
     border-radius: 10px;
@@ -191,37 +185,39 @@ span {
     padding: 2px 10px 1px 10px;
 }
 .submitBtn {
-    width: 140px;
+    width: 200px;
+    min-height: 60px;
     margin-top: 40px;
+    margin-bottom: 80px;
     color: white;
-    font-family: 'GmarketSans';
-    font-size: 15px;
+    font-family: 'SUIT-Regular';
+    font-size: 18px;
     font-weight: 200;
 }
 .clearBtn {
-    width: 140px;
+    width: 200px;
+    min-height: 60px;
     margin-top: 40px;
-    font-family: 'GmarketSans';
-    font-size: 15px;
+    margin-bottom: 80px;
+    font-family: 'SUIT-Regular';
+    font-size: 18px;
     font-weight: 200;
 }
-.snsLogo {
-    width: 40px;
-}
 #SNS {
-    font-size: 20px;
-    padding-left: 20px;
-    padding-right: 60px;
-    font-family: 'GmarketSans';
-    font-weight: 500;
-    color: rgb(37, 37, 37);
+    font-size: 18px;
+    font-family: 'SUIT-Regular';
+    font-weight: 400;
+    color: rgb(255, 255, 255);
 }
 .checkEmailInfo {
     margin-top: 10px;
 }
 .snsForm {
-    margin-top: 60px;
-    background-color: rgb(247, 247, 247);
+    margin-top: 120px;
+    height: 40px;
+    background-color: rgb(0, 0, 0);
+    text-align: center;
+    display: flex;
 }
 #inputCode{
     width: 310px;

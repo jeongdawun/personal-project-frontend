@@ -1,28 +1,36 @@
 <template lang="">
     <div>  
         <div class="myProfileMenu">
-            <h2>회원정보수정</h2>
-            <hr class="profileFormTopLine">
+            <h2>회원 정보 수정</h2>
+            <!-- <hr class="profileFormTopLine"> -->
             <form>
-                <v-text-field v-model="email" label="이메일" readonly disabled></v-text-field>  
-                <v-text-field v-model="name" label="실명" color="red"></v-text-field>       
-                <v-text-field v-model="contactNumber" label="연락처" color="red"></v-text-field>       
-                <v-text-field v-model="nickName" label="닉네임" color="red"></v-text-field>  
-                <div class="checkNickNameInfo">
-                    <v-btn class="checkValue" @click="checkNickName">중복확인</v-btn>
-                    <span>{{ guide }}</span>
+                <Strong>기본정보</Strong>
+                <div class="infoBox">
+                    <v-text-field v-model="email" label="이메일" filled readonly disabled></v-text-field>
                 </div>
-                <v-text-field v-model="birthday" label="생일" color="red"></v-text-field>                              
+
+                <Strong>추가정보</Strong>
+                <div class="infoBox">
+                    <v-text-field v-model="name" label="실명" color="red"></v-text-field>       
+                    <v-text-field v-model="contactNumber" label="연락처" color="red"></v-text-field>       
+                    <v-text-field v-model="nickName" label="닉네임" color="red"></v-text-field>  
+                    <div class="checkNickNameInfo">
+                        <v-btn class="checkValue" @click="checkNickName">중복확인</v-btn>
+                        <span>{{ guide }}</span>
+                    </div>
+                    <v-text-field v-model="birthday" label="생일" color="red"></v-text-field>
+                </div>      
+
                 <v-row align="center" justify="center">
                     <v-col cols="auto">
-                        <v-btn class="submitBtn" color="#73916A" elevation="0" @click="onSubmit">수정하기</v-btn>
+                        <v-btn class="submitBtn" color="black" elevation="0" @click="onSubmit">수정하기</v-btn>
                     </v-col>
                     <v-col cols="auto">
                         <v-btn class="clearBtn" elevation="0" @click="clear">취소</v-btn>
                     </v-col>
                 </v-row>
             </form>
-            <hr class="profileFormBottomLine">
+            <!-- <hr class="profileFormBottomLine"> -->
         </div>
     </div>
 </template>
@@ -36,7 +44,7 @@ const memberModule = 'memberModule'
 export default {
     data () {
         return {
-            guide: '중복 확인이 필요합니다.',
+            guide: '',
             email: '',
             name: '',
             contactNumber: '',
@@ -91,34 +99,17 @@ export default {
 </script>
 
 <style scoped>
-
+@import "../../assets/styles/fonts.css";
 .myProfileMenu {
     padding-top: 100px;
 }
-.myProfileMenu ul {
-    margin-left: auto;
-    margin-right: auto;
-    justify-content: center;
-    background-color: rgb(255, 0, 0);
-    height: 46px;
-    margin-top: 20px;
-    width: 60%;
-}
-.myProfileMenu li {
-    display: block;
-    width: 100%;
-    text-align:center;
-    font-weight: lighter;
-    font-size: 14px;
-    color: rgb(0, 255, 34);
-    padding-top: 12px;
-}
 h2{
     text-align: center;
-    font-family: 'GmarketSans';
+    font-family: 'SUIT-Regular';
     font-weight: 200;
-    font-size: 40px;
+    font-size: 38px;
     padding-top: 20px;
+    padding-bottom: 20px;
 }
 .profileFormTopLine {
     width: 40%;
@@ -132,17 +123,18 @@ h2{
     margin-top: 160px;
 }
 form {
-    width: 30%;
+    width: 60%;
     height: 400px;
     margin: auto;
     padding-top: 40px;
     padding-bottom: 40px;
-    font-family: 'GmarketSans';
+    font-family: 'SUIT-Regular';
     font-weight: 100;
 }
 span {
     padding-left: 10px;
     font-size: 14px;
+    color: red;
 }
 .checkValue {
     border-radius: 10px;
@@ -150,21 +142,34 @@ span {
     padding: 2px 10px 1px 10px;
 }
 .submitBtn {
-    width: 140px;
+    width: 200px;
+    min-height: 60px;
     margin-top: 40px;
+    margin-bottom: 80px;
     color: white;
-    font-family: 'GmarketSans';
-    font-size: 15px;
+    font-family: 'SUIT-Regular';
+    font-size: 18px;
     font-weight: 200;
 }
 .checkNickNameInfo {
     margin-top: 10px;
 }
 .clearBtn {
-    width: 140px;
+    width: 200px;
+    min-height: 60px;
     margin-top: 40px;
-    font-family: 'GmarketSans';
-    font-size: 15px;
+    margin-bottom: 80px;
+    font-family: 'SUIT-Regular';
+    font-size: 18px;
     font-weight: 200;
+}
+Strong {
+    font-size: 24px;
+    font-family: 'SUIT-Regular';
+    font-weight: 600;
+}
+.infoBox {
+    padding-bottom: 40px;
+    padding-top: 10px;
 }
 </style>

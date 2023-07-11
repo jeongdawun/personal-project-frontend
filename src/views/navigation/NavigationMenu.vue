@@ -119,13 +119,13 @@ export default {
     white-space: nowrap;
 }
 #happy {
-    font-size: 24px;
+    font-size: 34px;
     font-family: 'SUIT-Regular';
     font-weight: 600;
     color: #73916A;
 }
 #camper {
-    font-size: 24px;
+    font-size: 32px;
     font-family: 'SUIT-Regular';
     font-weight: 400;
     color: #73916A;
