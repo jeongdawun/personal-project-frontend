@@ -7,17 +7,21 @@
                 <v-text-field v-model="email" label="이메일" :rules="email_rule" color="red" required></v-text-field>  
                 <div class="checkEmailInfo">
                     <v-btn class="checkValue" @click="checkEmail">중복확인</v-btn>
-                    <span>{{ guide1 }}</span>
+                    <span>{{ guideemail }}</span>
                 </div>
+
                 <div class="checkEmailInfo">
                     <v-btn class="checkValue" @click="sendEmail">인증하기</v-btn>
-                    <span>{{ guide2 }}</span>
+                    <span>{{ guidecode }}</span>
                     <input type="text" id="inputCode" v-model="inputAuthCode">
-                    <v-btn class="checkValue" @click="checkCode">확인</v-btn>
+                    <!-- <v-btn class="checkValue" @click="checkCode">확인</v-btn> -->
                 </div>
+
                 <v-text-field v-model="password" label="비밀번호" :rules="password_rule" color="red"></v-text-field>
+                    <span class="guide">{{ guidepassword }}</span>
                 <v-text-field v-model="passwordCheck" label="비밀번호 확인" color="red"></v-text-field>
-                            
+                    <span class="guide">{{ guidepasswordcheck }}</span>       
+
                 <v-row align="center" justify="center">
                     <v-col cols="auto">
                         <v-btn class="submitBtn" color="black" elevation="0" @click="onSubmit">가입</v-btn>
@@ -49,16 +53,18 @@ const memberModule = 'memberModule'
 export default {
     data () {
         return {
-            guide1: '중복 확인이 필요합니다.',
-            guide2: '입력: ',
-            authCode: 0,
-            inputAuthCode: '',
+            guideemail: '중복 확인이 필요합니다.',
+            guidecode: '입력: ',
+
             email: '',
             password: '',
             passwordCheck: '',
             roleType: "NORMAL",
+            authCode: 0,
+            inputAuthCode: '',
 
             emailDuplicate: true,
+
             checkPasswordValid: false,
             checkEmailDuplicate: false,
             checkEmailAuthorize: false,
@@ -82,8 +88,20 @@ export default {
     methods: {
         ...mapActions(memberModule, ['requestCheckEmailDuplicate', 'requestAuthorizeEmailToSpring']),
         onSubmit () {
-            this.checkPassword()
+            if(this.email == '') {
+                this.guideemail = "이메일은 필수 항목입니다."
+            }
+            if(this.password == '') {
+                this.guidepassword = "비밀번호는 필수 항목입니다."
+            }
+            if(this.passwordCheck == '') {
+                this.guidepasswordcheck = "비밀번호를 한 번 더 입력 후 확인해주세요."
+            }
+            if(this.passwordCheck == '') {
+                this.guidepasswordcheck = "비밀번호를 한 번 더 입력 후 확인해주세요."
+            }
 
+            this.checkPassword()
             const emailValid = this.email_rule.every(rule => rule(this.email) === true);
             const passwordValid = this.password_rule.every(rule => rule(this.password) === true);
 
@@ -119,10 +137,10 @@ export default {
         async checkEmail () {
             this.emailDuplicate = await this.requestCheckEmailDuplicate({email: this.email})
             if(this.emailDuplicate == false) {
-                this.guide1 = "확인이 완료되었습니다."
+                this.guideemail = "확인이 완료되었습니다."
                 this.checkEmailDuplicate = true;
             } else {
-                this.guide1 = "중복된 이메일입니다."
+                this.guideemail = "중복된 이메일입니다."
                 this.checkEmailDuplicate = true;
             }
         },
@@ -220,6 +238,11 @@ span {
     display: flex;
 }
 #inputCode{
+    margin-right: 10px;
     width: 310px;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid rgb(122, 122, 122);
+    width: 100px;
 }
 </style>

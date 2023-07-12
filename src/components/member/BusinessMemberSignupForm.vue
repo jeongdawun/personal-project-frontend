@@ -54,7 +54,7 @@ export default {
     data () {
         return {
             guideemail: '중복 확인이 필요합니다.',
-            guidecode: '인증코드 입력: ',
+            guidecode: '입력: ',
             guidebusinessnumber: '중복 확인이 필요합니다.',
             guidepassword: '',
             guidepasswordcheck: '',
@@ -97,7 +97,7 @@ export default {
         ...mapActions(memberModule, ['requestCheckEmailDuplicate', 'requestAuthorizeEmailToSpring', 'requestCheckBusinessNumberDuplicate']),
         onSubmit () {
             if(this.email == '') {
-                this.guide1 = "이메일은 필수 항목입니다."
+                this.guideemail = "이메일은 필수 항목입니다."
             }
             if(this.password == '') {
                 this.guidepassword = "비밀번호는 필수 항목입니다."
@@ -114,7 +114,10 @@ export default {
             // 우선 이메일 인증은 보류해둠(&& this.checkEmailAuthorize == true)
             // this.checkCode ()
             this.checkPassword()
-            if(this.checkPasswordValid == true && this.emailDuplicate == false && this.businessNumberDuplicate == false) {
+            const emailValid = this.email_rule.every(rule => rule(this.email) === true);
+            const passwordValid = this.password_rule.every(rule => rule(this.password) === true);
+
+            if(this.checkPasswordValid == true && this.emailDuplicate == false && this.businessNumberDuplicate == false && emailValid && passwordValid) {
                 const { email, password, roleType, businessNumber, businessName } = this
                 this.$emit('submit', { email, password, roleType, businessNumber, businessName })
             } else if (this.emailDuplicate == true && this.checkEmailDuplicate == true) {
@@ -138,20 +141,20 @@ export default {
         async checkEmail () {
             this.emailDuplicate = await this.requestCheckEmailDuplicate({email: this.email})
             if(this.emailDuplicate == false) {
-                this.guide1 = "확인이 완료되었습니다."
+                this.guideemail = "확인이 완료되었습니다."
                 this.checkEmailDuplicate = true;
             } else {
-                this.guide1 = "중복된 이메일입니다."
+                this.guideemail = "중복된 이메일입니다."
                 this.checkEmailDuplicate = true;
             }
         },
         async checkBusinessNumber () {
             this.businessNumberDuplicate = await this.requestCheckBusinessNumberDuplicate({businessNumber: this.businessNumber})
             if(this.businessNumberDuplicate == false) {
-                this.guide3 = "확인이 완료되었습니다."
+                this.guidebusinessnumber = "확인이 완료되었습니다."
                 this.checkBusinessNumberDuplicate = true;
             } else {
-                this.guide3 = "중복된 사업자 번호입니다."
+                this.guidebusinessnumber = "중복된 사업자 번호입니다."
                 this.checkBusinessNumberDuplicate = true;
             }
         },
