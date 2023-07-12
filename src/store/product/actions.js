@@ -6,6 +6,22 @@ import {
 import axiosInst from '@/utility/axiosInst'
 
 export default {
+    requestRegisterProductToSpring ({}, payload) {
+        const { productName, category, productDetails, city, street, addressDetail, zipcode, mainImageName, imageNameList, optionNameList, optionPriceList } = payload
+
+        return axiosInst.post('/product/register', 
+        { productName, category, productDetails, city, street, addressDetail, zipcode, mainImageName, imageNameList, optionNameList, optionPriceList })
+            .then((res) => {
+                if(res.data == true) {
+                    alert("상품 등록 성공!")
+                } else {
+                    alert("상품 등록 실패")
+                }
+            })
+            .catch(() => {
+                alert('문제 발생!')
+            })
+    },
     requestProductListToSpring({ commit }) {
         return axiosInst.get('/product/list')
             .then((res) => {
