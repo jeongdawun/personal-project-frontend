@@ -14,7 +14,7 @@
                     <v-btn class="checkValue" @click="sendEmail">인증하기</v-btn>
                     <span>{{ guidecode }}</span>
                     <input type="text" id="inputCode" v-model="inputAuthCode">
-                    <v-btn class="checkValue" @click="checkCode">확인</v-btn>
+                    <!-- <v-btn class="checkValue" @click="checkCode">확인</v-btn> -->
                 </div>
 
                 <v-text-field v-model="password" label="비밀번호" :rules="password_rule" color="red"></v-text-field>
@@ -111,9 +111,9 @@ export default {
             if(this.businessName == '') {
                 this.guidebusinessName = "사업장명은 필수 항목입니다."
             }
-
-            this.checkPassword()
             // 우선 이메일 인증은 보류해둠(&& this.checkEmailAuthorize == true)
+            // this.checkCode ()
+            this.checkPassword()
             if(this.checkPasswordValid == true && this.emailDuplicate == false && this.businessNumberDuplicate == false) {
                 const { email, password, roleType, businessNumber, businessName } = this
                 this.$emit('submit', { email, password, roleType, businessNumber, businessName })
@@ -158,14 +158,14 @@ export default {
         async sendEmail () {
             this.authCode = await this.requestAuthorizeEmailToSpring({email: this.email})
         },
-        checkCode () {
-            if(this.inputAuthCode == this.authCode) {
-                alert("인증완료")
-                this.checkEmailAuthorize = true
-            } else {
-                alert("인증되지 않은 이메일입니다.")
-            }
-        }
+        // checkCode () {
+        //     if(this.inputAuthCode == this.authCode) {
+        //         alert("인증완료")
+        //         this.checkEmailAuthorize = true
+        //     } else {
+        //         alert("인증되지 않은 이메일입니다.")
+        //     }
+        // }
     },
 }
 </script>
@@ -252,6 +252,11 @@ span {
     display: flex;
 }
 #inputCode{
+    margin-right: 10px;
     width: 310px;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid rgb(122, 122, 122);
+    width: 100px;
 }
 </style>
