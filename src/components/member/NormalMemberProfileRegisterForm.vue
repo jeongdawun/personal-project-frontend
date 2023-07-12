@@ -60,15 +60,15 @@ export default {
     methods: {
         ...mapActions(memberModule, ['requestRegisterProfileToSpring', 'requestCheckNickNameDuplicate', 'requestAuthorizeForUserProfileToSpring']),
         onSubmit () {
-            if(this.nickName != '') {
+            if(this.nickName != null) {
                 console.log("닉네임: " + this.nickName)
-                if(this.nickName != '' && this.checkNickNameDuplicate == false) {
+                if(this.nickName != null && this.checkNickNameDuplicate == false) {
                     alert("닉네임 중복 여부를 확인하세요")
-                } else if(this.nickName != '' && this.checkNickNameDuplicate == true) {
+                } else if(this.nickName != null && this.checkNickNameDuplicate == true) {
                     const { email, name, contactNumber, nickName, birthday } = this
                     this.$emit('submit', { email, name, contactNumber, nickName, birthday })
                 }
-            } else if(this.nickName == '') {
+            } else if(this.nickName == null) {
                 const { email, name, contactNumber, nickName, birthday } = this
                 this.$emit('submit', { email, name, contactNumber, nickName, birthday })
             }
