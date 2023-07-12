@@ -7,23 +7,29 @@
                 <v-text-field v-model="email" label="이메일" :rules="email_rule" color="red" required></v-text-field>  
                 <div class="checkEmailInfo">
                     <v-btn class="checkValue" @click="checkEmail">중복확인</v-btn>
-                    <span>{{ guide1 }}</span>
+                    <span>{{ guideemail }}</span>
                 </div>
+
                 <div class="checkEmailInfo">
                     <v-btn class="checkValue" @click="sendEmail">인증하기</v-btn>
-                    <span>{{ guide2 }}</span>
+                    <span>{{ guidecode }}</span>
                     <input type="text" id="inputCode" v-model="inputAuthCode">
                     <v-btn class="checkValue" @click="checkCode">확인</v-btn>
                 </div>
+
                 <v-text-field v-model="password" label="비밀번호" :rules="password_rule" color="red"></v-text-field>
+                    <span class="guide">{{ guidepassword }}</span>
                 <v-text-field v-model="passwordCheck" label="비밀번호 확인" color="red"></v-text-field>
+                    <span class="guide">{{ guidepasswordcheck }}</span>
                 <v-text-field v-model="businessNumber" label="사업자 번호" color="red"></v-text-field>
+
                 <div class="checkBusinessInfo">
                     <v-btn class="checkValue" @click="checkBusinessNumber">중복확인</v-btn>
-                    <span>{{ guide3 }}</span>
+                    <span>{{ guidebusinessnumber }}</span>
                 </div>
+
                 <v-text-field v-model="businessName" label="사업장명" color="red"></v-text-field>
-                            
+                    <span class="guide">{{ guidebusinessName }}</span>
                 <v-row align="center" justify="center">
                     <v-col cols="auto">
                         <v-btn class="submitBtn" color="black" elevation="0" @click="onSubmit">가입</v-btn>
@@ -47,24 +53,28 @@ const memberModule = 'memberModule'
 export default {
     data () {
         return {
-            guide1: '중복 확인이 필요합니다.',
-            guide2: '인증코드 입력: ',
-            guide3: '중복 확인이 필요합니다.',
-            authCode: 0,
-            inputAuthCode: '',
+            guideemail: '중복 확인이 필요합니다.',
+            guidecode: '인증코드 입력: ',
+            guidebusinessnumber: '중복 확인이 필요합니다.',
+            guidepassword: '',
+            guidepasswordcheck: '',
+            guidebusinessname: '',
+
             email: '',
             password: '',
             passwordCheck: '',
             businessNumber: '',
             businessName: '',
             roleType: "BUSINESS",
+            authCode: 0,
+            inputAuthCode: '',
 
             emailDuplicate: true,
+            businessNumberDuplicate: true,
+
             checkPasswordValid: false,
             checkEmailDuplicate: false,
             checkEmailAuthorize: false,
-
-            businessNumberDuplicate: true,
             checkBusinessNumberDuplicate: false,
 
             email_rule: [
@@ -86,9 +96,25 @@ export default {
     methods: {
         ...mapActions(memberModule, ['requestCheckEmailDuplicate', 'requestAuthorizeEmailToSpring', 'requestCheckBusinessNumberDuplicate']),
         onSubmit () {
+            if(this.email == '') {
+                this.guide1 = "이메일은 필수 항목입니다."
+            }
+            if(this.password == '') {
+                this.guidepassword = "비밀번호는 필수 항목입니다."
+            }
+            if(this.passwordCheck == '') {
+                this.guidepasswordcheck = "비밀번호를 한 번 더 입력 후 확인해주세요."
+            }
+            if(this.passwordCheck == '') {
+                this.guidepasswordcheck = "비밀번호를 한 번 더 입력 후 확인해주세요."
+            }
+            if(this.businessName == '') {
+                this.guidebusinessName = "사업장명은 필수 항목입니다."
+            }
+
             this.checkPassword()
             // 우선 이메일 인증은 보류해둠(&& this.checkEmailAuthorize == true)
-            if(this.checkPasswordValid == true && this.emailDuplicate == false && this.businessNumberDuplicate == false && this.email != null  && this.password != null) {
+            if(this.checkPasswordValid == true && this.emailDuplicate == false && this.businessNumberDuplicate == false) {
                 const { email, password, roleType, businessNumber, businessName } = this
                 this.$emit('submit', { email, password, roleType, businessNumber, businessName })
             } else if (this.emailDuplicate == true && this.checkEmailDuplicate == true) {
@@ -96,14 +122,15 @@ export default {
             } else if (this.checkEmailDuplicate == false ) {
                 alert("이메일 중복 여부를 확인하세요.")
             }
+
         },
         checkPassword() {
             if(this.password === this.passwordCheck) {
                 this.checkPasswordValid = true
-            } else {
+            } else if (this.checkPasswordValid = false) {
                 this.checkPasswordValid = false
                 alert('비밀번호를 확인해주세요.')
-            }
+            } 
         },
         clear () {
             router.push('/')
