@@ -77,16 +77,22 @@ export default {
             this.isBar1Visible = scrollPosition <= 0
         },
         showAuto() {
-            this.category = "오토캠핑";
-            this.$router.push(`/list/${this.category}`);
+            this.category = "오토캠핑"
+            this.$router.push(`/list/${this.category}`)
+            .catch(() => {})
+            location.reload()
         },
         showGlamping() {
-            this.category = "글램핑";
-            this.$router.push(`/list/${this.category}`);
+            this.category = "글램핑"
+            this.$router.push(`/list/${this.category}`)
+            .catch(() => {})
+            location.reload()
         },
         showCaravan() {
-            this.category = "카라반";
-            this.$router.push(`/list/${this.category}`);
+            this.category = "카라반"
+            this.$router.push(`/list/${this.category}`)
+            .catch(() => {})
+            location.reload()
         },
     },
     mounted () {
