@@ -53,7 +53,6 @@
                         </v-col>
                     </v-row>
                 </div>
-
                 
                 <Strong>이미지 등록</Strong>
                 <div class="infomenu">
@@ -62,18 +61,18 @@
                             <p>메인 이미지</p>
                         </v-col>
                         <v-col cols="10">
-                            <input id="file-selector" ref="file" type="file" @change="handleFileUpload()">
+                            <input id="file-selector" ref="mainfile" type="file" @change="handleMainFileUpload()">
                         </v-col>
                         <v-col cols="2" id="menu">
                             <p>상세 이미지</p>
                         </v-col>
                         <v-col cols="10">
-                            <input id="file-selector" ref="file" type="file" multiple @change="handleFileUpload()">
+                            <input id="file-selector" ref="detailsfile" type="file" multiple @change="handleFileUpload()">
+                            ></v-file-input>
                         </v-col>
                     </v-row>
                 </div>
 
-                
                 <Strong>옵션 정보</Strong>
                 <div class="infomenu">
                     <v-btn @click="addRow">행 추가</v-btn>
@@ -81,8 +80,21 @@
                     <v-row justify="center">
                         <v-col v-for="(option, index) in options" :key="index" cols="12" id="menu">
                             <p>옵션{{ index + 1 }}</p>
-                            <v-text-field v-model="option.optionName" label="옵션명을 입력하세요."></v-text-field>
-                            <v-text-field v-model="option.optionPriceList" label="옵션 가격을 입력하세요."></v-text-field>
+                            <v-text-field v-model="option.optionName" label="옵션명을 입력하세요." @change="handleOptionNameUpload(index)"></v-text-field>
+                            <v-text-field v-model="option.optionPrice" label="옵션 가격을 입력하세요." @change="handleOptionPriceUpload(index)"></v-text-field>
+                        </v-col>
+                    </v-row>
+                </div>
+
+                <strong>옵션 재고 내역</strong>
+                <div class="infomenu" v-for="(option, optionIndex) in options" :key="optionIndex">
+                    <v-btn @click="addRowStock(optionIndex)">행 추가</v-btn>
+                    <v-btn @click="deleteRowStock(optionIndex, rowIndex)">행 삭제</v-btn>
+                    <v-row justify="center">
+                        <v-col v-for="(stock, rowIndex) in option.stocks" :key="rowIndex" cols="2" id="menu">
+                            <p>날짜{{ rowIndex + 1 }}</p>
+                            <v-text-field v-model="stock.date" label="날짜를 입력하세요." @change="handleDateUpload(optionIndex, rowIndex)"></v-text-field>
+                            <v-text-field v-model="stock.campsiteVacancy" label="재고 개수를 입력하세요." @change="handleStockUpload(optionIndex, rowIndex)"></v-text-field>
                         </v-col>
                     </v-row>
                 </div>
@@ -102,6 +114,7 @@
 
 <script>
 import AWS from 'aws-sdk'
+import env from '@/env'
 import { mapActions } from 'vuex'
 
 const memberModule = 'memberModule'
@@ -116,36 +129,88 @@ export default {
     },
     data () {
         return {
-            email: '',
+            productName: '',
+            categoryName: ['오토캠핑', '글램핑', '카라반'],
+            category: '',
+            productDetails: '',
+
             address:'',
             city: '',
             street: '',
             addressDetail: '',
             zipcode: '',
+
             name: '',
             price: '',
+            options: [{ optionName: '', optionPrice: '', stocks: [{ date: '', campsiteVacancy: '' }] }],
+            optionsList: [],
+            optionNameList: [],
+            optionPriceList: [],
 
-            categoryName: ['오토캠핑', '글램핑', '카라반'],
-            category: '',
-            options: [{ name: '', price: '' }],
-            file: null,
-            awsBucketName: 'vue-s3-test-3737',
-            awsBucketRegion: 'ap-northeast-2',
-            awsIdentityPoolId: 'ap-northeast-2:88f54e9d-6025-4bd4-8285-058401d99eb5',
             s3: null,
-            awsFileList: [],
-            startAfterAwsS3Bucket: null,
-            awsS3NextToken: null,
-            imageUrl: '',
-            productName: '',
-            productDetails: ''
+            awsBucketName: env.api.MAIN_AWS_BUCKET_NAME,
+            awsBucketRegion: env.api.MAIN_AWS_BUCKET_REGION,
+            awsIdentityPoolId: env.api.MAIN_AWS_BUCKET_IDENTITY_POOL_ID,
+
+            file: null,
+            fileList: [],
+            fileNames: [],
+            mainImageName: '',
+            imageNameList:[],
         }
     },
     methods: {
         ...mapActions(memberModule, ['requestAuthorizeForSellerInfoToSpring']),
-        handleFileUpload () {
-            this.file = this.$refs.file.files[0]
-            // console.log("file: " + this.file.name)
+        handleMainFileUpload() {
+            this.file = this.$refs.mainfile.files[0]
+            console.log("main Image upload: " + this.file.name)
+        },
+        handleFileUpload() {
+            const selectedFiles = Array.from(this.$refs.detailsfile.files);
+
+            selectedFiles.forEach(file => {
+            this.fileList.push(file);
+            });
+
+            selectedFiles.forEach(file => {
+            console.log("details Image: " + file.name);
+            });
+
+            this.fileNames = this.fileList.map(file => file.name);
+            console.log(this.fileNames);
+        },
+        handleOptionNameUpload(optionIndex) {
+        console.log(`옵션${optionIndex + 1} 옵션명:`, this.options[optionIndex].optionName);
+        },
+        handleOptionPriceUpload(optionIndex) {
+        console.log(`옵션${optionIndex + 1} 옵션 가격:`, this.options[optionIndex].optionPrice);
+        },
+        handleDateUpload(optionIndex, stockIndex) {
+        const selectedOption = this.options[optionIndex];
+        console.log(`옵션${optionIndex + 1} 날짜:`, selectedOption.stocks[stockIndex].date);
+        },
+        handleStockUpload(optionIndex, stockIndex) {
+        const selectedOption = this.options[optionIndex];
+        console.log(`옵션${optionIndex + 1} 재고 개수:`, selectedOption.stocks[stockIndex].campsiteVacancy);
+        },
+        sendStockData(optionIndex) {
+        this.optionsList[optionIndex] = this.options[optionIndex].stocks.map(stock => ({
+            date: stock.date,
+            campsiteVacancy: stock.campsiteVacancy,
+        }));
+        console.log('전달받은 재고 내역 데이터:', this.optionsList);
+        },
+        addRow() {
+        this.options.push({ optionName: '', optionPrice: '', stocks: [] });
+        },
+        deleteRow(index) {
+        this.options.splice(index, 1);
+        },
+        addRowStock(optionIndex) {
+        this.options[optionIndex].stocks.push({ date: '', campsiteVacancy: '' });
+        },
+        deleteRowStock(optionIndex, stockIndex) {
+        this.options[optionIndex].stocks.splice(stockIndex, 1);
         },
         clear () {
             router.push('/')
@@ -175,17 +240,51 @@ export default {
             }, (err, data) => {
                 if (err) {
                     console.log(err)
-                    return alert("업로드 중 문제 발생", err.message)
+                    return alert("메인 이미지 업로드 중 문제 발생", err.message)
                 }
-                alert("업로드 성공!")
-                // this.getAwsS3Files()
+                console.log('this.file.name 업로드 성공!')
             })
+            
+            this.imageNameList.forEach((fileName) => {
+                this.s3.upload({
+                    Key: fileName,
+                    Body: this.file,
+                    ACL: 'public-read',
+                }, (err, data) => {
+                    if (err) {
+                        console.log(err);
+                        return alert("상세 이미지 업로드 중 문제 발생", err.message)
+                    }
+                    console.log(`파일 ${fileName} 업로드 성공!`)
+                });
+            });
         },
         async onSubmit () {
+            this.optionsList = this.options.map((option) => {
+                return option.stocks.map((stock) => ({
+                date: stock.date,
+                campsiteVacancy: stock.campsiteVacancy,
+                }));
+            });
+
+            console.log('전달받은 재고 내역 데이터:', this.optionsList);
+            console.log('재고 데이터의 형태', JSON.stringify(this.optionsList));
+
+            this.optionNameList = this.options.map(option => option.optionName);
+            console.log("option name list:" + this.optionNameList);
+
+            this.optionPriceList = this.options.map(option => option.optionPrice);
+            console.log("option price list:" + this.optionPriceList);
+
+            this.mainImageName = this.file.name
+            console.log("main image name:", this.mainImageName);
+            
+            this.imageNameList = this.fileNames
+            console.log("details image name list: " + this.imageNameList)
+
             this.uploadAwsS3 ()
-            const { email, city, street, addressDetail, zipcode, contactNumber, bank, accountNumber } = this
-            console.log("궁금해: " + email + " " + city + " " + street + " " + addressDetail + " " + zipcode + " " + contactNumber + " " + bank + " " + accountNumber)
-            // this.$emit('submit', { email, city, street, addressDetail, zipcode, contactNumber, bank, accountNumber })
+            const { productName, category, productDetails, city, street, addressDetail, zipcode, mainImageName, imageNameList, optionNameList, optionPriceList, optionsList } = this
+            this.$emit('submit', { productName, category, productDetails, city, street, addressDetail, zipcode, mainImageName, imageNameList, optionNameList, optionPriceList, optionsList})
         },
         postOpen() {
             const vm = this;
@@ -200,15 +299,6 @@ export default {
             }
             }).open();
         },
-        addRow() {
-                this.options.push({
-                name: '',
-                price: ''
-            });
-        },
-        deleteRow(index) {
-            this.options.splice(index, 1);
-        }
     },
 }
 </script>

@@ -7,10 +7,10 @@ import axiosInst from '@/utility/axiosInst'
 
 export default {
     requestRegisterProductToSpring ({}, payload) {
-        const { productName, category, productDetails, city, street, addressDetail, zipcode, mainImageName, imageNameList, optionNameList, optionPriceList } = payload
+        const { productName, category, productDetails, city, street, addressDetail, zipcode, mainImageName, imageNameList, optionNameList, optionPriceList, optionsList } = payload
 
         return axiosInst.post('/product/register', 
-        { productName, category, productDetails, city, street, addressDetail, zipcode, mainImageName, imageNameList, optionNameList, optionPriceList })
+        { productName, category, productDetails, city, street, addressDetail, zipcode, mainImageName, imageNameList, optionNameList, optionPriceList, optionsList })
             .then((res) => {
                 if(res.data == true) {
                     alert("상품 등록 성공!")
