@@ -26,7 +26,6 @@
                     </v-row>
                 </div>
 
-
                 <Strong>상세정보</Strong>
                 <div class="infomenu">
                     <v-row justify="center">
@@ -115,9 +114,6 @@
 <script>
 import AWS from 'aws-sdk'
 import env from '@/env'
-import { mapActions } from 'vuex'
-
-const memberModule = 'memberModule'
 
 export default {
     head() {
@@ -160,7 +156,6 @@ export default {
         }
     },
     methods: {
-        ...mapActions(memberModule, ['requestAuthorizeForSellerInfoToSpring']),
         handleMainFileUpload() {
             this.file = this.$refs.mainfile.files[0]
             console.log("main Image upload: " + this.file.name)
