@@ -81,19 +81,9 @@
                             <p>옵션{{ index + 1 }}</p>
                             <v-text-field v-model="option.optionName" label="옵션명을 입력하세요." @change="handleOptionNameUpload(index)"></v-text-field>
                             <v-text-field v-model="option.optionPrice" label="옵션 가격을 입력하세요." @change="handleOptionPriceUpload(index)"></v-text-field>
-                        </v-col>
-                    </v-row>
-                </div>
-
-                <strong>옵션 재고 내역</strong>
-                <div class="infomenu" v-for="(option, optionIndex) in options" :key="optionIndex">
-                    <v-btn @click="addRowStock(optionIndex)">행 추가</v-btn>
-                    <v-btn @click="deleteRowStock(optionIndex, rowIndex)">행 삭제</v-btn>
-                    <v-row justify="center">
-                        <v-col v-for="(stock, rowIndex) in option.stocks" :key="rowIndex" cols="2" id="menu">
-                            <p>날짜{{ rowIndex + 1 }}</p>
-                            <v-text-field v-model="stock.date" label="날짜를 입력하세요." @change="handleDateUpload(optionIndex, rowIndex)"></v-text-field>
-                            <v-text-field v-model="stock.campsiteVacancy" label="재고 개수를 입력하세요." @change="handleStockUpload(optionIndex, rowIndex)"></v-text-field>
+                            <input type="date" v-model="option.startDate" @change="handleStartDateUpload(index)">Start Date
+                            <input type="date" v-model="option.endDate" @change="handleEndDateUpload(index)">End Date
+                            <input type="number" v-model="option.campsiteVacancy" @change="handleCampsiteVacancyUpload(index)">Campsite Vacancy
                         </v-col>
                     </v-row>
                 </div>
@@ -136,12 +126,13 @@ export default {
             addressDetail: '',
             zipcode: '',
 
-            name: '',
-            price: '',
-            options: [{ optionName: '', optionPrice: '', stocks: [{ date: '', campsiteVacancy: '' }] }],
-            optionsList: [],
             optionNameList: [],
             optionPriceList: [],
+            startDate: '',
+            endDate: '',
+            campsiteVacancy: 0,
+            optionsRegisterRequestFormList: [],
+            options: [{ optionName: '', optionPrice: '', startDate: null, endDate: null, campsiteVacancy: 0 }],
 
             s3: null,
             awsBucketName: env.api.MAIN_AWS_BUCKET_NAME,
@@ -175,37 +166,25 @@ export default {
             console.log(this.fileNames);
         },
         handleOptionNameUpload(optionIndex) {
-        console.log(`옵션${optionIndex + 1} 옵션명:`, this.options[optionIndex].optionName);
+            console.log(`옵션${optionIndex + 1} 옵션명:`, this.options[optionIndex].optionName);
         },
         handleOptionPriceUpload(optionIndex) {
-        console.log(`옵션${optionIndex + 1} 옵션 가격:`, this.options[optionIndex].optionPrice);
+            console.log(`옵션${optionIndex + 1} 옵션 가격:`, this.options[optionIndex].optionPrice);
         },
-        handleDateUpload(optionIndex, stockIndex) {
-        const selectedOption = this.options[optionIndex];
-        console.log(`옵션${optionIndex + 1} 날짜:`, selectedOption.stocks[stockIndex].date);
+        handleStartDateUpload(optionIndex) {
+            console.log(`옵션${optionIndex + 1} 시작 날짜:`, this.options[optionIndex].startDate);
         },
-        handleStockUpload(optionIndex, stockIndex) {
-        const selectedOption = this.options[optionIndex];
-        console.log(`옵션${optionIndex + 1} 재고 개수:`, selectedOption.stocks[stockIndex].campsiteVacancy);
+        handleEndDateUpload(optionIndex) {
+            console.log(`옵션${optionIndex + 1} 끝 날짜:`, this.options[optionIndex].endDate);
         },
-        sendStockData(optionIndex) {
-        this.optionsList[optionIndex] = this.options[optionIndex].stocks.map(stock => ({
-            date: stock.date,
-            campsiteVacancy: stock.campsiteVacancy,
-        }));
-        console.log('전달받은 재고 내역 데이터:', this.optionsList);
+        handleCampsiteVacancyUpload(optionIndex) {
+            console.log(`옵션${optionIndex + 1} 빈 좌석:`, this.options[optionIndex].campsiteVacancy);
         },
         addRow() {
-        this.options.push({ optionName: '', optionPrice: '', stocks: [] });
+            this.options.push({ optionName: '', optionPrice: '', startDate: null, endDate: null, campsiteVacancy: 0 });
         },
         deleteRow(index) {
-        this.options.splice(index, 1);
-        },
-        addRowStock(optionIndex) {
-        this.options[optionIndex].stocks.push({ date: '', campsiteVacancy: '' });
-        },
-        deleteRowStock(optionIndex, stockIndex) {
-        this.options[optionIndex].stocks.splice(stockIndex, 1);
+            this.options.splice(index, 1);
         },
         clear () {
             router.push('/')
@@ -255,15 +234,16 @@ export default {
             });
         },
         async onSubmit () {
-            this.optionsList = this.options.map((option) => {
-                return option.stocks.map((stock) => ({
-                date: stock.date,
-                campsiteVacancy: stock.campsiteVacancy,
-                }));
+            this.optionsRegisterRequestFormList = this.options.map(option => {
+                return {
+                startDate: option.startDate,
+                endDate: option.endDate,
+                campsiteVacancy: option.campsiteVacancy
+                };
             });
 
-            console.log('전달받은 재고 내역 데이터:', this.optionsList);
-            console.log('재고 데이터의 형태', JSON.stringify(this.optionsList));
+            console.log('전달받은 재고 내역 데이터:', this.optionsRegisterRequestFormList);
+            console.log('재고 데이터의 형태', JSON.stringify(this.optionsRegisterRequestFormList));
 
             this.optionNameList = this.options.map(option => option.optionName);
             console.log("option name list:" + this.optionNameList);
@@ -278,8 +258,8 @@ export default {
             console.log("details image name list: " + this.imageNameList)
 
             this.uploadAwsS3 ()
-            const { productName, category, productDetails, city, street, addressDetail, zipcode, mainImageName, imageNameList, optionNameList, optionPriceList, optionsList } = this
-            this.$emit('submit', { productName, category, productDetails, city, street, addressDetail, zipcode, mainImageName, imageNameList, optionNameList, optionPriceList, optionsList})
+            const { productName, category, productDetails, city, street, addressDetail, zipcode, mainImageName, imageNameList, optionNameList, optionPriceList, optionsRegisterRequestFormList } = this
+            this.$emit('submit', { productName, category, productDetails, city, street, addressDetail, zipcode, mainImageName, imageNameList, optionNameList, optionPriceList, optionsRegisterRequestFormList})
         },
         postOpen() {
             const vm = this;

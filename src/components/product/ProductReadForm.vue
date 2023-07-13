@@ -55,7 +55,7 @@
         </v-col>
         <v-col cols="6">
             <v-col class="stock">
-                <Strong>빈자리 {{ stock1 }}개</Strong>
+                <Strong>빈자리 {{ campsiteVacancy1 }}개</Strong>
             </v-col>
             <v-col class="price">
                 </Strong><span>{{ product.productOptionList[0].optionPrice }}</span>원
@@ -68,7 +68,7 @@
         </v-col>
         <v-col cols="6">
             <v-col class="stock">
-                <Strong>빈자리 {{ stock2 }}개</Strong>
+                <Strong>빈자리 {{ campsiteVacancy2 }}개</Strong>
             </v-col>
             <v-col class="price">
                 <span>{{ product.productOptionList[1].optionPrice }}</span>원
@@ -105,9 +105,9 @@ export default {
         async chkStock() {
             this.id = this.product.id
             const { id, checkInDate, checkOutDate } = this
-            this.stock = await this.requestStockToSpring({ id, checkInDate, checkOutDate })
-            this.stock1 = this.stock.stockList[0]
-            this.stock2 = this.stock.stockList[1]
+            this.campsiteVacancy = await this.requestStockToSpring({ id, checkInDate, checkOutDate })
+            this.campsiteVacancy1 = this.campsiteVacancy.campsiteVacancyList[0]
+            this.campsiteVacancy2 = this.campsiteVacancy.campsiteVacancyList[1]
         }
     },
     async mounted(){
@@ -115,12 +115,12 @@ export default {
     },
     data () {
         return {
-            stock: [],
+            campsiteVacancy: [],
             checkInDate: 0,
             checkOutDate: 0,
             id: 0,
-            stock1: 0,
-            stock2: 0,
+            campsiteVacancy1: 0,
+            campsiteVacancy2: 0,
         }
     }
 }
