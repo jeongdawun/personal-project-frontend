@@ -81,8 +81,8 @@
                             <p>옵션{{ index + 1 }}</p>
                             <v-text-field v-model="option.optionName" label="옵션명을 입력하세요." @change="handleOptionNameUpload(index)"></v-text-field>
                             <v-text-field v-model="option.optionPrice" label="옵션 가격을 입력하세요." @change="handleOptionPriceUpload(index)"></v-text-field>
-                            <input type="date" v-model="option.startDate" @change="handleStartDateUpload(index)">Start Date
-                            <input type="date" v-model="option.endDate" @change="handleEndDateUpload(index)">End Date
+                            <input type="date" v-model="option.startDate" @change="handleStartDateUpload(index)">Start Date<br>
+                            <input type="date" v-model="option.endDate" @change="handleEndDateUpload(index)">End Date<br>
                             <input type="number" v-model="option.campsiteVacancy" @change="handleCampsiteVacancyUpload(index)">Campsite Vacancy
                         </v-col>
                     </v-row>
@@ -121,10 +121,6 @@ export default {
             productDetails: '',
 
             address:'',
-            city: '',
-            street: '',
-            addressDetail: '',
-            zipcode: '',
 
             optionNameList: [],
             optionPriceList: [],
@@ -178,7 +174,7 @@ export default {
             console.log(`옵션${optionIndex + 1} 끝 날짜:`, this.options[optionIndex].endDate);
         },
         handleCampsiteVacancyUpload(optionIndex) {
-            console.log(`옵션${optionIndex + 1} 빈 좌석:`, this.options[optionIndex].campsiteVacancy);
+            console.log(`옵션${optionIndex + 1} 빈 자리:`, this.options[optionIndex].campsiteVacancy);
         },
         addRow() {
             this.options.push({ optionName: '', optionPrice: '', startDate: null, endDate: null, campsiteVacancy: 0 });
@@ -236,9 +232,9 @@ export default {
         async onSubmit () {
             this.optionsRegisterRequestFormList = this.options.map(option => {
                 return {
-                startDate: option.startDate,
-                endDate: option.endDate,
-                campsiteVacancy: option.campsiteVacancy
+                    startDate: option.startDate,
+                    endDate: option.endDate,
+                    campsiteVacancy: option.campsiteVacancy
                 };
             });
 
@@ -258,20 +254,16 @@ export default {
             console.log("details image name list: " + this.imageNameList)
 
             this.uploadAwsS3 ()
-            const { productName, category, productDetails, city, street, addressDetail, zipcode, mainImageName, imageNameList, optionNameList, optionPriceList, optionsRegisterRequestFormList } = this
-            this.$emit('submit', { productName, category, productDetails, city, street, addressDetail, zipcode, mainImageName, imageNameList, optionNameList, optionPriceList, optionsRegisterRequestFormList})
+            const { productName, category, productDetails, address, mainImageName, imageNameList, optionNameList, optionPriceList, optionsRegisterRequestFormList } = this
+            this.$emit('submit', { productName, category, productDetails, address, mainImageName, imageNameList, optionNameList, optionPriceList, optionsRegisterRequestFormList})
         },
         postOpen() {
             const vm = this;
             new daum.Postcode({
-            oncomplete: function(data) {
-                vm.address = data.address;
-                vm.city = data.sido + data.sigungu;
-                vm.street = data.roadname;
-                vm.addressDetail = data.buildingName;
-                vm.zipcode = data.zonecode;
-                document.getElementById("address").value = data.address;
-            }
+                oncomplete: function(data) {
+                    vm.address = data.address;
+                    document.getElementById("address").value = data.address;
+                }
             }).open();
         },
     },
