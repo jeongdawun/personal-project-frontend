@@ -51,5 +51,13 @@ export default {
         .then((res) => {
             return res.data
         })
+    },
+    requestStockByMapToSpring({ }, { checkInDate, checkOutDate }) {
+        console.log("입력받은 날짜: " + checkInDate + " " + checkOutDate)
+        return axiosInst.post('/product/map-vacancy', { checkInDate, checkOutDate })
+        .then((res) => {
+            console.log("서버 응답: " + JSON.stringify(res.data))
+            return res.data
+        })
     }
 }

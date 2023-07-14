@@ -5,6 +5,7 @@ import ProductListPage from '@/views/product/ProductListPage.vue'
 import ProductReadPage from '@/views/product/ProductReadPage.vue'
 import ProductListByCategoryPage from '@/views/product/ProductListByCategoryPage.vue'
 import ProductRegisterPage from '@/views/product/ProductRegisterPage.vue'
+import ProductMapByKakaoPage from '@/views/product/ProductMapByKakaoPage.vue'
 
 Vue.use(VueRouter)
 
@@ -34,6 +35,11 @@ const productRoutes = [
     name: 'ProductListByCategoryPage',
     component: ProductListByCategoryPage,
     props: true,
+  },
+  {
+    path: '/map',
+    name: 'ProductMapByKakaoPage',
+    component: ProductMapByKakaoPage
   },
 ]
 
