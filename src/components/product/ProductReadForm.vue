@@ -7,7 +7,6 @@
         <v-img :src="product.productImageNameList ? getImage(product.productImageNameList[0]) : ''"></v-img>
         </v-card>
       </v-col>
-
       <v-col cols="3">
         <v-card
         >
@@ -40,7 +39,7 @@
             <input type="date" v-model="checkOutDate">
         </v-col>
         <v-col cols="2" id="checkStock">
-            <v-btn @click="chkStock" id="checkStockBtn">빈자리 조회하기</v-btn>
+            <v-btn @click="chkStock()" id="checkStockBtn">빈자리 조회하기</v-btn>
         </v-col>
     </v-row>
     <v-row no-gutters class="productDetailsInfo">
@@ -49,32 +48,19 @@
             <span>{{ product.productDetails }}</span>
         </v-col>
     </v-row>
-    <v-row no-gutters class="options">
-        <v-col cols="6">
-            <Strong><span>{{ product.productOptionList[0].optionName }}</span></Strong>
-        </v-col>
-        <v-col cols="6">
-            <v-col class="stock">
-                <Strong>빈자리 {{ campsiteVacancy1 }}개</Strong>
+    <v-col v-for="(option, index) in product.productOptionList" :key="index" cols="12">
+        <v-row no-gutters class="options">
+            <v-col cols="12">
+                <strong><span>{{ option.optionName }}</span></strong>
+                <v-col class="stock" cols="6">
+                    <strong>빈자리 {{ campsiteVacancy[index] }}개</strong>
+                </v-col>
+                <v-col class="price" cols="6">
+                    <span>{{ option.optionPrice }}</span>원
+                </v-col>
             </v-col>
-            <v-col class="price">
-                </Strong><span>{{ product.productOptionList[0].optionPrice }}</span>원
-            </v-col>
-        </v-col>
-    </v-row>
-    <v-row no-gutters class="options">
-        <v-col cols="6">
-            <Strong><span>{{ product.productOptionList[1].optionName }}</span></Strong>
-        </v-col>
-        <v-col cols="6">
-            <v-col class="stock">
-                <Strong>빈자리 {{ campsiteVacancy2 }}개</Strong>
-            </v-col>
-            <v-col class="price">
-                <span>{{ product.productOptionList[1].optionPrice }}</span>원
-            </v-col>
-        </v-col>
-    </v-row>
+        </v-row>
+    </v-col>
     <v-row no-gutters class="sellerInfo">
         <v-col cols="12">
             <Strong>판매자 정보 들어갈 자리</Strong>
@@ -96,6 +82,14 @@ export default {
                 required: true,
         },
     },
+    data () {
+        return {
+            campsiteVacancy: [],
+            checkInDate: 0,
+            checkOutDate: 0,
+            id: 0,
+        }
+    },
     methods: {
         ...mapActions(productModule, ['requestStockToSpring']),
         getImage(imageName) {
@@ -105,24 +99,13 @@ export default {
         async chkStock() {
             this.id = this.product.id
             const { id, checkInDate, checkOutDate } = this
-            this.campsiteVacancy = await this.requestStockToSpring({ id, checkInDate, checkOutDate })
-            this.campsiteVacancy1 = this.campsiteVacancy.campsiteVacancyList[0]
-            this.campsiteVacancy2 = this.campsiteVacancy.campsiteVacancyList[1]
+            const response = await this.requestStockToSpring({ id, checkInDate, checkOutDate })
+            this.campsiteVacancy = response.campsiteVacancyList
         }
     },
     async mounted(){
         await this.getImage()
     },
-    data () {
-        return {
-            campsiteVacancy: [],
-            checkInDate: 0,
-            checkOutDate: 0,
-            id: 0,
-            campsiteVacancy1: 0,
-            campsiteVacancy2: 0,
-        }
-    }
 }
 </script>
 
