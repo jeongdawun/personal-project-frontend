@@ -25,7 +25,7 @@ export default {
         ...mapState(productModule, ["products"]),
     },
     methods: {
-    ...mapActions(productModule, ['requestProductListByCategoryToSpring']),
+        ...mapActions(productModule, ['requestProductListByCategoryToSpring']),
     },
     created() {
         this.requestProductListByCategoryToSpring(this.category);

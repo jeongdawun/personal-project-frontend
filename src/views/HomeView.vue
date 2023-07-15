@@ -19,8 +19,6 @@
                 </v-carousel-item>
             </v-carousel>
         </div>
-        <!-- <p>테스트할거야</p> -->
-        <!-- :show-arrows="false" -->
         <div>
           <v-icon class="moveTop" @click="move">
             mdi-chevron-up
