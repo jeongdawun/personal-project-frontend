@@ -28,7 +28,8 @@ const productRoutes = [
   {
     path: '/register',
     name: 'ProductRegisterPage',
-    component: ProductRegisterPage
+    component: ProductRegisterPage,
+    meta: { requiresAuth: true }
   },
   {
     path: '/list/:category',
