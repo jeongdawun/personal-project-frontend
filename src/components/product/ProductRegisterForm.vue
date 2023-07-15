@@ -74,8 +74,8 @@
 
                 <Strong>옵션 정보</Strong>
                 <div class="infomenu">
-                    <v-btn @click="addRow">행 추가</v-btn>
-                    <v-btn @click="deleteRow(index)">행 삭제</v-btn>
+                    <v-btn @click="addRow">옵션 추가</v-btn>
+                    <v-btn @click="deleteRow(index)">옵션 삭제</v-btn>
                     <v-row justify="center">
                         <v-col v-for="(option, index) in options" :key="index" cols="12" id="menu">
                             <p>옵션{{ index + 1 }}</p>
