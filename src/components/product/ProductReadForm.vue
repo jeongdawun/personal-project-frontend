@@ -48,7 +48,7 @@
             <span>{{ product.productDetails }}</span>
         </v-col>
     </v-row>
-    <v-col v-for="(option, index) in product.productOptionList" :key="index" cols="12">
+    <v-col v-for="(option, index) in product.productOptionResponseFormList" :key="index" cols="12">
         <v-row no-gutters class="options">
             <v-col cols="12">
                 <strong><span>{{ option.optionName }}</span></strong>
