@@ -14,13 +14,6 @@ import env from '@/env'
 const productModule = 'productModule'
 
 export default {
-    head() {
-        return {
-            script: [
-                { type: 'text/javascript', 
-                  src: `//dapi.kakao.com/v2/maps/sdk.js?appkey=${env.api.MAIN_KAKAO_MAP_API_KEY}&libraries=services`},
-            ]}
-    },
     data() {
         return {
             // 일단 오늘(2023-07-14) 날짜로 그리고 조회
