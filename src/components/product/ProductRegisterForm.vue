@@ -253,7 +253,7 @@ export default {
             this.imageNameList = this.fileNames
             console.log("details image name list: " + this.imageNameList)
 
-            this.uploadAwsS3 ()
+            await this.uploadAwsS3 ()
             const { productName, category, productDetails, address, mainImageName, imageNameList, optionNameList, optionPriceList, optionsRegisterRequestFormList } = this
             this.$emit('submit', { productName, category, productDetails, address, mainImageName, imageNameList, optionNameList, optionPriceList, optionsRegisterRequestFormList})
         },
