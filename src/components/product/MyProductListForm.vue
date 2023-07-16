@@ -21,7 +21,7 @@
         <v-expansion-panel>
         <v-expansion-panel-header>메인 이미지</v-expansion-panel-header>
         <v-expansion-panel-content>
-            <v-img :src="product.productMainImage ? getImage(productMainImage) : ''"></v-img>
+            <v-img :src="product.productMainImage ? getImage(product.productMainImage) : ''"></v-img>
         </v-expansion-panel-content>
         </v-expansion-panel>
 
