@@ -6,6 +6,7 @@ import ProductReadPage from '@/views/product/ProductReadPage.vue'
 import ProductListByCategoryPage from '@/views/product/ProductListByCategoryPage.vue'
 import ProductRegisterPage from '@/views/product/ProductRegisterPage.vue'
 import ProductMapByKakaoPage from '@/views/product/ProductMapByKakaoPage.vue'
+import MyProductListPage from '@/views/product/MyProductListPage.vue'
 
 Vue.use(VueRouter)
 
@@ -14,6 +15,12 @@ const productRoutes = [
     path: '/list',
     name: 'ProductListPage',
     component: ProductListPage
+  },
+  {
+    path: '/Mylist',
+    name: 'MyProductListPage',
+    component: MyProductListPage,
+    meta: { requiresAuth: true }
   },
   {
     path: '/product/:id',
