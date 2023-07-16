@@ -39,7 +39,7 @@
                     <a href="/sellerInfoPage"><Strong>파트너 정보 관리</Strong></a>
                 </v-col>
                 <v-col cols="6" id="menu">
-                    <a href="/myProductList"><Strong>나의 상품 목록</Strong></a>
+                    <a href="/MyList"><Strong>나의 상품 목록</Strong></a>
                 </v-col>
             </v-row>
             <v-row no-gutters class="uesrInfo" v-if="this.roleType === 'BUSINESS'">
