@@ -3,9 +3,15 @@
         <v-row>
             <v-col v-for="product in products" :key="product.id" cols="12" sm="12" xs="12" md="3" lg="3" xl="3">
                 <div class="product">
+                    <router-link :to="{ 
+                            name: 'ProductReadPage', 
+                            params: { id: product.id }}">
                     <v-img 
                     :src="product.mainImageName ? getImage(product.mainImageName) : ''"
-                    aspect-ratio="0.8" />
+                    aspect-ratio="0.8"
+                    />
+                    </router-link>
+
                     <div class="productCategory"><Strong>{{ product.category }}</Strong></div>
                     <div class="productName">
                         <router-link :to="{ 
