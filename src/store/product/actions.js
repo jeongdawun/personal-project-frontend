@@ -66,5 +66,12 @@ export default {
             console.log("서버 응답: " + JSON.stringify(res.data))
             return res.data
         })
+    },
+    requestDeleteProductToSpring({ }, id) {
+        console.log("delete 진행!")
+        return axiosInst.delete(`/product/${id}`)
+        .then((res) => {
+            alert("삭제가 완료되었습니다.")
+        })
     }
 }

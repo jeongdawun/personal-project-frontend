@@ -2,9 +2,10 @@
     <v-container class="container">
         <v-expansion-panels
             v-model="panel"
-            multiple>
+            multiple
+            focusable>
         <v-expansion-panel>
-        <v-expansion-panel-header>상품카테고리</v-expansion-panel-header>
+        <v-expansion-panel-header>상품 카테고리</v-expansion-panel-header>
         <v-expansion-panel-content>
             <input type="text" :value="product.category" readonly/>
         </v-expansion-panel-content>
@@ -55,10 +56,15 @@
         </v-expansion-panel-content>
         </v-expansion-panel>
     </v-expansion-panels>
+    <v-btn @click="deleteProduct">삭제하기</v-btn>
     </v-container>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
+const productModule = 'productModule'
+
 export default {
     name: "MyProductListForm",
         props: {
@@ -73,10 +79,15 @@ export default {
         }
     },
     methods: {
+        ...mapActions(productModule, ['requestDeleteProductToSpring']),
         getImage(imageName) {
             console.log("요청한 사진 파일명: " + imageName)
             return`https://vue-s3-test-3737.s3.ap-northeast-2.amazonaws.com/${imageName}`;
         },
+        async deleteProduct() {
+            console.log("삭제할 상품 id: " + this.product.id)
+            await this.requestDeleteProductToSpring(this.product.id)
+        }
     },
     async mounted(){
         await this.getImage()
