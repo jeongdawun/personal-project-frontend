@@ -3,31 +3,30 @@
         <div id="map" style="width:100%; height:640px;"></div>
         <input type="date" v-model="checkInDate">체크인 날짜
         <input type="date" v-model="checkOutDate">체크아웃 날짜
-        <v-btn @click="checkVacancies">빈자리 찾기</v-btn>
+        <v-btn @click="() => checkVacancies(checkInDate, checkOutDate)">빈자리 찾기</v-btn>
     </div>
 </template>
   
 <script>
 import { mapActions } from 'vuex';
-import env from '@/env'
 
 const productModule = 'productModule'
 
 export default {
     data() {
         return {
-            // 일단 오늘(2023-07-14) 날짜로 그리고 조회
-            // 추후 변경 필요 -> 실제 조회하는 당일날 기준으로 그려지도록
-            checkInDate: '2023-07-14',
-            checkOutDate: '2023-07-15',
+            checkInDate: '',
+            checkOutDate: '',
             campsiteVacancy: [],
         }
     },
     methods: {
         ...mapActions(productModule, ['requestStockByMapToSpring']),
-        async checkVacancies() {
-            const { checkInDate, checkOutDate } = this
-            this.campsiteVacancy = await this.requestStockByMapToSpring({ checkInDate, checkOutDate })
+        async checkVacancies(checkInDate, checkOutDate) {
+            this.checkInDate = checkInDate;
+            this.checkOutDate = checkOutDate;
+            this.campsiteVacancy = 
+                await this.requestStockByMapToSpring({ checkInDate: this.checkInDate, checkOutDate: this.checkOutDate })
             console.log("campsiteVacancy: " + JSON.stringify(this.campsiteVacancy))
             await this.drawMarkers()
         },
@@ -80,7 +79,7 @@ export default {
                 const content = `
                         <div class="customoverlay">
                             <a href="/product/${id}" target="_blank">
-                                <span class="title">${vacancy} vacancies</span>
+                                <span class="title">${vacancy} vacancy</span>
                             </a>
                         </div>
                     `;
@@ -95,9 +94,25 @@ export default {
                 console.error('Failed to load Kakao Maps SDK:', error);
             }
         },
+        formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+
+            return `${year}-${month}-${day}`;
+        },
     },
-    async mounted() {
-        await this.checkVacancies();
+    async mounted () {
+        const checkInDate = new Date();
+        const formattedCheckInDate = this.formatDate(checkInDate);
+
+        const checkOutDate = new Date();
+        checkOutDate.setDate(checkOutDate.getDate() + 1);
+        const formattedCheckOutDate = this.formatDate(checkOutDate);
+
+        this.checkInDate = formattedCheckInDate;
+        this.checkOutDate = formattedCheckOutDate;
+        await this.checkVacancies(this.checkInDate, this.checkOutDate);
     }
 }
 </script>
