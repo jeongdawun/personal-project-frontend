@@ -65,6 +65,8 @@ export default {
         return {
             guideemail: '중복 확인이 필요합니다.',
             guidecode: '입력: ',
+            guidepassword: '',
+            guidepasswordcheck: '',
 
             email: '',
             password: '',
