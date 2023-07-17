@@ -16,10 +16,9 @@ export default {
     
                         var separatorIndex = cookie.indexOf('=');
                         var name = cookie.substring(0, separatorIndex);
-                        var value = cookie.substring(separatorIndex + 1);
                     
                         if (name === "AccessToken") {
-                            localStorage.setItem("AccessToken", value)
+                            localStorage.setItem("isLogin", true)
                         }
                     }
                     alert('로그인되었습니다.')
@@ -36,7 +35,7 @@ export default {
 
         return axiosInst.post('/member/logout')
             .then((res) => {
-                localStorage.removeItem("AccessToken")
+                localStorage.setItem("isLogin", false)
                 alert("로그아웃")
             })
     },

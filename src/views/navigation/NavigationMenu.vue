@@ -54,19 +54,16 @@ export default {
         ...mapActions(memberModule, ['requestMemberLogoutToSpring']),
         signUp () {
             router.push('/signup')
-            .catch(() => {})
         },
         signIn () {
             router.push('/login')
-            .catch(() => {})
-            this.userToken = localStorage.getItem("AccessToken")
-            if (this.userToken != null) {
-                this.isLogin = true
-            }
+            // this.isLogin = localStorage.getItem("isLogin")
         },
-        signOut () {
-            this.requestMemberLogoutToSpring()
-            this.isLogin = false
+        async signOut () {
+            await this.requestMemberLogoutToSpring()
+            location.reload()
+            .catch(() => {})
+            // location.reload()
         },
         myPage () {
             router.push('/myPage')
@@ -96,10 +93,8 @@ export default {
         },
     },
     mounted () {
-        this.userToken = localStorage.getItem("AccessToken")
-        if (this.userToken != null) {
-        this.isLogin = true
-        }
+        const isLoginValue = localStorage.getItem("isLogin");
+        this.isLogin = isLoginValue === "true" ? true : false;
         window.addEventListener('scroll', this.handleScroll)
     },
     beforeUnmount () {
