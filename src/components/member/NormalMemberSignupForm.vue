@@ -17,9 +17,20 @@
                     <!-- <v-btn class="checkValue" @click="checkCode">확인</v-btn> -->
                 </div>
 
-                <v-text-field v-model="password" label="비밀번호" :rules="password_rule" color="red"></v-text-field>
+                <v-text-field v-model="password" label="비밀번호" 
+                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                :rules="password_rule"
+                :type="show1 ? 'text' : 'password'"
+                @click:append="show1 = !show1"
+                color="red"></v-text-field>
                     <span class="guide">{{ guidepassword }}</span>
-                <v-text-field v-model="passwordCheck" label="비밀번호 확인" color="red"></v-text-field>
+
+                <v-text-field v-model="passwordCheck" label="비밀번호 확인" 
+                :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                :rules="password_rule"
+                :type="show2 ? 'text' : 'password'"
+                @click:append="show2 = !show2"
+                color="red"></v-text-field>
                     <span class="guide">{{ guidepasswordcheck }}</span>       
 
                 <v-row align="center" justify="center">
@@ -59,6 +70,8 @@ export default {
             email: '',
             password: '',
             passwordCheck: '',
+            show1: false,
+            show2: false,
             roleType: "NORMAL",
             authCode: 0,
             inputAuthCode: '',
@@ -79,8 +92,9 @@ export default {
             password_rule: [
                 v => {
                     const replaceV = v.replace(/(\s*)/g, '')
-                    const pattern = /^[0-9a-zA-Z](?=.*?[#?!@$%^&*-])(?=.*?[0-9])(?=.*?[A-Z]).{8,}$/
-                    return pattern.test(replaceV) || '특수문자, 숫자, 영문(대문자, 소문자) 포함 9자리 이상'
+                    // const pattern = /^[0-9a-zA-Z](?=.*?[#?!@$%^&*-])(?=.*?[0-9])(?=.*?[A-Z]).{8,}$/
+                    const pattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+                    return pattern.test(replaceV) || '숫자, 영문(대문자 혹은 소문자) 포함 8자리 이상'
                 }
             ]
         }
