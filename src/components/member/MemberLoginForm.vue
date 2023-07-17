@@ -5,7 +5,12 @@
             <!-- <hr class="signInFormTopLine"> -->
             <form>
                 <v-text-field v-model="email" label="이메일" color="red"></v-text-field>
-                <v-text-field v-model="password" label="비밀번호" color="red"></v-text-field>
+                <v-text-field v-model="password" label="비밀번호" 
+                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                :rules="password_rule"
+                :type="show1 ? 'text' : 'password'"
+                @click:append="show1 = !show1"
+                color="red"></v-text-field>
                             
                 <v-row align="center" justify="center">
                     <v-col cols="auto">
@@ -46,6 +51,7 @@ export default {
         return {
             email: '',
             password: '',
+            show1: false,
         }
     },
     methods: {
