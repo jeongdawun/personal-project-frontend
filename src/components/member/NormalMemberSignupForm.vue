@@ -27,7 +27,6 @@
 
                 <v-text-field v-model="passwordCheck" label="비밀번호 확인" 
                 :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-                :rules="password_rule"
                 :type="show2 ? 'text' : 'password'"
                 @click:append="show2 = !show2"
                 color="red"></v-text-field>

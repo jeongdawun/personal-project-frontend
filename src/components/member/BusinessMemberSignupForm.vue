@@ -17,9 +17,18 @@
                     <!-- <v-btn class="checkValue" @click="checkCode">확인</v-btn> -->
                 </div>
 
-                <v-text-field v-model="password" label="비밀번호" :rules="password_rule" color="red"></v-text-field>
+                <v-text-field v-model="password" label="비밀번호" 
+                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                :rules="password_rule"
+                :type="show1 ? 'text' : 'password'"
+                @click:append="show1 = !show1"
+                color="red"></v-text-field>
                     <span class="guide">{{ guidepassword }}</span>
-                <v-text-field v-model="passwordCheck" label="비밀번호 확인" color="red"></v-text-field>
+                <v-text-field v-model="passwordCheck" label="비밀번호 확인" 
+                :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="show2 ? 'text' : 'password'"
+                @click:append="show2 = !show2"
+                color="red"></v-text-field>
                     <span class="guide">{{ guidepasswordcheck }}</span>
                 <v-text-field v-model="businessNumber" label="사업자 번호" color="red"></v-text-field>
 
@@ -62,6 +71,8 @@ export default {
 
             email: '',
             password: '',
+            show1: false,
+            show2: false,
             passwordCheck: '',
             businessNumber: '',
             businessName: '',
