@@ -7,6 +7,7 @@ import BusinessMemberSignupPage from '@/views/member/BusinessMemberSignupPage.vu
 import MemberMyPage from '@/views/member/MemberMyPage.vue'
 import NormalMemberProfileRegisterPage from '@/views/member/NormalMemberProfileRegisterPage.vue'
 import BusinessMemberSellerInfoRegisterPage from '@/views/member/BusinessMemberSellerInfoRegisterPage.vue'
+import MyReservationPage from '@/views/reservation/MyReservationPage.vue'
 
 Vue.use(VueRouter)
 
@@ -43,6 +44,11 @@ const memberRoutes = [
     name: 'BusinessMemberSellerInfoRegisterPage',
     component: BusinessMemberSellerInfoRegisterPage,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/order',
+    name: 'MyReservationPage',
+    component: MyReservationPage,
   },
 ]
 

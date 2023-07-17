@@ -58,6 +58,9 @@
                 <v-col class="price" cols="6">
                     <span>{{ option.optionPrice }}</span>원
                 </v-col>
+                <v-col class="price" cols="6">
+                    <v-btn @click="reservation(index)">예약하기</v-btn>
+                </v-col>
             </v-col>
         </v-row>
     </v-col>
@@ -71,7 +74,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-
+import router from "@/router";
 const productModule = 'productModule'
 
 export default {
@@ -88,6 +91,9 @@ export default {
             checkInDate: 0,
             checkOutDate: 0,
             id: 0,
+            optionid: 0,
+            productName: '',
+            optionName: '',
         }
     },
     methods: {
@@ -101,6 +107,21 @@ export default {
             const { id, checkInDate, checkOutDate } = this
             const response = await this.requestStockToSpring({ id, checkInDate, checkOutDate })
             this.campsiteVacancy = response.campsiteVacancyList
+        },
+        async reservation(index) {
+            const order = {
+                id: this.product.id,
+                productName: this.product.productName,
+                optionid: this.product.productOptionResponseFormList[index].id,
+                optionName: this.product.productOptionResponseFormList[index].optionName,
+                checkInDate: this.checkInDate,
+                checkOutDate: this.checkOutDate,
+                };
+            console.log("오더 잘들어가니: " + JSON.stringify(order))
+            router.push({
+                name: 'MyReservationPage',
+            });
+            localStorage.setItem("order", JSON.stringify(order))
         }
     },
     async mounted(){
