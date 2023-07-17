@@ -67,7 +67,7 @@
                         </v-col>
                         <v-col cols="10">
                             <input id="file-selector" ref="detailsfile" type="file" multiple @change="handleFileUpload()">
-                            ></v-file-input>
+                            </v-file-input>
                         </v-col>
                     </v-row>
                 </div>
@@ -136,10 +136,10 @@ export default {
             awsIdentityPoolId: env.api.MAIN_AWS_BUCKET_IDENTITY_POOL_ID,
 
             file: null,
-            fileList: [],
             fileNames: [],
             mainImageName: '',
             imageNameList:[],
+            selectedFiles: [],
         }
     },
     methods: {
@@ -148,17 +148,9 @@ export default {
             console.log("main Image upload: " + this.file.name)
         },
         handleFileUpload() {
-            const selectedFiles = Array.from(this.$refs.detailsfile.files);
+            this.selectedFiles = Array.from(this.$refs.detailsfile.files);
 
-            selectedFiles.forEach(file => {
-            this.fileList.push(file);
-            });
-
-            selectedFiles.forEach(file => {
-            console.log("details Image: " + file.name);
-            });
-
-            this.fileNames = this.fileList.map(file => file.name);
+            this.fileNames = this.selectedFiles.map(file => file.name);
             console.log(this.fileNames);
         },
         handleOptionNameUpload(optionIndex) {
@@ -212,20 +204,20 @@ export default {
                     console.log(err)
                     return alert("메인 이미지 업로드 중 문제 발생", err.message)
                 }
-                console.log('this.file.name 업로드 성공!')
+                console.log('메인 이미지 업로드 성공!')
             })
             
-            this.imageNameList.forEach((fileName) => {
+            this.selectedFiles.forEach((file) => {
                 this.s3.upload({
-                    Key: fileName,
-                    Body: this.file,
+                    Key: file.name,
+                    Body: file,
                     ACL: 'public-read',
                 }, (err, data) => {
                     if (err) {
                         console.log(err);
                         return alert("상세 이미지 업로드 중 문제 발생", err.message)
                     }
-                    console.log(`파일 ${fileName} 업로드 성공!`)
+                    console.log(`파일 ${file.name} 업로드 성공!`)
                 });
             });
         },
@@ -238,8 +230,7 @@ export default {
                 };
             });
 
-            console.log('전달받은 재고 내역 데이터:', this.optionsRegisterRequestFormList);
-            console.log('재고 데이터의 형태', JSON.stringify(this.optionsRegisterRequestFormList));
+            console.log("campsiteVacancyList", JSON.stringify(this.optionsRegisterRequestFormList));
 
             this.optionNameList = this.options.map(option => option.optionName);
             console.log("option name list:" + this.optionNameList);
