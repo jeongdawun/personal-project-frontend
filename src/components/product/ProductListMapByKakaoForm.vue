@@ -1,9 +1,16 @@
 <template>
     <div id="app">
         <div id="map" style="width:100%; height:640px;"></div>
-        <input type="date" v-model="checkInDate">체크인 날짜
-        <input type="date" v-model="checkOutDate">체크아웃 날짜
-        <v-btn @click="() => checkVacancies(checkInDate, checkOutDate)">빈자리 찾기</v-btn>
+        <v-row no-gutters class="checkDate">
+            <v-col cols="auto" id="selectDate">
+                <p id="date">CHECK IN</p>
+                <input type="date" v-model="checkInDate">
+                <p id="middleLine"> | </p>
+                <p id="date">CHECK OUT</p>
+                <input type="date" v-model="checkOutDate">
+                <v-btn @click="() => checkVacancies(checkInDate, checkOutDate)" id="checkStockBtn">빈자리 찾기</v-btn>
+            </v-col>
+        </v-row>
     </div>
 </template>
   
@@ -183,5 +190,45 @@ export default {
 }
 #map {
     padding-top: 200px;
+}
+#selectDate {
+    margin: auto;
+    font-family: 'SUIT-Regular';
+    font-weight: 400;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+}
+#selectDate input {
+    outline-style: none;
+    padding-left: 12px;
+}
+#date {
+    margin: auto;
+    color: black;
+    font-family: 'SUIT-Regular';
+    font-weight: 600;
+}
+#middleLine {
+    margin: auto;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+.checkDate {
+    background-color: rgb(247, 247, 247);
+    border-radius: 33px;
+    height: 60px;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    display: flex;
+}
+#checkStockBtn {
+    background-color: #73916A;
+    font-family: 'SUIT-Regular';
+    font-weight: 200;
+    font-size: 16px;
+    color: white;
+    margin-left: 100px;
 }
 </style>
