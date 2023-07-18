@@ -19,19 +19,19 @@
                 </v-col>
                 <v-col cols="2" id="status">
                     <Strong>예약 신청</Strong><br>
-                    <Strong id="value">{{ bookingNum }}</Strong>
+                    <Strong id="value">{{ REQUESTED }}</Strong>
                 </v-col>
                 <v-col cols="2" id="status">
                     <Strong>이용 완료</Strong><br>
-                    <Strong id="value">{{ completeNum }}</Strong>
+                    <Strong id="value">{{ COMPLETED }}</Strong>
                 </v-col>
                 <v-col cols="2" id="status">
                     <Strong>취소 요청</Strong><br>
-                    <Strong id="value">{{ cancelRequestNum }}</Strong>
+                    <Strong id="value">{{ CANCEL_REQUESTED }}</Strong>
                 </v-col>
                 <v-col cols="2" id="status">
                     <Strong>취소 완료</Strong><br>
-                    <Strong id="value">{{ cancelcompleteNum }}</Strong>
+                    <Strong id="value">{{ CANCELLED }}</Strong>
                 </v-col>
             </v-row>
             <v-row no-gutters class="info" v-if="this.roleType === 'BUSINESS'">
@@ -48,19 +48,19 @@
                 </v-col>
                 <v-col cols="2" id="status">
                     <Strong>예약 신청</Strong><br>
-                    <Strong id="value">{{ bookingNum }}</Strong>
+                    <Strong id="value">{{ REQUESTED }}</Strong>
                 </v-col>
                 <v-col cols="2" id="status">
                     <Strong>이용 완료</Strong><br>
-                    <Strong id="value">{{ completeNum }}</Strong>
+                    <Strong id="value">{{ COMPLETED }}</Strong>
                 </v-col>
                 <v-col cols="2" id="status">
                     <Strong>취소 요청</Strong><br>
-                    <Strong id="value">{{ cancelRequestNum }}</Strong>
+                    <Strong id="value">{{ CANCEL_REQUESTED }}</Strong>
                 </v-col>
                 <v-col cols="2" id="status">
                     <Strong>취소 완료</Strong><br>
-                    <Strong id="value">{{ cancelcompleteNum }}</Strong>
+                    <Strong id="value">{{ CANCELLED }}</Strong>
                 </v-col>
             </v-row>
         </div>
@@ -70,7 +70,7 @@
 <script>
 import { mapActions } from 'vuex';
 
-const memberModule = 'memberModule'
+const reservationModule = 'reservationModule'
 
 export default {
     data () {
@@ -78,24 +78,26 @@ export default {
             email: '',
             roleType: '',
             accessToken: '',
-            bookingNum: 0,
-            completeNum: 0,
-            cancelRequestNum: 0,
-            cancelcompleteNum: 0
+            REQUESTED: 0,
+            COMPLETED: 0,
+            CANCEL_REQUESTED: 0,
+            CANCELLED: 0
         }
     },
-    components: {
-    },
     methods: {
-        ...mapActions(memberModule, ['requestAuthorizeToSpring', 'requestAccessTokenWithRefreshTokenToSpring']),
+        ...mapActions(reservationModule, ['requestMemberInfoWithReservationStatusToSpring']),
     },
     async mounted() {
-        this.response = await this.requestAuthorizeToSpring()
+        this.response = await this.requestMemberInfoWithReservationStatusToSpring()
 
         if(this.response != '') {
             console.log("reponse: " + JSON.stringify(this.response))
-            this.email = this.response.email
-            this.roleType = this.response.role
+            this.email = this.response.authResponse.email
+            this.roleType = this.response.authResponse.role
+            this.REQUESTED = this.response.amountList[0]
+            this.COMPLETED = this.response.amountList[1]
+            this.CANCEL_REQUESTED = this.response.amountList[2]
+            this.CANCELLED = this.response.amountList[3]
         } else {
             alert("문제 발생")
         }
