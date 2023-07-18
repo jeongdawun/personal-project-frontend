@@ -18,6 +18,8 @@ export default {
             checkInDate: '',
             checkOutDate: '',
             campsiteVacancy: [],
+            currentLatitude: 0,
+            currentLongitude: 0,
         }
     },
     methods: {
@@ -41,7 +43,7 @@ export default {
         initializeMap() {
             const mapContainer = document.getElementById('map');
                 const mapOption = {
-                center: new kakao.maps.LatLng(37.54699, 127.09598),
+                center: new kakao.maps.LatLng(this.currentLatitude, this.currentLongitude),
                 level: 4
             }
             return new kakao.maps.Map(mapContainer, mapOption);
@@ -113,6 +115,18 @@ export default {
         this.checkInDate = formattedCheckInDate;
         this.checkOutDate = formattedCheckOutDate;
         await this.checkVacancies(this.checkInDate, this.checkOutDate);
+    },
+    async created() {
+        await navigator.geolocation.getCurrentPosition((position) => {
+            console.log("Latitude: " + position.coords.latitude)
+            console.log("Longitude: " + position.coords.longitude)
+            this.currentLatitude = position.coords.latitude
+            this.currentLongitude = position.coords.longitude
+            console.log("this.currentLatitude: " + this.currentLatitude)
+            console.log("this.currentLongitude: " + this.currentLongitude)
+        }, (error) => {
+            console.error(error)
+        })
     }
 }
 </script>
