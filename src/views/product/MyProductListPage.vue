@@ -1,7 +1,8 @@
 <template lang="">
     <div>
-        <h2 class="nohaveProduct" v-if="this.nohaveProduct">등록된 상품이 없습니다. 상품 등록을 진행해주세요.</h2>
-        <button @click="goToProductRegister" v-if="this.nohaveProduct">상품 등록하기</button>
+        <h2 class="nohaveProduct" v-if="this.nohaveProduct">등록된 상품이 없습니다. 상품을 등록해주세요.</h2>
+        <!-- <button @click="goToProductRegister" v-if="this.nohaveProduct">상품 등록하기</button> -->
+        <v-btn @click="goToProductRegister" v-if="this.nohaveProduct" class="goToRegister" color=#73916A x-large>상품 등록하러 가기</v-btn>
         <my-product-list-form v-if="product" :product="product"/>
     </div>
 </template>
@@ -41,8 +42,22 @@ export default {
 </script>
 <style scoped>
 .nohaveProduct {
-    padding-top: 200px;
+    padding-top: 300px;
     margin: auto;
     text-align: center;
+    font-family: 'SUIT-Regular';
+    font-weight: 600;
+    font-size: 28px;
+}
+.goToRegister {
+    margin: auto;
+    display: flex;
+    width: 280px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-family: 'SUIT-Regular';
+    color: white;
+    border-radius: 33px;
 }
 </style>
