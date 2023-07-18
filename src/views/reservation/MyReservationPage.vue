@@ -1,52 +1,11 @@
 <template lang="">
-    <!-- <v-container>
-        <v-row no-gutters>
-            <h2>예약하기</h2>
-            <v-col cols="12">
-                상품 번호: <input type="text" :value="order.id" readonly/>
-            </v-col>
-            <v-col cols="12">
-                상품명: <input type="text" :value="order.productName" readonly/>
-            </v-col>
-            <v-col cols="12">
-                옵션 번호: <input type="text" :value="order.optionid" readonly/>
-            </v-col>
-            <v-col cols="12">
-                옵션명: <input type="text" :value="order.optionName" readonly/>
-            </v-col>
-            <v-col cols="12">
-                체크인 날짜: <input type="text" :value="order.checkInDate" readonly/>
-            </v-col>
-            <v-col cols="12">
-                체크아웃 날짜: <input type="text" :value="order.checkOutDate" readonly/>
-            </v-col>
-            <v-col cols="12">
-                수량: <input type="number" v-model="amount"/>
-            </v-col>
-            <v-btn @click="reservation">예약 및 결제하기</v-btn>
-        </v-row>
-        <v-row no-gutters>
-            <h3>예약자 정보</h3>
-            <v-col cols="12">
-                예약자 성함: <input type="text" v-model="userName"/>
-            </v-col>
-            <v-col cols="12">
-                연락처: <input type="number" v-model="contactNumber"/>
-            </v-col>
-            <v-col cols="12">
-                기타 요청사항: <input type="text" v-model="bookingNotes"/>
-            </v-col>
-        </v-row>
-    </v-container> -->
     <div>  
         <div class="myProfileMenu">
             <h2>예약하기</h2>
             <form>
                 <Strong>상품 정보</Strong>
                 <div class="infoBox">
-                    <!-- <v-text-field :value="order.id"></v-text-field> -->
                     <v-text-field :value="order.productName" label="상품명"></v-text-field>
-                    <!-- <v-text-field :value="order.optionid"></v-text-field> -->
                     <v-text-field :value="order.optionName" label="옵션명"></v-text-field>
                     <v-text-field :value="order.checkInDate" label="체크인"></v-text-field>
                     <v-text-field :value="order.checkOutDate" label="체크아웃"></v-text-field>
