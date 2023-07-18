@@ -37,8 +37,6 @@
             <p id="middleLine"> | </p>
             <p id="date">CHECK OUT</p>
             <input type="date" v-model="checkOutDate">
-        </v-col>
-        <v-col cols="2" id="checkStock">
             <v-btn @click="chkStock()" id="checkStockBtn">빈자리 조회하기</v-btn>
         </v-col>
     </v-row>
@@ -50,23 +48,25 @@
     </v-row>
     <v-col v-for="(option, index) in product.productOptionResponseFormList" :key="index" cols="12">
         <v-row no-gutters class="options">
-            <v-col cols="12">
+            <v-col cols="6">
                 <strong><span>{{ option.optionName }}</span></strong>
-                <v-col class="stock" cols="6">
-                    <strong>빈자리 {{ campsiteVacancy[index] }}개</strong>
                 </v-col>
-                <v-col class="price" cols="6">
-                    <span>{{ option.optionPrice }}</span>원
-                </v-col>
-                <v-col class="price" cols="6">
-                    <v-btn @click="reservation(index)">예약하기</v-btn>
-                </v-col>
+            <v-col cols="3" class="price">
+                <span>{{ option.optionPrice }}</span>원
+            </v-col>
+            <v-col class="reservation-button" cols="3">
+                <p class="vacancy-text">빈자리 {{ campsiteVacancy[index] }}</p>
+                <v-btn text @click="reservation(index)" class="reservationBtn"><span class="mdi mdi-chevron-double-right">예약하기</span></v-btn>
             </v-col>
         </v-row>
     </v-col>
     <v-row no-gutters class="sellerInfo">
         <v-col cols="12">
-            <Strong>판매자 정보 들어갈 자리</Strong>
+            <!-- <p>판매자 정보</p>
+            <p>사업자 번호: </p>
+            <p>사업장명: </p>
+            <p>사업장 소재지: </p>
+            <p>고객센터: </p> -->
         </v-col>
     </v-row>
     </v-container>
@@ -185,12 +185,8 @@ h2 {
     margin-top: 20px;
 }
 .container {
-    width: 80%;
+    width: 100%;
     margin-top: 100px;
-}
-.container {
-    width: 80%;
-    margin-top: 100px
 }
 .v-application .pa-2 {
     padding: 0px !important
@@ -202,27 +198,20 @@ h2 {
     font-size: 20px;
     margin-bottom: 120px;
 }
-textarea {
-    outline-style: none;
-    padding-top: 20px;
-}
 .options {
     background-color: rgb(247, 247, 247);
-    padding-left: 60px;
-    padding-right: 60px;
+    /* padding-left: 60px;
+    padding-right: 60px; */
     border-radius:33px;
     height: 80px;
     margin: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    /* margin-top: 10px; */
+    /* margin-bottom: 10px; */
     text-align: center;
     align-items: center;
     font-family: 'SUIT-Regular';
     font-size: 20px;
     width: 60%; 
-}
-.stock Strong {
-    color: red;
 }
 #checkStockBtn {
     background-color: #73916A;
@@ -231,26 +220,50 @@ textarea {
     color: white;
     margin-right: 30px;
 }
-.stock {
+/* .stock {
     display: inline-block;
     font-size: 14px;
     padding: 0px;
     padding-right: 20%;
     text-align: right;
-}
-.price {
+} */
+/* .price {
     display: inline-block;
-    font-weight: 600;
-    padding-top: 0px;
-    padding-right: 20%;
-    text-align: right;
-}
+    text-align: center;
+} */
 .sellerInfo {
     margin: auto;
+    margin-top: 60px;
     margin-bottom: 200px;
     text-align: center;
-    font-size: 80px;
-    background-color: red;
-    width: 100%;
+    /* font-size: 80px; */
+    background-color: rgb(247, 247, 247);
+    border-radius:33px;
+    width: 80%;
+}
+.options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-weight: 600;
+}
+
+.vacancy-text {
+    font-size: 16px;
+    color: rgb(255, 0, 0);
+    font-family: 'SUIT-Regular';
+    font-weight: 600;
+    margin: auto;
+}
+.reservationBtn {
+    font-size: 16px;
+    font-family: 'SUIT-Regular';
+    font-weight: 600;
 }
 </style>
