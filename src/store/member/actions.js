@@ -51,6 +51,20 @@ export default {
                 }
             })
     },
+    requestNormalMemberWithdrawToSpring ({ }, password) {
+
+        return axiosInst.get('/member/withdraw', { params: { password: password }})
+            .then((res) => {
+                if(res.data == true) {
+                    alert('회원탈퇴가 완료되었습니다.')
+                    localStorage.setItem("isLogin", false)
+                    router.push('/')
+                    location.reload()
+                } else {
+                    alert('회원탈퇴 실패!')
+                }
+            })
+    },
     requestBusinessMemberSignupToSpring ({ }, payload) {
 
         return axiosInst.post('/member/signup-business', payload)

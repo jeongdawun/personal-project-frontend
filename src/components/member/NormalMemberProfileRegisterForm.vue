@@ -7,6 +7,9 @@
                 <Strong>기본정보</Strong>
                 <div class="infoBox">
                     <v-text-field v-model="email" label="이메일" filled readonly disabled></v-text-field>
+                    <a href="/withdraw">
+                        <span class="withdraw">회원탈퇴 ></span>
+                    </a>
                 </div>
 
                 <Strong>추가정보</Strong>
@@ -171,5 +174,14 @@ Strong {
 .infoBox {
     padding-bottom: 40px;
     padding-top: 10px;
+}
+.withdraw {
+    font-family: 'SUIT-Regular';
+    font-weight: 200;
+    font-size: 14px;
+    text-decoration: none;
+    color: #535353;
+    display: inline-block;
+    white-space: nowrap;
 }
 </style>
