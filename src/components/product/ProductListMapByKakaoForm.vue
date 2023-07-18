@@ -18,8 +18,9 @@ export default {
             checkInDate: '',
             checkOutDate: '',
             campsiteVacancy: [],
-            currentLatitude: 0,
-            currentLongitude: 0,
+            // 우선 학원을 시작점으로 설정해둠
+            currentLatitude: 37.498993,
+            currentLongitude: 127.032909,
         }
     },
     methods: {
@@ -116,18 +117,19 @@ export default {
         this.checkOutDate = formattedCheckOutDate;
         await this.checkVacancies(this.checkInDate, this.checkOutDate);
     },
-    async created() {
-        await navigator.geolocation.getCurrentPosition((position) => {
-            console.log("Latitude: " + position.coords.latitude)
-            console.log("Longitude: " + position.coords.longitude)
-            this.currentLatitude = position.coords.latitude
-            this.currentLongitude = position.coords.longitude
-            console.log("this.currentLatitude: " + this.currentLatitude)
-            console.log("this.currentLongitude: " + this.currentLongitude)
-        }, (error) => {
-            console.error(error)
-        })
-    }
+    // 인스턴스에서 사용하려면 설정이 필요하므로 일단 보류
+    // async created() {
+    //     await navigator.geolocation.getCurrentPosition((position) => {
+    //         console.log("Latitude: " + position.coords.latitude)
+    //         console.log("Longitude: " + position.coords.longitude)
+    //         this.currentLatitude = position.coords.latitude
+    //         this.currentLongitude = position.coords.longitude
+    //         console.log("this.currentLatitude: " + this.currentLatitude)
+    //         console.log("this.currentLongitude: " + this.currentLongitude)
+    //     }, (error) => {
+    //         console.error(error)
+    //     })
+    // }
 }
 </script>
 
