@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import memberRoutes from './member'
 import productRoutes from './product'
+import reservationRoutes from './reservation'
 
 Vue.use(VueRouter)
 
@@ -13,7 +14,8 @@ const routes = [
     component: HomeView
   },
   ...memberRoutes,
-  ...productRoutes
+  ...productRoutes,
+  ...reservationRoutes
 ]
 
 const router = new VueRouter({

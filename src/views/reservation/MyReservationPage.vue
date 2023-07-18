@@ -1,5 +1,5 @@
 <template lang="">
-    <v-container>
+    <!-- <v-container>
         <v-row no-gutters>
             <h2>예약하기</h2>
             <v-col cols="12">
@@ -37,7 +37,40 @@
                 기타 요청사항: <input type="text" v-model="bookingNotes"/>
             </v-col>
         </v-row>
-    </v-container>
+    </v-container> -->
+    <div>  
+        <div class="myProfileMenu">
+            <h2>예약하기</h2>
+            <form>
+                <Strong>상품 정보</Strong>
+                <div class="infoBox">
+                    <!-- <v-text-field :value="order.id"></v-text-field> -->
+                    <v-text-field :value="order.productName" label="상품명"></v-text-field>
+                    <!-- <v-text-field :value="order.optionid"></v-text-field> -->
+                    <v-text-field :value="order.optionName" label="옵션명"></v-text-field>
+                    <v-text-field :value="order.checkInDate" label="체크인"></v-text-field>
+                    <v-text-field :value="order.checkOutDate" label="체크아웃"></v-text-field>
+                </div>
+
+                <Strong>예약 정보</Strong>
+                <div class="infoBox">
+                    <v-text-field v-model="amount" label="수량을 입력하세요."></v-text-field>
+                    <v-text-field v-model="userName" label="예약자 성함을 입력하세요."></v-text-field>
+                    <v-text-field v-model="contactNumber" label="연락처를 입력하세요."></v-text-field>
+                    <v-text-field v-model="bookingNotes" label="기타 요청사항을 입력하세요."></v-text-field>
+                </div>      
+
+                <v-row align="center" justify="center">
+                    <v-col cols="auto">
+                        <v-btn class="submitBtn" color="black" elevation="0" @click="reservation">예약 및 결제하기</v-btn>
+                    </v-col>
+                    <v-col cols="auto">
+                        <v-btn class="clearBtn" elevation="0" @click="clear">취소</v-btn>
+                    </v-col>
+                </v-row>
+            </form>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -53,10 +86,10 @@ export default {
             productId: 0,
             productOptionId: 0,
             userName: '',
-            contactNumber: 0,
+            contactNumber: '',
             checkInDate: '',
             checkOutDate: '',
-            amount: 0,
+            amount: '',
             bookingNotes: '',
         }
     },
@@ -84,7 +117,85 @@ export default {
 </script>
 
 <style scoped>
-   h2 {
-    font-size: 200px
-   } 
+.myProfileMenu {
+    padding-top: 100px;
+}
+h2{
+    text-align: center;
+    font-family: 'SUIT-Regular';
+    font-weight: 200;
+    font-size: 38px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.profileFormTopLine {
+    width: 40%;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.profileFormBottomLine {
+    width: 40%;
+    margin: auto;
+    margin-top: 160px;
+}
+form {
+    width: 60%;
+    height: 400px;
+    margin: auto;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    font-family: 'SUIT-Regular';
+    font-weight: 100;
+}
+span {
+    padding-left: 10px;
+    font-size: 14px;
+    color: red;
+}
+.checkValue {
+    border-radius: 10px;
+    font-size: 14px;
+    padding: 2px 10px 1px 10px;
+}
+.submitBtn {
+    width: 200px;
+    min-height: 60px;
+    margin-top: 40px;
+    margin-bottom: 80px;
+    color: white;
+    font-family: 'SUIT-Regular';
+    font-size: 18px;
+    font-weight: 200;
+}
+.checkNickNameInfo {
+    margin-top: 10px;
+}
+.clearBtn {
+    width: 200px;
+    min-height: 60px;
+    margin-top: 40px;
+    margin-bottom: 80px;
+    font-family: 'SUIT-Regular';
+    font-size: 18px;
+    font-weight: 200;
+}
+Strong {
+    font-size: 24px;
+    font-family: 'SUIT-Regular';
+    font-weight: 600;
+}
+.infoBox {
+    padding-bottom: 40px;
+    padding-top: 10px;
+}
+.withdraw {
+    font-family: 'SUIT-Regular';
+    font-weight: 200;
+    font-size: 14px;
+    text-decoration: none;
+    color: #535353;
+    display: inline-block;
+    white-space: nowrap;
+}
 </style>
