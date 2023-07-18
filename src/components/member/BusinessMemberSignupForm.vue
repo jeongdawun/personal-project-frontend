@@ -98,8 +98,9 @@ export default {
             password_rule: [
                 v => {
                     const replaceV = v.replace(/(\s*)/g, '')
-                    const pattern = /^[0-9a-zA-Z](?=.*?[#?!@$%^&*-])(?=.*?[0-9])(?=.*?[A-Z]).{8,}$/
-                    return pattern.test(replaceV) || '특수문자, 숫자, 영문(대문자, 소문자) 포함 9자리 이상'
+                    // const pattern = /^[0-9a-zA-Z](?=.*?[#?!@$%^&*-])(?=.*?[0-9])(?=.*?[A-Z]).{8,}$/
+                    const pattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+                    return pattern.test(replaceV) || '숫자, 영문(대문자 혹은 소문자) 포함 8자리 이상'
                 }
             ]
         }
