@@ -123,6 +123,9 @@ export default {
     padding: 1%;
     text-align: center;
 }
+.uesrInfo {
+    justify-content: center;
+}
 #menu {
     background-color: rgb(248, 248, 248);
     padding: 1%;
