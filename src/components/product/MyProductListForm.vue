@@ -19,11 +19,11 @@
         <v-expansion-panel-header><span class="headerMenu">상품 이미지</span></v-expansion-panel-header>
         <v-expansion-panel-content>
             <v-row>
-                <v-col>
-                    메인 이미지<v-img width="400" height="auto" :src="product.productMainImage ? getImage(product.productMainImage) : ''"></v-img>
+                <v-col cols="12">
+                    메인 이미지<v-img width="auto" height="auto" :src="product.productMainImage ? getImage(product.productMainImage) : ''"></v-img>
                 </v-col>
-                <v-col v-for="(image, index) in product.productImageNameList" :key="index" cols="12" sm="6" md="4" lg="3" xl="2">
-                    상세 이미지 {{index + 1}}<v-img width="auto" height="200" :src="product.productImageNameList ? getImage(image) : ''"></v-img>
+                <v-col v-for="(image, index) in product.productImageNameList" :key="index" cols="12">
+                    상세 이미지 {{index + 1}}<v-img width="auto" height="600" :src="product.productImageNameList ? getImage(image) : ''"></v-img>
                 </v-col>
             </v-row>
             <v-file-input multiple truncate-length="15"></v-file-input>

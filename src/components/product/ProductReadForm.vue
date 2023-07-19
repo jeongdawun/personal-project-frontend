@@ -4,21 +4,21 @@
       <v-col cols="6">
         <v-card
         >
-        <v-img :src="product.productImageNameList ? getImage(product.productImageNameList[0]) : ''"></v-img>
+        <v-img width="auto" height="500" :src="product.productImageNameList ? getImage(product.productImageNameList[0]) : ''"></v-img>
         </v-card>
       </v-col>
       <v-col cols="3">
         <v-card
         >
-        <v-img :src="product.productImageNameList ? getImage(product.productImageNameList[1]) : ''"></v-img>
-        <v-img :src="product.productImageNameList ? getImage(product.productImageNameList[2]) : ''"></v-img>
+        <v-img width="auto" height="250" :src="product.productImageNameList ? getImage(product.productImageNameList[1]) : ''"></v-img>
+        <v-img width="auto" height="250" :src="product.productImageNameList ? getImage(product.productImageNameList[2]) : ''"></v-img>
         </v-card>
       </v-col>
       <v-col cols="3">
         <v-card
         >
-        <v-img :src="product.productImageNameList ? getImage(product.productImageNameList[3]) : ''"></v-img>
-        <v-img :src="product.productImageNameList ? getImage(product.productImageNameList[4]) : ''"></v-img>
+        <v-img width="auto" height="250" :src="product.productImageNameList ? getImage(product.productImageNameList[3]) : ''"></v-img>
+        <v-img width="auto" height="250" :src="product.productImageNameList ? getImage(product.productImageNameList[4]) : ''"></v-img>
         </v-card>
       </v-col>
     </v-row>
@@ -185,7 +185,7 @@ h2 {
     margin-top: 20px;
 }
 .container {
-    width: 100%;
+    width: 80%;
     margin-top: 100px;
 }
 .v-application .pa-2 {
