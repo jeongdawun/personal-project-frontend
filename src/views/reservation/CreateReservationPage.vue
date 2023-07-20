@@ -70,7 +70,10 @@ export default {
             }
             await this.requestReservationToSpring(reservationRequest)
             await localStorage.removeItem("order")
-        }
+        },
+        clear () {
+            router.push('/')
+        },
     }
 }
 </script>
