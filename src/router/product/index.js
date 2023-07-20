@@ -7,6 +7,7 @@ import ProductListByCategoryPage from '@/views/product/ProductListByCategoryPage
 import ProductRegisterPage from '@/views/product/ProductRegisterPage.vue'
 import ProductMapByKakaoPage from '@/views/product/ProductMapByKakaoPage.vue'
 import MyProductListPage from '@/views/product/MyProductListPage.vue'
+import ProductListByKeywordPage from '@/views/product/ProductListByKeywordPage.vue'
 
 Vue.use(VueRouter)
 
@@ -42,6 +43,12 @@ const productRoutes = [
     path: '/list/:category',
     name: 'ProductListByCategoryPage',
     component: ProductListByCategoryPage,
+    props: true,
+  },
+  {
+    path: '/list/keyword/:keyword',
+    name: 'ProductListByKeywordPage',
+    component: ProductListByKeywordPage,
     props: true,
   },
   {

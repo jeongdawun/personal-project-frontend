@@ -43,6 +43,13 @@ export default {
                 console.log("res.data: " + JSON.stringify(res.data))
             });
     },
+    requestProductListByKeywordToSpring({ commit }, keyword) {
+        return axiosInst.get(`/product/search/${keyword}`)
+            .then((res) => {
+                commit(REQUEST_PRODUCT_LIST_TO_SPRING, res.data);
+                console.log("res.data: " + JSON.stringify(res.data))
+            });
+    },
     requestProductToSpring({ commit }, id) {
         return axiosInst.get(`/product/${id}`)
             .then((res) => {

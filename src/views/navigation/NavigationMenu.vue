@@ -11,8 +11,8 @@
             <a @click="showGlamping">GLAMPING</a>
             <a @click="showCaravan">CARAVAN</a>
             <div class="searchBox">
-                <input type="text" class="inputKeyword">
-                <button text class="searchBtn">
+                <input type="text" class="inputKeyword" v-model="keyword" @keyup.enter="searchProduct">
+                <button text class="searchBtn" @click="searchProduct">
                     <v-icon color="black">mdi-magnify</v-icon>
                 </button>
             </div>
@@ -34,24 +34,23 @@
 
 <script>
 import router from '@/router'
-import { mapActions } from 'vuex';
-import ProductListByCategoryPage from '@/views/product/ProductListByCategoryPage.vue'
+import { mapActions, mapState } from 'vuex';
 
 const memberModule = 'memberModule'
+const productModule = 'productModule'
 
 export default {
-    components: {
-        ProductListByCategoryPage
-    },
     data () {
         return {
             isLogin: false,
             isBar1Visible: true,
-            category: ""
+            category: '',
+            keyword: ''
         }
     },
     methods: {
         ...mapActions(memberModule, ['requestMemberLogoutToSpring']),
+        ...mapActions(productModule, ['requestProductListByKeywordToSpring']),
         signUp () {
             router.push('/signup')
         },
@@ -91,6 +90,13 @@ export default {
             .catch(() => {})
             location.reload()
         },
+        async searchProduct() {
+            await this.$router.push(`/list/keyword/${this.keyword}`)
+            location.reload()
+        }
+    },
+    computed: {
+        ...mapState(productModule, ["products"]),
     },
     mounted () {
         const isLoginValue = localStorage.getItem("isLogin");
