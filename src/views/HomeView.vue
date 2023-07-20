@@ -25,9 +25,9 @@
           </v-icon>
         </div>
         <ProductListPage/>
-        <div class="footer">
+        <!-- <div class="footer">
           <FooterPage/>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -86,7 +86,7 @@ p {
   border-radius: 60%;
   color: rgb(255, 255, 255)
 }
-.footer {
+/* .footer {
   padding-top: 160px
-}
+} */
 </style>
