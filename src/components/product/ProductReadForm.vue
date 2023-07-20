@@ -119,7 +119,7 @@ export default {
                 };
             console.log("오더 잘들어가니: " + JSON.stringify(order))
             router.push({
-                name: 'MyReservationPage',
+                name: 'CreateReservationPage',
             });
             localStorage.setItem("order", JSON.stringify(order))
         }
