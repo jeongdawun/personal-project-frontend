@@ -136,13 +136,16 @@ export default {
     padding-block: 20px;
 }
 .info {
-    padding: 3%;
+    padding: 1%;
+    padding-top: 40px;
+    padding-bottom: 60px;
     text-align: center;
     justify-content: center !important;
 }
 .uesrInfo {
     text-align: center;
     justify-content: center !important;
+    padding-bottom: 20px;
 }
 #menu {
     background-color: rgb(248, 248, 248);
