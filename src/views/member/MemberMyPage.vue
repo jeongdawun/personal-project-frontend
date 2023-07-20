@@ -64,7 +64,7 @@
                 </v-col>
             </v-row>
         </div>
-        <div class="reservationList">
+        <div class="reservationList" v-if="this.roleType === 'NORMAL'">
             <my-cart-list-form :cartItems="cartItems"/>
         </div>
     </div>
@@ -110,13 +110,13 @@ export default {
             this.COMPLETED = this.response.amountList[1]
             this.CANCEL_REQUESTED = this.response.amountList[2]
             this.CANCELLED = this.response.amountList[3]
+            if(this.roleType === 'NORMAL') {
+                await this.requestCartItemListToSpring()
+            }
         } else {
             alert("문제 발생")
         }
     },
-    async created(){
-        await this.requestCartItemListToSpring()
-    }
 }
 </script>
 
