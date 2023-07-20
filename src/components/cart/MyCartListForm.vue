@@ -4,34 +4,33 @@
             :headers="headers"
             :items="cartItems"
             show-select
-            class="elevation-1"
+            class="cartTable"
             v-model="selectedItems"
         >
             <template v-slot:top>
                 <v-toolbar
                     flat
                 >
-                <v-toolbar-title>My Cart()</v-toolbar-title>
-                <v-divider
-                    class="mx-4"
-                    inset
-                    vertical
-                ></v-divider>
+                <v-toolbar-title>MY CART
+                    <span class="mdi mdi-heart"></span>({{ cartItems.length }})</v-toolbar-title>
                 <v-spacer></v-spacer>
                 </v-toolbar>
+                <hr>
             </template>
-
             <template v-slot:item.actions="{ item }">
                 <v-btn class="deleteBtn" text @click="deleteItem(item)">삭제하기</v-btn><br>
-                <v-btn class="reservationBtn" text @click="reservationItem(item)">예약하기</v-btn>
+                <v-btn class="reservationBtn" text @click="reservationItem(item)">바로예약</v-btn>
             </template>
         </v-data-table>
-        <v-btn class="selectedAction" @click="selectedDelete">선택상품삭제</v-btn>
+        <v-btn text class="selectedAction" @click="selectedDelete">선택상품삭제</v-btn>
     </v-container>
 </template>
 
 <script>
 import router from "@/router";
+import { mapActions } from 'vuex';
+
+const cartModule = 'cartModule'
 
 export default {
     name: "MyCartListForm",
@@ -50,13 +49,13 @@ export default {
                     sortable: false,
                     value: 'id',
                 },
-                { text: '상품번호', value: 'productId' },
+                // { text: '상품번호', value: 'productId' },
                 { text: '상품명', value: 'productName' },
-                { text: '옵션번호', value: 'optionId' },
+                // { text: '옵션번호', value: 'optionId' },
                 { text: '옵션명', value: 'optionName' },
                 { text: '체크인', value: 'checkInDate' },
                 { text: '체크아웃', value: 'checkOutDate' },
-                { text: '총 금액', value: 'payment'},
+                { text: '상품금액', value: 'payment'},
                 { text: '선택', value: 'actions', sortable: false },
             ],
             selectedItems: [],
@@ -66,8 +65,10 @@ export default {
         console.log('selected: ' + JSON.stringify(this.selectedItems))
     },
     methods: {
-        deleteItem (item){
+        ...mapActions(cartModule, ['requestDeleteCartItemListToSpring', 'requestDeleteListCartItemListToSpring']),
+        async deleteItem (item){
             console.log("삭제 원하는 상품: " + JSON.stringify(item))
+            await this.requestDeleteCartItemListToSpring(item.id);
         },
         reservationItem (item) {
             console.log("예약 원하는 상품: " + JSON.stringify(item))
@@ -85,8 +86,10 @@ export default {
             });
             localStorage.setItem("order", JSON.stringify(order))
         },
-        selectedDelete (){
+        async selectedDelete (){
             console.log("선택한 장바구니 상품: " + JSON.stringify(this.selectedItems))
+            const idList = this.selectedItems.flatMap(selectedItem => selectedItem.id);
+            await this.requestDeleteListCartItemListToSpring(idList);
         }
     }
 }
@@ -95,11 +98,20 @@ export default {
 <style scoped>
 .v-data-table {
     font-family: 'SUIT-Regular';
+    text-align: center;
 }
 .deleteBtn {
-    color: rgb(255, 105, 5);
+    color: rgb(255, 34, 5);
 }
 .reservationBtn {
     color: #73916A;
+}
+.selectedAction {
+    margin-top: -90px;
+    margin-left: 18px;
+    font-family: 'SUIT-Regular';
+    font-size: 14px;
+    background-color: black;
+    color: white;
 }
 </style>

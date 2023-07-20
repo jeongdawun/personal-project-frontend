@@ -14,7 +14,7 @@
                 </v-col>
             </v-row>
             <v-row no-gutters class="uesrInfo" v-if="this.roleType === 'NORMAL'">
-                <v-col cols="12" id="bookingTitle">
+                <v-col cols="2" id="bookingTitle">
                     <Strong>나의 예약 현황</Strong>
                 </v-col>
                 <v-col cols="2" id="status">
@@ -43,7 +43,7 @@
                 </v-col>
             </v-row>
             <v-row no-gutters class="uesrInfo" v-if="this.roleType === 'BUSINESS'">
-                <v-col cols="12" id="bookingTitle">
+                <v-col cols="2" id="bookingTitle">
                     <Strong>예약 리스트</Strong>
                 </v-col>
                 <v-col cols="2" id="status">
@@ -127,6 +127,7 @@ export default {
     font-weight: bold;
     padding-block: 20px;
     margin-top: 100px;
+    font-size: 32px;
 }
 .myPageheader h4 {
     font-family: 'SUIT-Regular';
@@ -135,7 +136,7 @@ export default {
     padding-block: 20px;
 }
 .info {
-    padding: 1%;
+    padding: 3%;
     text-align: center;
     justify-content: center !important;
 }
@@ -175,6 +176,7 @@ a {
     font-weight: bold;
     font-family: 'SUIT-Regular';
     text-align: center;
+    margin: auto;
 }
 #value {
     color: red; 
@@ -200,7 +202,11 @@ a {
 .reservationList {
     padding-top: 20px;
     padding-bottom: 100px;
-    width: 75%;
+    width: 70%;
+    margin: auto;
+}
+.myPageMenu {
+    width: 70%;
     margin: auto;
 }
 </style>
