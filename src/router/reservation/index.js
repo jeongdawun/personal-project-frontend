@@ -1,15 +1,22 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import MyReservationPage from '@/views/reservation/MyReservationPage.vue'
+import CreateReservationPage from '@/views/reservation/CreateReservationPage.vue'
+import MyReservationListPage from '@/views/reservation/MyReservationListPage.vue'
 
 Vue.use(VueRouter)
 
 const reservationRoutes = [
   {
     path: '/reservation',
-    name: 'MyReservationPage',
-    component: MyReservationPage,
+    name: 'CreateReservationPage',
+    component: CreateReservationPage,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/myReservation',
+    name: 'MyReservationListPage',
+    component: MyReservationListPage,
     meta: { requiresAuth: true }
   },
 ]

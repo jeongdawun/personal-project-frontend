@@ -10,7 +10,7 @@
                     <a href="/myProfilePage"><Strong>나의 정보 관리</Strong></a>
                 </v-col>
                 <v-col cols="6" id="menu">
-                    <a href="/myOrderPage"><Strong>나의 주문 내역</Strong></a>
+                    <a href="/myReservation"><Strong>나의 주문 내역</Strong></a>
                 </v-col>
             </v-row>
             <v-row no-gutters class="uesrInfo" v-if="this.roleType === 'NORMAL'">
