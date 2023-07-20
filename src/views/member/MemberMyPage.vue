@@ -64,15 +64,23 @@
                 </v-col>
             </v-row>
         </div>
+        <div class="reservationList">
+            <my-cart-list-form :cartItems="cartItems"/>
+        </div>
     </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
+import MyCartListForm from '@/components/cart/MyCartListForm.vue'
 
+const cartModule = 'cartModule'
 const reservationModule = 'reservationModule'
 
 export default {
+    components: {
+        MyCartListForm
+    },
     data () {
         return {
             email: '',
@@ -84,8 +92,12 @@ export default {
             CANCELLED: 0
         }
     },
+    computed: {
+        ...mapState(cartModule, ['cartItems']),
+    },
     methods: {
         ...mapActions(reservationModule, ['requestMemberInfoWithReservationStatusToSpring']),
+        ...mapActions(cartModule, ['requestCartItemListToSpring']),
     },
     async mounted() {
         this.response = await this.requestMemberInfoWithReservationStatusToSpring()
@@ -102,6 +114,9 @@ export default {
             alert("문제 발생")
         }
     },
+    async created(){
+        await this.requestCartItemListToSpring()
+    }
 }
 </script>
 
@@ -181,5 +196,11 @@ a {
     align-content: flex-end;
     align-items: flex-end;
     justify-content: center;
+}
+.reservationList {
+    padding-top: 20px;
+    padding-bottom: 100px;
+    width: 75%;
+    margin: auto;
 }
 </style>
