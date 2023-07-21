@@ -14,6 +14,7 @@
                 <v-toolbar-title>MY CART
                     <span class="mdi mdi-heart"></span>({{ cartItems.length }})</v-toolbar-title>
                 <v-spacer></v-spacer>
+                    <span v-if="$route.path === '/myPage'"><v-btn class="goToCompare" text @click="compareCartItems"># 비교하기</v-btn></span>
                 </v-toolbar>
                 <hr>
             </template>
@@ -23,6 +24,7 @@
             </template>
         </v-data-table>
         <v-btn text class="selectedAction" @click="selectedDelete">선택상품삭제</v-btn>
+        <v-btn text class="selectedAction" @click="compareProduct" v-if="$route.path === '/compare-products-by-tags'">비교하기</v-btn>
     </v-container>
 </template>
 
@@ -63,9 +65,11 @@ export default {
     },
     beforeUpdate () {
         console.log('selected: ' + JSON.stringify(this.selectedItems))
+        const selectedIds = this.selectedItems.map(item => item.id);
+        localStorage.setItem("selectedProductIds", JSON.stringify(selectedIds));
     },
     methods: {
-        ...mapActions(cartModule, ['requestDeleteCartItemListToSpring', 'requestDeleteListCartItemListToSpring']),
+        ...mapActions(cartModule, ['setIdList','requestDeleteCartItemListToSpring', 'requestDeleteListCartItemListToSpring', 'requestCartItemListForCompareToSpring']),
         async deleteItem (item){
             console.log("삭제 원하는 상품: " + JSON.stringify(item))
             await this.requestDeleteCartItemListToSpring(item.id);
@@ -90,6 +94,16 @@ export default {
             console.log("선택한 장바구니 상품: " + JSON.stringify(this.selectedItems))
             const idList = this.selectedItems.flatMap(selectedItem => selectedItem.id);
             await this.requestDeleteListCartItemListToSpring(idList);
+        },
+        async compareProduct () {
+            const idList = JSON.parse(localStorage.getItem("selectedProductIds"));
+            console.log("선택한 장바구니 상품 id: " + idList)
+            await this.requestCartItemListForCompareToSpring(idList)
+        },
+        compareCartItems () {
+            router.push({
+                name: 'ComparePageWithTags',
+            });
         }
     }
 }
@@ -107,7 +121,7 @@ export default {
     color: #73916A;
 }
 .selectedAction {
-    margin-top: -90px;
+    margin-top: -80px;
     margin-left: 18px;
     font-family: 'SUIT-Regular';
     font-size: 14px;
