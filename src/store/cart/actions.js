@@ -1,3 +1,4 @@
+import router from '@/router'
 import {
     REQUEST_CART_LIST_TO_SPRING,
     REQUEST_CART_ITEM_ID_LIST_TO_SPRING 
@@ -6,6 +7,17 @@ import {
 import axiosInst from '@/utility/axiosInst'
 
 export default {
+    addCartToSpring ({ }, payload) {
+        const { productId, productOptionId, checkInDate, checkOutDate, amount } = payload
+        return axiosInst.post('/cart/add', {productId, productOptionId, checkInDate, checkOutDate, amount})
+            .then((res) => {
+                if(res.data != null) {
+                    router.push('/mycart')
+                } else {
+                    alert("조회 실패")
+                }
+            })
+    },
     requestCartItemListToSpring ({ commit }) {
         return axiosInst.get('/cart/myCart')
             .then((res) => {
