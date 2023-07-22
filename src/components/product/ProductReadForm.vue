@@ -143,7 +143,7 @@ export default {
         ...mapActions(productModule, ['requestStockToSpring']),
         ...mapActions(cartModule, ['addCartToSpring']),
         getImage(imageName) {
-            //return`https://vue-s3-test-3737.s3.ap-northeast-2.amazonaws.com/${imageName}`;
+            return`https://vue-s3-test-3737.s3.ap-northeast-2.amazonaws.com/${imageName}`;
         },
         async chkStock() {
             this.id = this.product.id
