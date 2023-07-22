@@ -1,19 +1,17 @@
 <template>
   <v-app>
-    <v-main>
-      <NavigationMenu/>
-      <router-view/>
-      <div class="footer">
-          <FooterPage/>
-        </div>
+    <NavigationMenu/>
+    <v-main class="main">
+      <router-view />
     </v-main>
+    <FooterPage/>
   </v-app>
 </template>
-
 
 <script>
 import NavigationMenu from './views/navigation/NavigationMenu.vue'
 import FooterPage from './views/footer/FooterPage.vue'
+
 export default {
   components: {
     NavigationMenu,
@@ -21,8 +19,10 @@ export default {
   }
 }
 </script>
-<style scoped>
-.footer {
-  padding-top: 160px
+
+<style>
+.main {
+  height: auto;
+  min-height: 100%;
 }
 </style>

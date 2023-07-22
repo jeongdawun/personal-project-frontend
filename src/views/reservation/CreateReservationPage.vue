@@ -1,8 +1,8 @@
 <template lang="">
-    <div>  
-        <div class="myProfileMenu">
+    <v-container class="container">
+        <!-- <div class="myProfileMenu"> -->
             <h2>예약하기</h2>
-            <form>
+            <v-form>
                 <Strong>상품 정보</Strong>
                 <div class="infoBox">
                     <v-text-field :value="order.productName" label="상품명"></v-text-field>
@@ -19,7 +19,7 @@
                     <v-text-field v-model="bookingNotes" label="기타 요청사항을 입력하세요."></v-text-field>
                 </div>      
 
-                <v-row align="center" justify="center">
+                <v-row no-gutters align="center" justify="center">
                     <v-col cols="auto">
                         <v-btn class="submitBtn" color="black" elevation="0" @click="reservation">예약 및 결제하기</v-btn>
                     </v-col>
@@ -27,9 +27,9 @@
                         <v-btn class="clearBtn" elevation="0" @click="clear">취소</v-btn>
                     </v-col>
                 </v-row>
-            </form>
-        </div>
-    </div>
+            </v-form>
+        <!-- </div> -->
+    </v-container>
 </template>
 
 <script>
@@ -79,6 +79,11 @@ export default {
 </script>
 
 <style scoped>
+.container {
+    width: 80%;
+    margin-top: 100px;
+    margin-bottom: 300px;
+}
 .myProfileMenu {
     padding-top: 100px;
 }
