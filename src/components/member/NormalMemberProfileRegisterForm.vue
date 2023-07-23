@@ -1,41 +1,35 @@
 <template lang="">
-    <div>  
-        <div class="myProfileMenu">
-            <h2>회원 정보 수정</h2>
-            <!-- <hr class="profileFormTopLine"> -->
-            <form>
-                <Strong>기본정보</Strong>
-                <div class="infoBox">
-                    <v-text-field v-model="email" label="이메일" filled readonly disabled></v-text-field>
-                    <a href="/withdraw">
-                        <span class="withdraw">회원탈퇴 ></span>
-                    </a>
-                </div>
-
-                <Strong>추가정보</Strong>
-                <div class="infoBox">
-                    <v-text-field v-model="name" label="실명" color="red"></v-text-field>       
-                    <v-text-field v-model="contactNumber" label="연락처" color="red"></v-text-field>       
-                    <v-text-field v-model="nickName" label="닉네임" color="red"></v-text-field>  
-                    <div class="checkNickNameInfo">
-                        <v-btn class="checkValue" @click="checkNickName">중복확인</v-btn>
-                        <span>{{ guide }}</span>
-                    </div>
-                    <v-text-field v-model="birthday" label="생일" color="red"></v-text-field>
-                </div>      
-
-                <v-row align="center" justify="center">
-                    <v-col cols="auto">
-                        <v-btn class="submitBtn" color="black" elevation="0" @click="onSubmit">수정하기</v-btn>
-                    </v-col>
-                    <v-col cols="auto">
-                        <v-btn class="clearBtn" elevation="0" @click="clear">취소</v-btn>
-                    </v-col>
-                </v-row>
-            </form>
-            <!-- <hr class="profileFormBottomLine"> -->
+    <v-container class="myProfileMenu">  
+        <h2>회원 정보 수정</h2>
+        <Strong>기본정보</Strong>
+        <div class="infoBox">
+            <v-text-field v-model="email" label="이메일" filled readonly disabled></v-text-field>
+            <a href="/withdraw">
+                <span class="withdraw">회원탈퇴 ></span>
+            </a>
         </div>
-    </div>
+
+        <Strong>추가정보</Strong>
+        <div class="infoBox">
+            <v-text-field v-model="name" label="실명" color="red"></v-text-field>       
+            <v-text-field v-model="contactNumber" label="연락처" color="red"></v-text-field>       
+            <v-text-field v-model="nickName" label="닉네임" color="red"></v-text-field>  
+            <div class="checkNickNameInfo">
+                <v-btn class="checkValue" @click="checkNickName">중복확인</v-btn>
+                <span>{{ guide }}</span>
+            </div>
+            <v-text-field v-model="birthday" label="생일" color="red"></v-text-field>
+        </div>      
+
+        <v-row no-gutters align="center" justify="center">
+            <v-col cols="auto">
+                <v-btn class="submitBtn" color="black" elevation="0" @click="onSubmit">수정하기</v-btn>
+            </v-col>
+            <v-col cols="auto">
+                <v-btn class="clearBtn" elevation="0" @click="clear">취소</v-btn>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
@@ -105,6 +99,7 @@ export default {
 @import "../../assets/styles/fonts.css";
 .myProfileMenu {
     padding-top: 100px;
+    width: 50%;
 }
 h2{
     text-align: center;
@@ -113,26 +108,6 @@ h2{
     font-size: 38px;
     padding-top: 20px;
     padding-bottom: 20px;
-}
-.profileFormTopLine {
-    width: 40%;
-    margin: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-.profileFormBottomLine {
-    width: 40%;
-    margin: auto;
-    margin-top: 160px;
-}
-form {
-    width: 60%;
-    height: 400px;
-    margin: auto;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    font-family: 'SUIT-Regular';
-    font-weight: 100;
 }
 span {
     padding-left: 10px;
@@ -148,7 +123,6 @@ span {
     width: 200px;
     min-height: 60px;
     margin-top: 40px;
-    margin-bottom: 80px;
     color: white;
     font-family: 'SUIT-Regular';
     font-size: 18px;
@@ -161,7 +135,6 @@ span {
     width: 200px;
     min-height: 60px;
     margin-top: 40px;
-    margin-bottom: 80px;
     font-family: 'SUIT-Regular';
     font-size: 18px;
     font-weight: 200;
