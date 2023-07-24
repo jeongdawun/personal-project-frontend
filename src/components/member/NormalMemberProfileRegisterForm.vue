@@ -1,35 +1,46 @@
 <template lang="">
+    <div class="out-container">
     <v-container class="myProfileMenu">  
-        <h2>회원 정보 수정</h2>
-        <Strong>기본정보</Strong>
+        <h2>MY PROFILE</h2>
         <div class="infoBox">
-            <v-text-field v-model="email" label="이메일" filled readonly disabled></v-text-field>
+            <span>이메일</span>
+            <div class="box"><input v-model="email" readonly disabled></input></div>
             <a href="/withdraw">
                 <span class="withdraw">회원탈퇴 ></span>
             </a>
         </div>
 
-        <Strong>추가정보</Strong>
         <div class="infoBox">
-            <v-text-field v-model="name" label="실명" color="red"></v-text-field>       
-            <v-text-field v-model="contactNumber" label="연락처" color="red"></v-text-field>       
-            <v-text-field v-model="nickName" label="닉네임" color="red"></v-text-field>  
-            <div class="checkNickNameInfo">
-                <v-btn class="checkValue" @click="checkNickName">중복확인</v-btn>
-                <span>{{ guide }}</span>
-            </div>
-            <v-text-field v-model="birthday" label="생일" color="red"></v-text-field>
+            <span>닉네임</span>
+            <v-row no-gutters justify="center">  
+                <v-col cols="12">
+                    <div class="box"><input v-model="nickName"></input></div>
+                </v-col>
+                <v-col cols="12">
+                    <div class="checkNickNameInfo">
+                        <v-btn class="checkValue" small elevation="0" color="#FF5140" @click="checkNickName">중복확인</v-btn>
+                        <span>{{ guide }}</span>
+                    </div>
+                </v-col>
+            </v-row>
+            <span>이름</span>
+            <div class="box"><input dense v-model="name"></input></div>
+            <span>연락처</span>    
+            <div class="box"><input v-model="contactNumber"></input></div>
+            <span>생일</span>
+            <div class="box"><input v-model="birthday"></input></div>
         </div>      
 
         <v-row no-gutters align="center" justify="center">
             <v-col cols="auto">
-                <v-btn class="submitBtn" color="black" elevation="0" @click="onSubmit">수정하기</v-btn>
+                <v-btn class="submitBtn" color="#282F33" elevation="0" @click="onSubmit">저장하기</v-btn>
             </v-col>
-            <v-col cols="auto">
-                <v-btn class="clearBtn" elevation="0" @click="clear">취소</v-btn>
-            </v-col>
+                <v-col cols="auto">
+                    <v-btn class="clearBtn" elevation="0" @click="clear">취소</v-btn>
+                </v-col>
         </v-row>
     </v-container>
+</div>
 </template>
 
 <script>
@@ -98,46 +109,76 @@ export default {
 <style scoped>
 @import "../../assets/styles/fonts.css";
 .myProfileMenu {
-    padding-top: 100px;
-    width: 50%;
-}
-h2{
-    text-align: center;
+    width: 30%;
     font-family: 'SUIT-Regular';
-    font-weight: 200;
-    font-size: 38px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    background-color: white;
+    padding: 1%;
+    height: 900px;
 }
-span {
+.box {
+    background-color: rgb(247, 247, 247);
+    border-radius: 12px;
+    padding: 2%;
+    margin-left: 1%;
+    margin-bottom: 6px;
+}
+.out-container {
+    background-color: rgb(250, 250, 250);
+    height: 900px;
+}
+.checkNickNameInfo span {
+    font-weight: 100;
+}
+.box input {
+    outline: none;
+    width: 100%;
     padding-left: 10px;
     font-size: 14px;
-    color: red;
+    color: #282F33;
+}
+h2{
+    font-family: 'SUIT-Regular';
+    text-align: center;
+    font-weight: bold;
+    padding-block: 20px;
+    margin-top: 70px;
+    font-size: 32px;
+    color: #282F33;
+}
+span {
+    font-size: 13px;
+    padding-left: 10px;
+    font-weight: 600;
+    color: #616568;
 }
 .checkValue {
-    border-radius: 10px;
-    font-size: 14px;
-    padding: 2px 10px 1px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 8px;
+    color: rgb(255, 255, 255);
+    margin-bottom: 8px;
 }
 .submitBtn {
-    width: 200px;
-    min-height: 60px;
+    width: 160px;
+    min-height: 40px;
     margin-top: 40px;
     color: white;
     font-family: 'SUIT-Regular';
-    font-size: 18px;
+    font-size: 13px;
     font-weight: 200;
-}
-.checkNickNameInfo {
-    margin-top: 10px;
+    margin-left: 6px;
+    margin-right: 6px;
 }
 .clearBtn {
-    width: 200px;
-    min-height: 60px;
+    width: 160px;
+    min-height: 40px;
     margin-top: 40px;
     font-family: 'SUIT-Regular';
-    font-size: 18px;
+    font-size: 13px;
     font-weight: 200;
+    margin-left: 6px;
+    margin-right: 6px;
 }
 Strong {
     font-size: 24px;
@@ -145,16 +186,17 @@ Strong {
     font-weight: 600;
 }
 .infoBox {
-    padding-bottom: 40px;
-    padding-top: 10px;
+    padding-bottom: 20px;
+    padding-top: 20px;
 }
 .withdraw {
     font-family: 'SUIT-Regular';
     font-weight: 200;
-    font-size: 14px;
+    font-size: 12px;
     text-decoration: none;
     color: #535353;
     display: inline-block;
     white-space: nowrap;
+    padding-left: 10px;
 }
 </style>

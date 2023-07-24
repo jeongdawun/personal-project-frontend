@@ -1,42 +1,50 @@
 <template lang="">
+    <div class="out-container">
     <v-container class="mySellerInfoMenu">
-        <h2>파트너 정보 수정</h2>
-        <Strong>기본정보</Strong>
+        <h2>SELLER INFO</h2>
         <div class="infoBox">
-            <v-text-field v-model="email" label="이메일" filled readonly disabled></v-text-field>
-            <v-text-field v-model="businessNumber" label="사업자 번호" filled readonly disabled></v-text-field>
-            <v-text-field v-model="businessName" label="사업장명" filled readonly disabled></v-text-field>
+            <span>이메일<Strong> *</Strong></span>
+            <div class="box"><input v-model="email" readonly disabled></input></div>
+            <span>사업자번호<Strong> *</Strong></span>
+            <div class="box"><input v-model="businessNumber" readonly disabled></input></div>
+            <span>사업장명<Strong> *</Strong></span>
+            <div class="box"><input v-model="businessName" readonly disabled></input></div>
+            <span id="guide"><Strong> * </Strong>항목은 변경이 불가합니다.</span>
         </div>
         
-        <Strong>추가정보</Strong>
         <div class="infoBox">
-            <v-text-field v-model="address" id="address" label="사업장 소재지" readonly></v-text-field>
-
-            <v-btn class="serchBtn" @click="postOpen">주소검색</v-btn>
-
-            <v-text-field v-model="city" id="city" label="도시" readonly></v-text-field>
-            <v-text-field v-model="street" id="street" label="도로명" readonly></v-text-field>
-            <v-text-field v-model="addressDetail" id="addressDetail" label="상세주소" color="red"></v-text-field>
-            <v-text-field v-model="zipcode" id="zipcode" label="우편번호"></v-text-field>
-
-            <v-text-field v-model="contactNumber" label="고객센터 연락처" color="red"></v-text-field>      
+            <span>사업장 소재지</span>
+            <v-row no-gutters justify="center">  
+                <v-col cols="12">
+                    <div class="box"><input v-model="address" id="address" readonly></input></div>
+                </v-col>
+                <v-col cols="12">
+                    <div>
+                        <v-btn class="serchBtn" small elevation="0" color="#72ADEE" @click="postOpen">주소검색</v-btn>
+                    </div>
+                </v-col>
+            </v-row>
+            <span>고객센터 연락처</span>
+            <div class="box"><input v-model="contactNumber" ></input></div>
         </div> 
         
-        <Strong>정산정보</Strong>
         <div class="infoBox">
-            <v-text-field v-model="bank" label="은행" color="red"></v-text-field>       
-            <v-text-field v-model="accountNumber" label="계좌번호" color="red"></v-text-field>     
+            <span>은행</span>
+            <div class="box"><input v-model="bank" ></input></div>
+            <span>계좌번호</span>    
+            <div class="box"><input v-model="accountNumber" ></input></div>
         </div>
 
         <v-row no-gutters align="center" justify="center">
             <v-col cols="auto">
-                <v-btn class="submitBtn" color="black" elevation="0" @click="onSubmit">수정하기</v-btn>
+                <v-btn class="submitBtn" color="#282F33" elevation="0" @click="onSubmit">저장하기</v-btn>
             </v-col>
             <v-col cols="auto">
                 <v-btn class="clearBtn" elevation="0" @click="clear">취소</v-btn>
             </v-col>
         </v-row>
     </v-container>
+</div>
 </template>
 
 <script>
@@ -90,10 +98,6 @@ export default {
                 vm.addressDetail = data.buildingName;
                 vm.zipcode = data.zonecode;
                 document.getElementById("address").value = data.address;
-                document.getElementById("city").value = data.sido + data.sigungu;
-                document.getElementById("street").value = data.roadname;
-                document.getElementById("addressDetail").value = data.buildingName;
-                document.getElementById("zipcode").value = data.zonecode;
         }
         }).open();
       }
@@ -102,7 +106,11 @@ export default {
         this.sellerInfo = await this.requestAuthorizeForSellerInfoToSpring()
         console.log("가져온 정보: " + JSON.stringify(this.sellerInfo))
 
-        this.address = this.sellerInfo.city + " " + this.sellerInfo.street + " " + this.sellerInfo.addressDetail + " " + this.sellerInfo.zipcode
+        if(this.sellerInfo.city == null && this.sellerInfo.street == null && this.sellerInfo.addressDetail == null && this.sellerInfo.zipcode == null) {
+            this.address = "";
+        } else {
+            this.address = this.sellerInfo.city + " " + this.sellerInfo.street + " " + this.sellerInfo.addressDetail + " " + this.sellerInfo.zipcode
+        }
         this.city = this.sellerInfo.city
         this.street = this.sellerInfo.street
         this.addressDetail = this.sellerInfo.addressDetail
@@ -121,36 +129,72 @@ export default {
 <style scoped>
 @import "../../assets/styles/fonts.css";
 .mySellerInfoMenu {
-    padding-top: 100px;
-    width: 50%;
+    width: 30%;
+    font-family: 'SUIT-Regular';
+    background-color: white;
+    padding: 1%;
+    height: 1060px;
+}
+.box {
+    background-color: rgb(247, 247, 247);
+    border-radius: 12px;
+    padding: 2%;
+    margin-left: 1%;
+    margin-bottom: 6px;
+}
+.out-container {
+    background-color: rgb(250, 250, 250);
+    height: 1060px;
+}
+.box input {
+    outline: none;
+    width: 100%;
+    padding-left: 10px;
+    font-size: 14px;
 }
 h2{
-    text-align: center;
     font-family: 'SUIT-Regular';
-    font-weight: 200;
-    font-size: 38px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+    padding-block: 20px;
+    margin-top: 70px;
+    font-size: 32px;
+    color: #282F33;
+}
+span {
+    font-size: 13px;
+    padding-left: 10px;
+    font-weight: 600;
+    color: #616568;
 }
 .submitBtn {
-    width: 200px;
-    min-height: 60px;
+    width: 160px;
+    min-height: 40px;
     margin-top: 40px;
     color: white;
     font-family: 'SUIT-Regular';
-    font-size: 18px;
+    font-size: 13px;
     font-weight: 200;
+    margin-left: 6px;
+    margin-right: 6px;
 }
 .clearBtn {
-    width: 200px;
-    min-height: 60px;
+    width: 160px;
+    min-height: 40px;
     margin-top: 40px;
     font-family: 'SUIT-Regular';
-    font-size: 18px;
+    font-size: 13px;
     font-weight: 200;
+    margin-left: 6px;
+    margin-right: 6px;
 }
 .serchBtn {
-    margin-bottom: 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 8px;
+    color: rgb(255, 255, 255);
+    margin-bottom: 8px;
 }
 Strong {
     font-size: 24px;
@@ -158,7 +202,15 @@ Strong {
     font-weight: 600;
 }
 .infoBox {
-    padding-bottom: 40px;
-    padding-top: 10px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+.infoBox Strong{
+    font-size: 14px;
+    color: #FF5140;
+}
+#guide {
+    font-size: 12px;
+    font-weight: 100;
 }
 </style>

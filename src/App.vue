@@ -1,7 +1,15 @@
 <template>
   <v-app>
     <NavigationMenu/>
-    <v-main class="main">
+    <v-main class="main" 
+      v-if="$route.name !== 'NormalMemberProfileRegisterPage' && 
+            $route.name !== 'BusinessMemberSellerInfoRegisterPage' && 
+            $route.name !== 'NormalMemberSignupPage' &&
+            $route.name !== 'BusinessMemberSignupPage'"
+    >
+      <router-view />
+    </v-main>
+    <v-main v-else>
       <router-view />
     </v-main>
     <FooterPage/>
@@ -23,6 +31,9 @@ export default {
 <style>
 .main {
   height: auto;
+  min-height: 100%;
+}
+[v-cloak] .main {
   min-height: 100%;
 }
 </style>

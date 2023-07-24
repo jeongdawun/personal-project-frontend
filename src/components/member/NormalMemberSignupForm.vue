@@ -1,61 +1,70 @@
 <template lang="">
-    <div>  
-        <div class="signupForm">
-            <h2>회원가입</h2>
-            <!-- <hr class="signupFormTopLine"> -->
-            <form>
-                <v-text-field v-model="email" label="이메일" :rules="email_rule" color="red" required></v-text-field>  
-                <div class="checkEmailInfo">
-                    <v-btn class="checkValue" @click="checkEmail">중복확인</v-btn>
-                    <span>{{ guideemail }}</span>
+    <div class="out-container">
+        <v-container class="signupForm">  
+            <h2>JOIN US</h2>
+            <div class="infoBox">
+                <span>이메일</span>
+                <div class="box">
+                    <v-text-field filled rounded dense v-model="email" 
+                        single-line 
+                        :rules="email_rule" 
+                        hide-details="auto"
+                        required>
+                    </v-text-field>
+                    <v-row no-gutters justify="center">  
+                        <v-col cols="12">
+                            <v-btn class="checkValue" small elevation="0" color="#FF5140" @click="checkEmail">중복확인</v-btn>
+                            <span class="detailguide">{{ guideemail }}</span>
+                        </v-col>
+                        <v-col cols="12">
+                            <v-btn class="checkValue" small elevation="0" color="#FF5140" @click="sendEmail">인증하기</v-btn>
+                            <span class="detailguide">{{ guidecode }}</span>
+                            <input type="number" id="inputCode" v-model="inputAuthCode">
+                        </v-col>
+                    </v-row>
                 </div>
-
-                <div class="checkEmailInfo">
-                    <v-btn class="checkValue" @click="sendEmail">인증하기</v-btn>
-                    <span>{{ guidecode }}</span>
-                    <input type="text" id="inputCode" v-model="inputAuthCode">
-                    <!-- <v-btn class="checkValue" @click="checkCode">확인</v-btn> -->
-                </div>
-
-                <v-text-field v-model="password" label="비밀번호" 
-                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                :rules="password_rule"
-                :type="show1 ? 'text' : 'password'"
-                @click:append="show1 = !show1"
-                color="red"></v-text-field>
-                    <span class="guide">{{ guidepassword }}</span>
-
-                <v-text-field v-model="passwordCheck" label="비밀번호 확인" 
-                :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="show2 ? 'text' : 'password'"
-                @click:append="show2 = !show2"
-                color="red"></v-text-field>
-                    <span class="guide">{{ guidepasswordcheck }}</span>       
-
-                <v-row align="center" justify="center">
-                    <v-col cols="auto">
-                        <v-btn class="submitBtn" color="black" elevation="0" @click="onSubmit">가입</v-btn>
-                    </v-col>
-                    <v-col cols="auto">
-                        <v-btn class="clearBtn" elevation="0" @click="clear">취소</v-btn>
-                    </v-col>
-                </v-row>
-            </form>
-
-            <div class="snsForm">
-            <v-row align="center" justify="center">
-                <v-col cols="auto" id="SNS">
-                    카카오 1초 회원가입
-                </v-col>
-            </v-row>
             </div>
-            <!-- <hr class="signupFormBottomLine"> -->
-        </div>
+
+            <div class="infoBox">
+                <span>비밀번호</span>
+                <div class="box">
+                    <v-text-field filled rounded dense single-line v-model="password"
+                        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                        :rules="password_rule"
+                        :type="show1 ? 'text' : 'password'"
+                        @click:append="show1 = !show1"
+                        hide-details="auto"
+                        color="red">
+                    </v-text-field>
+                    <p class="detailguide">* 숫자, 영문(대문자 혹은 소문자) 포함</p>
+                    <p class="detailguide">* 8자리 이상</p>
+                    <span class="guide">{{ guidepassword }}</span>
+                </div>
+                
+            <div class="infoBox">
+                <span>비밀번호 확인</span>
+                <div class="box">
+                    <v-text-field filled rounded dense single-line v-model="passwordCheck"
+                        :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                        :type="show2 ? 'text' : 'password'"
+                        @click:append="show2 = !show2"
+                        color="red">
+                    </v-text-field>    
+                </div>
+            </div>
+                <div class="box">
+                    <v-row align="center" justify="center">
+                        <v-col cols="12">
+                            <v-btn class="submitBtn" color="#282F33" elevation="0" @click="onSubmit">가입하기</v-btn>
+                        </v-col>
+                    </v-row>
+                </div>
+            </div>
+        </v-container>
     </div>
 </template>
 
 <script>
-import router from '@/router'
 import { mapActions } from 'vuex'
 
 const memberModule = 'memberModule'
@@ -63,10 +72,9 @@ const memberModule = 'memberModule'
 export default {
     data () {
         return {
-            guideemail: '중복 확인이 필요합니다.',
-            guidecode: '입력: ',
+            guideemail: '이메일 중복 확인이 필요합니다.',
+            guidecode: '인증코드: ',
             guidepassword: '',
-            guidepasswordcheck: '',
 
             email: '',
             password: '',
@@ -93,9 +101,8 @@ export default {
             password_rule: [
                 v => {
                     const replaceV = v.replace(/(\s*)/g, '')
-                    // const pattern = /^[0-9a-zA-Z](?=.*?[#?!@$%^&*-])(?=.*?[0-9])(?=.*?[A-Z]).{8,}$/
                     const pattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
-                    return pattern.test(replaceV) || '숫자, 영문(대문자 혹은 소문자) 포함 8자리 이상'
+                    return pattern.test(replaceV) || '올바른 비밀번호 형식으로 입력해주세요!'
                 }
             ]
         }
@@ -103,161 +110,150 @@ export default {
     methods: {
         ...mapActions(memberModule, ['requestCheckEmailDuplicate', 'requestAuthorizeEmailToSpring']),
         onSubmit () {
-            if(this.email == '') {
-                this.guideemail = "이메일은 필수 항목입니다."
-            }
-            if(this.password == '') {
-                this.guidepassword = "비밀번호는 필수 항목입니다."
-            }
-            if(this.passwordCheck == '') {
-                this.guidepasswordcheck = "비밀번호를 한 번 더 입력 후 확인해주세요."
-            }
-            if(this.passwordCheck == '') {
-                this.guidepasswordcheck = "비밀번호를 한 번 더 입력 후 확인해주세요."
+            if (this.email === '' || this.password === '' || this.passwordCheck === '') {
+                alert('모든 필수 항목을 입력해주세요.')
+                return
             }
 
-            this.checkPassword()
-            const emailValid = this.email_rule.every(rule => rule(this.email) === true);
-            const passwordValid = this.password_rule.every(rule => rule(this.password) === true);
+            if(!this.checkCode ()) {
+                return
+            }
 
-            if(this.checkPasswordValid == true && this.emailDuplicate == false && this.email != null  && this.password != null && this.checkEmailAuthorize == false && emailValid && passwordValid) {
+            if(!this.checkPassword ()) {
+                return
+            }
+
+            if(!this.emailDuplicate && this.checkEmailDuplicate && this.checkEmailAuthorize) {
                 const { email, password, roleType } = this
                 this.$emit('submit', { email, password, roleType })
-            } else if (this.emailDuplicate == true && this.checkEmailDuplicate == true) {
+            } else if (this.emailDuplicate && this.checkEmailDuplicate) {
                 alert("중복된 이메일입니다.")
-            } else if (this.checkEmailDuplicate == false ) {
+            } else if (!this.checkEmailDuplicate) {
                 alert("이메일 중복 여부를 확인하세요.")
-            } else if (!passwordValid) {
-                alert("비밀번호 형식을 확인해주세요.")
-            } else if (!emailValid) {
-                alert("이메일 형식을 확인해주세요.")
             }
-            
-            // 인증은 일단 보류, 테스트하면서 매번 인증해야 해서 번거롭다 -> 시현할 때 설정 예정
-            // else if (this.checkEmailAuthorize == false ) {
-            //     alert("이메일 인증이 필요합니다.")
-            // }
         },
         checkPassword() {
-            if(this.password === this.passwordCheck) {
-                this.checkPasswordValid = true
+            this.passwordValid = this.password_rule.every(rule => rule(this.password) === true);
+            if(this.passwordValid) {
+                if(this.password === this.passwordCheck) {
+                    return true
+                } else {
+                    return false
+                }
             } else {
-                this.checkPasswordValid = false
-                alert('비밀번호가 일치하지 않습니다.')
+                alert("비밀번호를 확인해주세요.")
+                return false
             }
         },
-        clear () {
-            router.push('/')
-        },
         async checkEmail () {
-            this.emailDuplicate = await this.requestCheckEmailDuplicate({email: this.email})
-            if(this.emailDuplicate == false) {
-                this.guideemail = "확인이 완료되었습니다."
-                this.checkEmailDuplicate = true;
-            } else {
-                this.guideemail = "중복된 이메일입니다."
-                this.checkEmailDuplicate = true;
+            this.emailValid = this.email_rule.every(rule => rule(this.email) === true);
+            if(this.emailValid) {
+                this.emailDuplicate = await this.requestCheckEmailDuplicate({email: this.email})
+                if(!this.emailDuplicate) {
+                    this.guideemail = "확인이 완료되었습니다."
+                    this.checkEmailDuplicate = true;
+                } else {
+                    this.guideemail = "중복된 이메일입니다."
+                    this.checkEmailDuplicate = true;
+                }
             }
         },
         async sendEmail () {
             this.authCode = await this.requestAuthorizeEmailToSpring({email: this.email})
         },
         checkCode () {
-            if(this.inputAuthCode == this.authCode) {
-                alert("인증완료")
-                this.checkEmailAuthorize = true
-            } else {
+            if(parseInt(this.inputAuthCode) === 0 || this.authCode === 0) {
                 alert("인증되지 않은 이메일입니다.")
+                return false
+            } 
+            if(parseInt(this.inputAuthCode) != this.authCode) {
+                alert("잘못된 인증번호입니다.")
+                return false
             }
-        }
+            else if(parseInt(this.inputAuthCode) === this.authCode) {
+                this.checkEmailAuthorize = true
+                return true
+            } 
+        },
     },
 }
 </script>
 
 <style scoped>
 @import "../../assets/styles/fonts.css";
+.out-container {
+    background-color: rgb(250, 250, 250);
+    height: 900px;
+}
 .signupForm {
-    padding-top: 100px;
+    width: 30%;
+    font-family: 'SUIT-Regular';
+    background-color: white;
+    padding: 1%;
+    height: 900px;
+}
+.infoBox {
+    padding-bottom: 10px;
+    padding-top: 20px;
+}
+.box {
+    border-radius: 12px;
+    padding: 1% 2% 2% 2%;
+    margin-left: 1%;
+    margin-bottom: 6px;
+}
+.detailguide {
+    font-size: 12px;
+    font-weight: 100;
+    color: #282F33;
+    padding-left: 10px;
+    margin-top: 8px;
+    margin-bottom: 6px;
 }
 h2{
+    font-family: 'SUIT-Regular';
     text-align: center;
-    font-family: 'SUIT-Regular';
-    font-weight: 200;
-    font-size: 38px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-.signupFormTopLine {
-    width: 40%;
-    margin: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-.signupFormBottomLine {
-    width: 40%;
-    margin: auto;
-    margin-top: 80px;
-}
-form {
-    width: 60%;
-    height: 400px;
-    margin: auto;
-    padding-top: 20px;
-    padding-bottom: 40px;
-    font-family: 'SUIT-Regular';
-    font-weight: 100;
+    font-weight: bold;
+    padding-block: 20px;
+    margin-top: 70px;
+    font-size: 32px;
+    color: #282F33;
 }
 span {
-    padding-left: 10px;
-    font-size: 14px;
-    color: red;
+    font-size: 13px;
+    font-weight: 600;
+    padding-left: 20px;
+    color: #282F33;
+}
+.guide {
+    padding: 0;
 }
 .checkValue {
-    border-radius: 10px;
-    font-size: 14px;
-    padding: 2px 10px 1px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 100;
+    color: rgb(255, 255, 255);
+    margin-top: 8px;
+    margin-left: 8px;
+    margin-bottom: 6px;
 }
 .submitBtn {
-    width: 200px;
-    min-height: 60px;
-    margin-top: 40px;
-    margin-bottom: 80px;
+    width: 100%;
+    min-height: 40px;
     color: white;
     font-family: 'SUIT-Regular';
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 200;
-}
-.clearBtn {
-    width: 200px;
-    min-height: 60px;
-    margin-top: 40px;
-    margin-bottom: 80px;
-    font-family: 'SUIT-Regular';
-    font-size: 18px;
-    font-weight: 200;
-}
-#SNS {
-    font-size: 18px;
-    font-family: 'SUIT-Regular';
-    font-weight: 400;
-    color: rgb(255, 255, 255);
-}
-.checkEmailInfo {
     margin-top: 10px;
-}
-.snsForm {
-    margin-top: 120px;
-    height: 40px;
-    background-color: rgb(0, 0, 0);
-    text-align: center;
-    display: flex;
+    margin-left: 6px;
+    margin-right: 6px;
+    border-radius: 33px;
 }
 #inputCode{
     margin-right: 10px;
-    width: 310px;
     border: none;
     outline: none;
     border-bottom: 1px solid rgb(122, 122, 122);
-    width: 100px;
+    width: 20%;
 }
 </style>
