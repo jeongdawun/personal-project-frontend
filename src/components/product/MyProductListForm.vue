@@ -11,7 +11,7 @@
         <v-expansion-panel-content>
             <v-text-field :value="product.category" label="카테고리" disabled></v-text-field>
             <v-text-field :value="product.productName" label="상품명" disabled></v-text-field>
-            <v-textarea :value="product.productDetails" label="상세내용"></v-textarea>
+            <v-textarea v-model="product.productDetails" label="상세내용"></v-textarea>
         </v-expansion-panel-content>
         </v-expansion-panel>
 
@@ -24,9 +24,17 @@
                 </v-col>
                 <v-col v-for="(image, index) in product.productImageNameList" :key="index" cols="12">
                     상세 이미지 {{index + 1}}<v-img width="auto" height="600" :src="product.productImageNameList ? getImage(image) : ''"></v-img>
+                    <v-btn @click="deleteAwsS3File(image)" color="primary" text icon>x</v-btn>
                 </v-col>
             </v-row>
-            <v-file-input multiple truncate-length="15"></v-file-input>
+            <v-file-input
+                    chips
+                    v-model="detailsFiles"
+                    label="상세 이미지 업로드"
+                    accept="image/*"
+                    multiple
+                    @change="handleFileUpload"
+                    ></v-file-input>
         </v-expansion-panel-content>
         </v-expansion-panel>
 
@@ -59,10 +67,13 @@
     <a @click="deleteProduct">
         <span class="delete">상품 삭제하기 ></span>
     </a>
+    <v-btn @click="onModify">수정하기</v-btn>
     </v-container>
 </template>
 
 <script>
+import AWS from 'aws-sdk'
+import env from '../../env'
 import { mapActions } from 'vuex';
 
 const productModule = 'productModule'
@@ -80,10 +91,28 @@ export default {
             id: 0,
             panel: [0],
             disabled: false,
+            productDetails: '',
+            dateList: [],
+            campsiteVacancyList: [],
+            imageNameList: [],
+            optionNameList: [],
+            optionPriceList: [],
+            optionModifyRequestForm: [],
+            optionModifyRequestFormList: [],
+
+            s3: null,
+            awsBucketName: env.api.MAIN_AWS_BUCKET_NAME,
+            awsBucketRegion: env.api.MAIN_AWS_BUCKET_REGION,
+            awsIdentityPoolId: env.api.MAIN_AWS_BUCKET_IDENTITY_POOL_ID,
+
+            file: null,
+            fileNames: [],
+            detailsFiles: [],
+            plainArray: []
         }
     },
     methods: {
-        ...mapActions(productModule, ['requestDeleteProductToSpring']),
+        ...mapActions(productModule, ['requestDeleteProductToSpring', 'requestModifyProductToSpring']),
         getImage(imageName) {
             console.log("요청한 사진 파일명: " + imageName)
             return`https://vue-s3-test-3737.s3.ap-northeast-2.amazonaws.com/${imageName}`;
@@ -91,6 +120,100 @@ export default {
         async deleteProduct() {
             console.log("삭제할 상품 id: " + this.product.id)
             await this.requestDeleteProductToSpring(this.product.id)
+        },
+        awsS3Config () {
+            AWS.config.update({
+                region: this.awsBucketRegion,
+                credentials: new AWS.CognitoIdentityCredentials({
+                    IdentityPoolId: this.awsIdentityPoolId
+                })
+            })
+
+            this.s3 = new AWS.S3({
+                apiVersion: '2006-03-01',
+                params: {
+                    Bucket: this.awsBucketName
+                }
+            })
+        },
+        deleteAwsS3File(key) {
+            this.awsS3Config()
+            
+            this.s3.deleteObject(
+            {
+                Key: key,
+            },
+            (err, data) => {
+                if (err) {
+                return alert(
+                    'AWS 버킷 데이터 삭제에 문제가 발생했습니다: ' + err.message
+                );
+                }
+                alert('AWS 버킷 데이터 삭제가 성공적으로 완료되었습니다');
+            });
+
+            const indexToRemove = this.product.productImageNameList.indexOf(key);
+            if (indexToRemove !== -1) {
+                this.product.productImageNameList.splice(indexToRemove, 1);
+            }
+
+            this.imageNameList = this.product.productImageNameList;
+            console.log("궁금해 값: " + this.imageNameList)
+        },
+        uploadAwsS3 () {    
+            this.awsS3Config()
+            
+            this.detailsFiles.forEach((file) => {
+                this.s3.upload({
+                    Key: file.name,
+                    Body: file,
+                    ACL: 'public-read',
+                }, (err, data) => {
+                    if (err) {
+                        console.log(err);
+                        return alert("상세 이미지 업로드 중 문제 발생", err.message)
+                    }
+                    console.log(`파일 ${file.name} 업로드 성공!`)
+                });
+            });
+        },
+        handleFileUpload() {
+            this.fileNames = this.detailsFiles.map(file => file.name);
+            console.log(this.fileNames);
+        },
+        async onModify () {
+            this.uploadAwsS3 ()
+
+            this.imageNameList = this.fileNames.concat(this.product.productImageNameList);
+            console.log("연결됬나?", this.imageNameList)
+            if(this.imageNameList.length != 5) {
+                alert("상세 이미지는 5개를 필수로 등록해야 합니다.")
+                return
+            }
+            this.id = this.product.id
+            this.productDetails = this.product.productDetails;
+            this.optionNameList = this.product.productOptionResponseFormList.map((option) => option.optionName);
+            this.optionPriceList = this.product.productOptionResponseFormList.map((option) => option.optionPrice);
+            this.optionModifyRequestFormList = this.transformData(this.product.productOptionWithVacancyResponseFormList)
+            console.log("궁금: " + JSON.stringify(this.imageNameList))
+            console.log("궁금: " + typeof(this.imageNameList))
+            const {id, productDetails, imageNameList, optionNameList, optionPriceList, optionModifyRequestFormList } = this
+            await this.requestModifyProductToSpring({ id, productDetails, imageNameList, optionNameList, optionPriceList, optionModifyRequestFormList })
+        },
+        transformData(data) {
+            const groupedData = data.reduce((acc, cur) => {
+            const { id, dateList, campsiteVacancyList } = cur;
+            if (!acc[id]) {
+                acc[id] = [];
+            }
+            acc[id].push({ id, dateList, campsiteVacancyList });
+            return acc;
+            }, {});
+
+            const result = Object.values(groupedData);
+
+            console.log(result);
+            return result;
         }
     },
 }
