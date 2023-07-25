@@ -14,7 +14,8 @@
                 <v-toolbar-title>MY CART
                     <span class="mdi mdi-heart"></span>({{ cartItems.length }})</v-toolbar-title>
                 <v-spacer></v-spacer>
-                    <span v-if="$route.path === '/myPage'"><v-btn class="goToCompare" text @click="compareCartItems"># 비교하기</v-btn></span>
+                <span v-if="$route.path === '/myPage' || $route.path === '/myCart'">
+                    <v-btn class="goToCompare" text @click="compareCartItems"># 비교하기</v-btn></span>
                 </v-toolbar>
                 <hr>
             </template>
