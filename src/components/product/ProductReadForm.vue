@@ -123,7 +123,8 @@ export default {
         },
     },
     data () {
-        const today = new Date();
+        const now = new Date();
+        const today = new Date(now.getTime() + (9 * 60 * 60 * 1000));
         const tomorrow = new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1);
 
