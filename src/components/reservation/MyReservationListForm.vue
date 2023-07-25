@@ -3,7 +3,7 @@
         <v-data-table
             :headers="headers"
             :items="reservations"
-            show-select
+            @click:row="readDetail" show-select
             class="reservationTable"
             v-model="selectedItems"
         >
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import router from "@/router";
 export default {
     name: "MyReservationListForm",
         props: {
@@ -84,6 +85,12 @@ export default {
 
             return `${yyyy}-${mm}-${dd}`;
         },
+        readDetail (readValue) {
+            router.push({
+                name: 'MyReservationDetailPage',
+                params: { id: readValue.id.toString()}
+            })
+        }
     }
 }
 </script>

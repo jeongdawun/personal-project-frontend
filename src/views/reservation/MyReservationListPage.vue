@@ -2,8 +2,8 @@
     <div class="reservationList">
         <my-reservation-list-form :reservations="reservations"/>
     </div>
-
 </template>
+
 <script>
 import { mapActions, mapState } from 'vuex';
 import MyReservationListForm from '@/components/reservation/MyReservationListForm.vue'
