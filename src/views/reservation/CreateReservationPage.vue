@@ -50,6 +50,7 @@ export default {
             checkOutDate: '',
             amount: '',
             bookingNotes: '',
+            kakaoReponse: Object,
         }
     },
     mounted() {
@@ -68,7 +69,11 @@ export default {
                 amount: this.amount,
                 bookingNotes: this.bookingNotes
             }
-            await this.requestReservationToSpring(reservationRequest)
+            this.kakaoReponse = await this.requestReservationToSpring(reservationRequest)
+            console.log("카카오 응답: " + JSON.stringify(this.kakaoReponse))
+            if (this.kakaoReponse && this.kakaoReponse.next_redirect_pc_url) {
+                window.open(this.kakaoReponse.next_redirect_pc_url, '_blank');
+            }
             await localStorage.removeItem("order")
         },
         clear () {

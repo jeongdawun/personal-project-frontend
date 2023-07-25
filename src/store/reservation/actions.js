@@ -9,9 +9,9 @@ export default {
     requestReservationToSpring ({ }, payload) {
         return axiosInst.post('/reservation/create', payload)
             .then((res) => {
-                if(res.data == true) {
-                    alert('예약이 완료되었습니다.')
-                    router.push('/')
+                if(res.data != null) {
+                    alert('예약 요청 성공!')
+                    return res.data
                 } else {
                     alert('예약 실패!')
                 }
