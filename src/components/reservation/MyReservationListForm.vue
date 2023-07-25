@@ -71,9 +71,11 @@ export default {
         },
         async reviewRegister (item){
             if(item.status != "COMPLETED") {
-                return alert("사용이 완료된 예약건에 대해서만 작성이 가능합니다.")
+                alert("사용이 완료된 예약건에 대해서만 작성이 가능합니다.")
+                router.push('/myReservation')
             }
             console.log("리뷰 작성 원하는 상품: " + JSON.stringify(item))
+            router.push('/reviewRegister')
         },
         formatDate(checkOutDate) {
             const date = new Date(checkOutDate);
