@@ -18,13 +18,26 @@
         <v-expansion-panel>
         <v-expansion-panel-header><span class="headerMenu">상품 이미지</span></v-expansion-panel-header>
         <v-expansion-panel-content>
+            <p><Strong>메인 이미지</Strong></p>
+            <p class="guideImage">* 메인 이미지는 변경이 불가합니다.</p>
             <v-row>
                 <v-col cols="12">
-                    메인 이미지<v-img width="auto" height="auto" :src="product.productMainImage ? getImage(product.productMainImage) : ''"></v-img>
+                    <v-img  width="300" height="auto" :src="product.productMainImage ? getImage(product.productMainImage) : ''"></v-img>
                 </v-col>
-                <v-col v-for="(image, index) in product.productImageNameList" :key="index" cols="12">
-                    상세 이미지 {{index + 1}}<v-img width="auto" height="600" :src="product.productImageNameList ? getImage(image) : ''"></v-img>
-                    <v-btn @click="deleteAwsS3File(image)" color="primary" text icon>x</v-btn>
+            </v-row>
+            <p><Strong>상세이미지</Strong></p>
+            <p class="guideImage">* 상세 이미지는 5개를 필수로 등록해야 합니다.</p>
+            <p class="guideImage">* 원하는 이미지를 삭제 후 새로 등록할 수 있습니다.</p>
+            <v-row>
+                <v-col v-for="(image, index) in product.productImageNameList" :key="index" cols="4">
+                    <v-row>
+                        <v-col cols="8">
+                            <v-img width="300" height="auto" :src="product.productImageNameList ? getImage(image) : ''"></v-img>
+                        </v-col>
+                        <v-col cols="4" class="text-right">
+                            <v-btn @click="deleteAwsS3File(image)" color="primary" text icon>x</v-btn>
+                        </v-col>
+                    </v-row>
                 </v-col>
             </v-row>
             <v-file-input
@@ -67,7 +80,7 @@
     <a @click="deleteProduct">
         <span class="delete">상품 삭제하기 ></span>
     </a>
-    <v-btn @click="onModify">수정하기</v-btn>
+    <v-btn class="submitBtn" color="#282F33" elevation="0" @click="onModify">수정하기</v-btn>
     </v-container>
 </template>
 
@@ -194,7 +207,6 @@ export default {
             this.optionNameList = this.product.productOptionResponseFormList.map((option) => option.optionName);
             this.optionPriceList = this.product.productOptionResponseFormList.map((option) => option.optionPrice);
             this.optionModifyRequestFormList = this.unwrapData(this.product.productOptionWithVacancyResponseFormList);
-            
             const {id, productDetails, imageNameList, optionNameList, optionPriceList, optionModifyRequestFormList } = this
             await this.requestModifyProductToSpring({ id, productDetails, imageNameList, optionNameList, optionPriceList, optionModifyRequestFormList })
         },
@@ -204,8 +216,9 @@ export default {
                 dateList: obj.dateList[0],
                 campsiteVacancyList: obj.campsiteVacancyList[0]
             }));
+
             return unwrappedData;
-            }
+        }
     },
 }
 </script>
@@ -217,7 +230,7 @@ export default {
     margin-top: 100px;
 }
 .v-expansion-panel-header {
-    color: rgb(76, 129, 32);
+    color: rgb(212, 212, 214);
     height: 20px;
     border-radius: 0;
     font-family: 'SUIT-Regular';
@@ -240,5 +253,23 @@ export default {
 }
 .headerMenu {
     color: rgb(87, 87, 87);
+}
+Strong {
+    font-weight: 600;
+}
+.guideImage {
+    font-size: 14px;
+}
+.submitBtn {
+    width: 100%;
+    min-height: 40px;
+    color: white;
+    font-family: 'SUIT-Regular';
+    font-size: 14px;
+    font-weight: 200;
+    margin-top: 10px;
+    margin-left: 6px;
+    margin-right: 6px;
+    border-radius: 33px;
 }
 </style>
