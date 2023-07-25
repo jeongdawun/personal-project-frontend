@@ -81,10 +81,7 @@ export default {
             alert("삭제가 완료되었습니다.")
         })
     },
-    requestModifyProductToSpring({ }, payload) {
-        console.log("modify진행!")
-        console.log("payload" + JSON.stringify(payload))
-        const { id, productDetails, imageNameList, optionNameList, optionPriceList, optionModifyRequestFormList } = payload
+    requestModifyProductToSpring({ }, { id, productDetails, imageNameList, optionNameList, optionPriceList, optionModifyRequestFormList }) {
         return axiosInst.put(`/product/${id}`, { productDetails, imageNameList, optionNameList, optionPriceList, optionModifyRequestFormList })
             .then((res) => {
                 if(res.data == true) {

@@ -185,7 +185,6 @@ export default {
             this.uploadAwsS3 ()
 
             this.imageNameList = this.fileNames.concat(this.product.productImageNameList);
-            console.log("연결됬나?", this.imageNameList)
             if(this.imageNameList.length != 5) {
                 alert("상세 이미지는 5개를 필수로 등록해야 합니다.")
                 return
@@ -194,27 +193,19 @@ export default {
             this.productDetails = this.product.productDetails;
             this.optionNameList = this.product.productOptionResponseFormList.map((option) => option.optionName);
             this.optionPriceList = this.product.productOptionResponseFormList.map((option) => option.optionPrice);
-            this.optionModifyRequestFormList = this.transformData(this.product.productOptionWithVacancyResponseFormList)
-            console.log("궁금: " + JSON.stringify(this.imageNameList))
-            console.log("궁금: " + typeof(this.imageNameList))
+            this.optionModifyRequestFormList = this.unwrapData(this.product.productOptionWithVacancyResponseFormList);
+            
             const {id, productDetails, imageNameList, optionNameList, optionPriceList, optionModifyRequestFormList } = this
             await this.requestModifyProductToSpring({ id, productDetails, imageNameList, optionNameList, optionPriceList, optionModifyRequestFormList })
         },
-        transformData(data) {
-            const groupedData = data.reduce((acc, cur) => {
-            const { id, dateList, campsiteVacancyList } = cur;
-            if (!acc[id]) {
-                acc[id] = [];
+        unwrapData(arrayData) {
+            const unwrappedData = arrayData.map(obj => ({
+                ...obj,
+                dateList: obj.dateList[0],
+                campsiteVacancyList: obj.campsiteVacancyList[0]
+            }));
+            return unwrappedData;
             }
-            acc[id].push({ id, dateList, campsiteVacancyList });
-            return acc;
-            }, {});
-
-            const result = Object.values(groupedData);
-
-            console.log(result);
-            return result;
-        }
     },
 }
 </script>
