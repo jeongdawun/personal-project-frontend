@@ -65,7 +65,7 @@ export default {
                 checkInDate: this.order.checkInDate,
                 checkOutDate: this.order.checkOutDate,
                 userName: this.userName,
-                contactNumber: this.contactNumber,
+                contactNumber: this.contactNumber.replace(/-/g, ""),
                 amount: this.amount,
                 bookingNotes: this.bookingNotes
             }
