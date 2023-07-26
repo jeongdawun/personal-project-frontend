@@ -8,11 +8,13 @@
             <my-cart-list-form :cartItems="cartItems"/>
         </div>
         <hr>
-        <v-row>
-            <v-col cols="6" v-for="item in cartItemsForCompare" :key="item.id">
-                <compare-form-with-tags v-if="item" :product="item"/>
-            </v-col>
-        </v-row>
+        <v-container class="backContainer">
+            <v-row>
+                <v-col cols="6" v-for="item in cartItemsForCompare" :key="item.id" class="productCol">
+                    <compare-form-with-tags v-if="item" :product="item"/>
+                </v-col>
+            </v-row>
+        </v-container>
     </div>
 </template>
 
@@ -60,5 +62,15 @@ export default {
     font-weight: lighter;
     padding-block: 10px;
     font-size: 16px;
+}
+.backContainer {
+    width: 70%;
+    align-items: center;
+    margin: auto;
+    padding-top: 50px;
+}
+.productCol {
+    width: 100%;
+    margin: 0px;
 }
 </style>
