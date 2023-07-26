@@ -5,6 +5,7 @@
       v-if="$route.name !== 'NormalMemberProfileRegisterPage' && 
             $route.name !== 'BusinessMemberSellerInfoRegisterPage' && 
             $route.name !== 'NormalMemberSignupPage' &&
+            $route.name !== 'MemberLoginPage' &&
             $route.name !== 'BusinessMemberSignupPage'"
     >
       <router-view />

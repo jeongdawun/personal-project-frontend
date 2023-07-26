@@ -1,44 +1,43 @@
 <template lang="">
-    <div>
-        <div class="loginForm">
-            <h2>LOGIN</h2>
-            <!-- <hr class="signInFormTopLine"> -->
-            <form>
-                <v-text-field v-model="email" label="이메일" color="red"></v-text-field>
-                <v-text-field v-model="password" label="비밀번호" 
-                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="show1 ? 'text' : 'password'"
-                @click:append="show1 = !show1"
-                color="red"></v-text-field>
-                            
-                <v-row align="center" justify="center">
-                    <v-col cols="auto">
-                        <v-btn class="submitBtn" color="black" elevation="0" @click="onSubmit">로그인</v-btn>
-                    </v-col>
-                    <v-col cols="auto">
-                        <v-btn class="clearBtn" elevation="0" @click="clear">취소</v-btn>
-                    </v-col>
-                </v-row>
-            </form>
+    <div class="out-container">
+        <v-container class="signInForm"> 
+            <div class="loginForm">
+                <h2>LOGIN</h2>
+                <div class="infoBox">
+                    <span>이메일</span>
+                    <div class="box">
+                        <v-text-field filled rounded dense v-model="email" 
+                            single-line>
+                        </v-text-field>
+                    </div>
 
-            <div class="snsForm">
-            <v-row align="center" justify="center">
-                <v-col cols="auto" id="SNS">
-                    카카오 1초 로그인
-                </v-col>
-            </v-row>
+                    <span>비밀번호</span>
+                    <div class="box">
+                        <v-text-field filled rounded dense v-model="password" 
+                            single-line
+                            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                            :type="show1 ? 'text' : 'password'"
+                            hide-details="false"
+                            @click:append="show1 = !show1">
+                        </v-text-field>
+                    </div>
+
+                    <div class="box">
+                        <v-row no-gutters justify="center">
+                            <v-col cols="auto">
+                                <v-btn class="submitBtn" color="#282F33" elevation="0" @click="onSubmit">로그인</v-btn>
+                            </v-col>
+                            <v-col cols="auto">
+                                <v-btn class="clearBtn" elevation="0" @click="clear">취소</v-btn>
+                            </v-col>
+                        </v-row>
+                    </div>
+                    <div class="signupBtn">
+                        <v-btn class="gotoSignup" small elevation="0" text @click="gotoSignup"><p> HAPPY CAMPER가 처음이신가요 ?　</p>　<Strong>이메일로 가입하기</Strong></v-btn>
+                    </div>
+                </div>
             </div>
-            <div class="signup">
-            <v-row align="center" justify="center">
-                <v-col cols="auto">
-                    <a href="/signup">
-                        이메일로 가입하기
-                    </a>
-                </v-col>
-            </v-row>
-            </div>
-            <!-- <hr class="signInFormBottomLine"> -->
-        </div>
+        </v-container>
     </div>
 </template>
 
@@ -61,92 +60,98 @@ export default {
         clear () {
             router.push('/')
         },
+        gotoSignup () {
+            router.push('/signup')
+        }
     }
 }
 </script>
 
 <style scoped>
 @import "../../assets/styles/fonts.css";
+.out-container {
+    background-color: rgb(250, 250, 250);
+    height: 900px;
+}
 .loginForm {
-    padding-top: 100px;
+    padding-top: 80px;
+}
+.checkValue {
+    border-radius: 22px;
+    font-size: 12px;
+    font-weight: 100;
+    color: rgb(255, 255, 255);
+    margin-top: 8px;
+    margin-left: 8px;
+    margin-bottom: 6px;
 }
 h2{
-    text-align: center;
-    font-family: 'GmarketSans';
-    font-weight: 200;
-    font-size: 40px;
-    padding-top: 20px;
-        padding-bottom: 20px;
-}
-.signInFormTopLine {
-    width: 40%;
-    margin: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-.signInFormBottomLine {
-    width: 40%;
-    margin: auto;
-    margin-top: 80px;
-}
-form {
-    width: 40%;
-    height: 100px;
-    margin: auto;
-    padding-top: 60px;
-    padding-bottom: 260px;
     font-family: 'SUIT-Regular';
-    font-weight: 100;
+    text-align: center;
+    font-weight: bold;
+    padding-block: 20px;
+    margin-top: 70px;
+    font-size: 32px;
+    color: #282F33;
+}
+span {
+    font-size: 13px;
+    font-weight: 600;
+    padding-left: 20px;
+    color: #282F33;
+}
+.box {
+    border-radius: 12px;
+    padding: 1% 2% 2% 2%;
+    margin-left: 1%;
+    margin-bottom: 6px;
+}
+.signInForm {
+    width: 30%;
+    font-family: 'SUIT-Regular';
+    background-color: white;
+    padding: 1%;
+    height: 900px;
+}
+.infoBox {
+    padding-bottom: 10px;
+    padding-top: 20px;
 }
 .submitBtn {
     width: 200px;
-    min-height: 60px;
-    margin-top: 80px;
-    margin-bottom: 80px;
+    min-height: 40px;
     color: white;
     font-family: 'SUIT-Regular';
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 200;
+    margin-top: 20px;
+    margin-left: 6px;
+    margin-right: 6px;
+    border-radius: 33px;
 }
 .clearBtn {
     width: 200px;
-    min-height: 60px;
-    margin-top: 80px;
-    margin-bottom: 80px;
+    min-height: 40px;
     font-family: 'SUIT-Regular';
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 200;
+    margin-top: 20px;
+    margin-left: 6px;
+    margin-right: 6px;
+    border-radius: 33px;
 }
-#SNS {
-    font-size: 18px;
-    font-family: 'SUIT-Regular';
-    font-weight: 400;
-    color: rgb(255, 255, 255);
+.signupBtn p{
+    margin-bottom: 0px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #282F33;
 }
-.snsForm {
-    margin-top: 120px;
-    height: 40px;
-    background-color: rgb(0, 0, 0);
-    text-align: center;
-    display: flex;
+.signupBtn Strong{
+    color: red;
 }
-.signup {
-    /* padding-top: 20px; */
-    font-size: 18px;
-    font-family: 'SUIT-Regular';
-    font-weight: 400;
-    color: rgb(255, 255, 255);
-    background-color: rgb(13, 178, 255);
-    margin-top: auto;
-    height: 40px;
-    text-align: center;
-    display: flex;
-}
-.signup a {
+.gotoSignup {
+    margin-top: 80px;
+    width: 100%;
     color: white;
-}
-a {
-    text-decoration: none;
-    display: inline-block;
 }
 </style>

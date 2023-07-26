@@ -24,11 +24,11 @@ export default {
                     alert('로그인되었습니다.')
                     router.push('/')
                 } else {
-                    alert('로그인이 실패하였습니다.')
+                    alert('이메일 및 비밀번호를 다시 확인해주세요.')
                 }
             })
             .catch(() => {
-                alert('로그인이 실패하였습니다.')
+                alert('이메일 및 비밀번호를 다시 확인해주세요.')
             })
     },
     requestMemberLogoutToSpring ({ }) {
