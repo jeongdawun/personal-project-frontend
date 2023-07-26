@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 
 const cartRoutes = [
   {
-    path: '/myCart',
+    path: '/mycart',
     name: 'MyCartListPage',
     component: MyCartListPage,
     meta: { requiresAuth: true }

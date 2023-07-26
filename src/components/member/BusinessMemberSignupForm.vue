@@ -198,6 +198,13 @@ export default {
             }
         },
         async sendEmail () {
+            if(!this.checkEmailDuplicate) {
+                return alert("이메일 중복 여부를 확인해주세요.")
+            }
+            if(this.emailDuplicate) {
+                return alert("중복된 이메일은 사용이 불가합니다.")
+            }
+            await alert("인증 코드가 발송되었습니다. 이메일을 확인해주세요.")
             this.authCode = await this.requestAuthorizeEmailToSpring({email: this.email})
         },
         checkCode () {

@@ -25,7 +25,7 @@
             </v-chip>
             </template>
             <template v-slot:item.actions="{ item }" class="review">
-                <v-btn class="reviewBtn" text @click="reviewRegister(item)">리뷰작성</v-btn><br>
+                <v-btn class="reviewBtn" text @click.stop="reviewRegister(item)">리뷰작성</v-btn><br>
                 <span>{{ formatDate(item.checkOutDate) }} 까지</span>
             </template>
         </v-data-table>
@@ -71,11 +71,12 @@ export default {
         },
         async reviewRegister (item){
             if(item.status != "COMPLETED") {
-                alert("사용이 완료된 예약건에 대해서만 작성이 가능합니다.")
-                router.push('/myReservation')
+                return alert("사용이 완료된 예약건에 대해서만 작성이 가능합니다.")
             }
-            console.log("리뷰 작성 원하는 상품: " + JSON.stringify(item))
-            router.push('/reviewRegister')
+            else {
+                console.log("리뷰 작성 원하는 상품: " + JSON.stringify(item))
+                router.push('/reviewRegister')
+            }
         },
         formatDate(checkOutDate) {
             const date = new Date(checkOutDate);

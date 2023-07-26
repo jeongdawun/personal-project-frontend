@@ -19,19 +19,19 @@
                 </v-col>
                 <v-col cols="2" id="status">
                     <Strong>예약 신청</Strong><br>
-                    <Strong id="value">{{ REQUESTED }}</Strong>
+                    <Strong id="value"><a @click="showReservation">{{ REQUESTED }}</a></Strong>
                 </v-col>
                 <v-col cols="2" id="status">
                     <Strong>이용 완료</Strong><br>
-                    <Strong id="value">{{ COMPLETED }}</Strong>
+                    <Strong id="value"><a @click="showReservation">{{ COMPLETED }}</a></Strong>
                 </v-col>
                 <v-col cols="2" id="status">
                     <Strong>취소 요청</Strong><br>
-                    <Strong id="value">{{ CANCEL_REQUESTED }}</Strong>
+                    <Strong id="value"><a @click="showReservation">{{ CANCEL_REQUESTED }}</a></Strong>
                 </v-col>
                 <v-col cols="2" id="status">
                     <Strong>취소 완료</Strong><br>
-                    <Strong id="value">{{ CANCELLED }}</Strong>
+                    <Strong id="value"><a @click="showReservation">{{ CANCELLED }}</a></Strong>
                 </v-col>
             </v-row>
             <v-row no-gutters class="info" v-if="this.roleType === 'BUSINESS'">
@@ -98,6 +98,10 @@ export default {
     methods: {
         ...mapActions(reservationModule, ['requestMemberInfoWithReservationStatusToSpring']),
         ...mapActions(cartModule, ['requestCartItemListToSpring']),
+        showReservation() {
+            this.$router.push('/myReservation')
+            .catch(() => {})
+        },
     },
     async mounted() {
         this.response = await this.requestMemberInfoWithReservationStatusToSpring()
@@ -171,6 +175,10 @@ a {
     border-radius: 20px;
     text-align: center;
     font-family: 'SUIT-Regular';
+}
+#status a{
+    color: red;
+    font-weight: 600;
 }
 #bookingTitle {
     padding-bottom: 2%;
