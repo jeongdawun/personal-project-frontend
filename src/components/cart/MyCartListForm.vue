@@ -3,7 +3,7 @@
         <v-data-table
             :headers="headers"
             :items="cartItems"
-            show-select
+            @click:row="readDetail" show-select
             class="cartTable"
             v-model="selectedItems"
         >
@@ -104,6 +104,12 @@ export default {
             router.push({
                 name: 'ComparePageWithTags',
             });
+        },
+        readDetail (readValue) {
+            router.push({
+                name: 'ProductReadPage',
+                params: { id: readValue.productId.toString()}
+            })
         }
     }
 }
