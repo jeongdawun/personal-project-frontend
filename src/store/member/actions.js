@@ -6,33 +6,21 @@ export default {
 
         return axiosInst.get('member/check-email-duplicate', { params: { email: email }})
             .then((res) => {
-                if(res.data == true) {
-                    return res.data
-                } else {
-                    return res.data
-                }
+                return res.data
             })
     },
     requestCheckBusinessNumberDuplicate ({ }, businessNumber) {
 
         return axiosInst.get('member/check-businessNumber-duplicate', { params: { businessNumber: businessNumber }})
             .then((res) => {
-                if(res.data == true) {
-                    return res.data
-                } else {
-                    return res.data
-                }
+                return res.data
             })
     },
     requestCheckNickNameDuplicate ({ }, nickName) {
 
         return axiosInst.get('member/check-nickName-duplicate', { params: { nickName: nickName }})
             .then((res) => {
-                if(res.data == true) {
-                    return res.data
-                } else {
-                    return res.data
-                }
+                return res.data
             })
     },
     requestAuthorizeEmailToSpring ({ }, email) {
@@ -50,8 +38,7 @@ export default {
 
         return axiosInst.post('/member/signup-normal', payload)
             .then((res) => {
-                if(res.data == true) {
-                    alert('반갑습니다!')
+                if(res.data) {
                     router.push('/login')
                 } else {
                     alert('회원가입이 정상적으로 완료되지 않았습니다.')
@@ -62,17 +49,16 @@ export default {
 
         return axiosInst.post('/member/signup-business', payload)
             .then((res) => {
-                if(res.data == true) {
-                    alert('반갑습니다!')
+                if(res.data) {
                     router.push('/login')
                 } else {
                     alert('회원가입이 정상적으로 완료되지 않았습니다.')
                 }
             })
     },
-    requestLoginMemberToSpring ({ }, { email, password }) {
+    requestLoginMemberToSpring ({ }, payload) {
 
-        return axiosInst.post('/member/login', { email, password })
+        return axiosInst.post('/member/login', payload)
             .then((res) => {
                 if(res.data) {
                     const cookieString = document.cookie
@@ -153,7 +139,7 @@ export default {
     },
     requestNormalMemberWithdrawalToSpring ({ }, password) {
 
-        return axiosInst.post('/member/withdrawal', null, { params: { password: password }})
+        return axiosInst.post('/member/withdrawal', { password: password })
             .then((res) => {
                 if(res.data == true) {
                     alert('회원 탈퇴가 완료되었습니다.')

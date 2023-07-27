@@ -74,6 +74,7 @@ p {
   padding-top: 60px;
 }
 .moveTop {
+  z-index: 1;
   position: fixed;
   bottom: 2rem;
   right: 2rem;

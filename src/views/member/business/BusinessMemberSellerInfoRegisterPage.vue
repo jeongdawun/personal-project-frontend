@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import BusinessMemberSellerInfoRegisterForm from '@/components/member/BusinessMemberSellerInfoRegisterForm.vue'
+import BusinessMemberSellerInfoRegisterForm from '@/components/member/business/BusinessMemberSellerInfoRegisterForm.vue'
 import { mapActions } from 'vuex';
 
 const memberModule = 'memberModule'
@@ -17,7 +17,6 @@ export default {
     methods: {
         ...mapActions(memberModule, ['requestRegisterSellerInfoToSpring']),
         async onSubmit (payload) {
-            console.log("궁금해 payload: " + JSON.stringify(payload))
             const { email, city, street, addressDetail, zipcode, contactNumber, bank, accountNumber } = payload
             await this.requestRegisterSellerInfoToSpring({ email, city, street, addressDetail, zipcode, contactNumber, bank, accountNumber })
         },

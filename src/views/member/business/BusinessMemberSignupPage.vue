@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import BusinessMemberSignupForm from '@/components/member/BusinessMemberSignupForm.vue'
+import BusinessMemberSignupForm from '@/components/member/business/BusinessMemberSignupForm.vue'
 import { mapActions } from 'vuex';
 
 const memberModule = 'memberModule'

@@ -1,50 +1,55 @@
 <template lang="">
     <div class="out-container">
-    <v-container class="mySellerInfoMenu">
-        <h2>SELLER INFO</h2>
-        <div class="infoBox">
-            <span>이메일<Strong> *</Strong></span>
-            <div class="box"><input v-model="email" readonly disabled></input></div>
-            <span>사업자번호<Strong> *</Strong></span>
-            <div class="box"><input v-model="businessNumber" readonly disabled></input></div>
-            <span>사업장명<Strong> *</Strong></span>
-            <div class="box"><input v-model="businessName" readonly disabled></input></div>
-            <span id="guide"><Strong> * </Strong>항목은 변경이 불가합니다.</span>
-        </div>
-        
-        <div class="infoBox">
-            <span>사업장 소재지</span>
-            <v-row no-gutters justify="center">  
-                <v-col cols="12">
-                    <div class="box"><input v-model="address" id="address" readonly></input></div>
-                </v-col>
-                <v-col cols="12">
-                    <div>
-                        <v-btn class="serchBtn" small elevation="0" color="#72ADEE" @click="postOpen">주소검색</v-btn>
-                    </div>
-                </v-col>
-            </v-row>
-            <span>고객센터 연락처</span>
-            <div class="box"><input v-model="contactNumber" ></input></div>
-        </div> 
-        
-        <div class="infoBox">
-            <span>은행</span>
-            <div class="box"><input v-model="bank" ></input></div>
-            <span>계좌번호</span>    
-            <div class="box"><input v-model="accountNumber" ></input></div>
-        </div>
+        <v-container class="mySellerInfoContainer">
+            <div class="sellerInfoForm">
+                <h2>SELLER INFO</h2>
+                <div class="infoBox">
+                    <span>이메일<Strong> *</Strong></span>
+                    <div class="box"><input v-model="email" readonly disabled></input></div>
 
-        <v-row no-gutters align="center" justify="center">
-            <v-col cols="auto">
-                <v-btn class="submitBtn" color="#282F33" elevation="0" @click="onSubmit">저장하기</v-btn>
-            </v-col>
-            <v-col cols="auto">
-                <v-btn class="clearBtn" elevation="0" @click="clear">취소</v-btn>
-            </v-col>
-        </v-row>
-    </v-container>
-</div>
+                    <span>사업자번호<Strong> *</Strong></span>
+                    <div class="box"><input v-model="businessNumber" readonly disabled></input></div>
+
+                    <span>사업장명<Strong> *</Strong></span>
+                    <div class="box"><input v-model="businessName" readonly disabled></input></div>
+                    <span id="guide"><Strong> * </Strong>항목은 변경이 불가합니다.</span>
+                </div>
+                
+                <div class="infoBox">
+                    <span>사업장 소재지</span>
+                    <v-row no-gutters justify="center">  
+                        <v-col cols="12">
+                            <div class="box"><input v-model="address" id="address" readonly></input></div>
+                        </v-col>
+                        <v-col cols="12">
+                            <div>
+                                <v-btn class="serchBtn" small elevation="0" color="#72ADEE" @click="postOpen">주소검색</v-btn>
+                            </div>
+                        </v-col>
+                    </v-row>
+                    <span>고객센터 연락처</span>
+                    <div class="box"><input v-model="contactNumber"></input></div>
+                </div> 
+                
+                <div class="infoBox">
+                    <span>은행</span>
+                    <div class="box"><input v-model="bank"></input></div>
+                    
+                    <span>계좌번호</span>    
+                    <div class="box"><input v-model="accountNumber"></input></div>
+                </div>
+
+                <v-row no-gutters align="center" justify="center">
+                    <v-col cols="auto">
+                        <v-btn class="submitBtn" color="#282F33" elevation="0" @click="onSubmit">저장하기</v-btn>
+                    </v-col>
+                    <v-col cols="auto">
+                        <v-btn class="clearBtn" elevation="0" @click="clear">취소</v-btn>
+                    </v-col>
+                </v-row>
+            </div>
+        </v-container>
+    </div>
 </template>
 
 <script>
@@ -98,19 +103,25 @@ export default {
                 vm.addressDetail = data.buildingName;
                 vm.zipcode = data.zonecode;
                 document.getElementById("address").value = data.address;
+            }
+            }).open();
         }
-        }).open();
-      }
     },
     async mounted () {
         this.sellerInfo = await this.requestAuthorizeForSellerInfoToSpring()
-        console.log("가져온 정보: " + JSON.stringify(this.sellerInfo))
 
-        if(this.sellerInfo.city == null && this.sellerInfo.street == null && this.sellerInfo.addressDetail == null && this.sellerInfo.zipcode == null) {
+        if(this.sellerInfo.city == null 
+            && this.sellerInfo.street == null 
+            && this.sellerInfo.addressDetail == null 
+            && this.sellerInfo.zipcode == null) {
             this.address = "";
         } else {
-            this.address = this.sellerInfo.city + " " + this.sellerInfo.street + " " + this.sellerInfo.addressDetail + " " + this.sellerInfo.zipcode
+            this.address = this.sellerInfo.city 
+                + " " + this.sellerInfo.street 
+                + " " + this.sellerInfo.addressDetail 
+                + " " + this.sellerInfo.zipcode
         }
+
         this.city = this.sellerInfo.city
         this.street = this.sellerInfo.street
         this.addressDetail = this.sellerInfo.addressDetail
@@ -127,24 +138,30 @@ export default {
 </script>
 
 <style scoped>
-@import "../../assets/styles/fonts.css";
-.mySellerInfoMenu {
-    width: 30%;
+@import "../../../assets/styles/fonts.css";
+.out-container {
+    background-color: rgb(250, 250, 250);
+    height: 1100px;
+    color: #282F33;
     font-family: 'SUIT-Regular';
+}
+.mySellerInfoContainer {
+@media (max-width: 767px) {
+    width: 100%;
+}
+    width: 30%;
     background-color: white;
     padding: 1%;
     height: 1060px;
+}
+.sellerInfoForm {
+    padding-top: 30px;
 }
 .box {
     background-color: rgb(247, 247, 247);
     border-radius: 12px;
     padding: 2%;
-    margin-left: 1%;
     margin-bottom: 6px;
-}
-.out-container {
-    background-color: rgb(250, 250, 250);
-    height: 1060px;
 }
 .box input {
     outline: none;
@@ -153,13 +170,11 @@ export default {
     font-size: 14px;
 }
 h2{
-    font-family: 'SUIT-Regular';
     text-align: center;
     font-weight: bold;
     padding-block: 20px;
     margin-top: 70px;
     font-size: 32px;
-    color: #282F33;
 }
 span {
     font-size: 13px;
@@ -167,26 +182,19 @@ span {
     font-weight: 600;
     color: #616568;
 }
-.submitBtn {
+.submitBtn, .clearBtn {
+    border-radius: 12px;
     width: 160px;
     min-height: 40px;
-    margin-top: 40px;
+    margin-top: 50px;
     color: white;
-    font-family: 'SUIT-Regular';
     font-size: 13px;
     font-weight: 200;
     margin-left: 6px;
     margin-right: 6px;
 }
 .clearBtn {
-    width: 160px;
-    min-height: 40px;
-    margin-top: 40px;
-    font-family: 'SUIT-Regular';
-    font-size: 13px;
-    font-weight: 200;
-    margin-left: 6px;
-    margin-right: 6px;
+    color: #282F33;
 }
 .serchBtn {
     border-radius: 12px;
@@ -198,7 +206,6 @@ span {
 }
 Strong {
     font-size: 24px;
-    font-family: 'SUIT-Regular';
     font-weight: 600;
 }
 .infoBox {

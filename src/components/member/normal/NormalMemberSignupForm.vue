@@ -1,63 +1,65 @@
 <template lang="">
     <div class="out-container">
-        <v-container class="signupForm">  
-            <h2>JOIN US</h2>
-            <div class="infoBox">
-                <span>이메일</span>
-                <div class="box">
-                    <v-text-field filled rounded dense v-model="email" 
-                        single-line 
-                        :rules="email_rule" 
-                        hide-details="auto"
-                        required>
-                    </v-text-field>
-                    <v-row no-gutters justify="center">  
-                        <v-col cols="12">
-                            <v-btn class="checkValue" small elevation="0" color="#FF5140" @click="checkEmail">중복확인</v-btn>
-                            <span class="detailguide">{{ guideemail }}</span>
-                        </v-col>
-                        <v-col cols="12">
-                            <v-btn class="checkValue" small elevation="0" color="#FF5140" @click="sendEmail">인증하기</v-btn>
-                            <span class="detailguide">{{ guidecode }}</span>
-                            <input type="number" id="inputCode" v-model="inputAuthCode">
-                        </v-col>
-                    </v-row>
+        <v-container class="signUpContainer">
+            <div class="signUpForm">
+                <h2>JOIN US</h2>
+                <div class="signUpBox">
+                    <span>이메일</span>
+                    <div class="box">
+                        <v-text-field filled rounded dense v-model="email" 
+                            single-line 
+                            :rules="email_rule" 
+                            hide-details="auto"
+                            required>
+                        </v-text-field>
+                        <v-row no-gutters justify="center">  
+                            <v-col cols="12">
+                                <v-btn class="checkValue" small elevation="0" color="#FF5140" @click="checkEmail">중복확인</v-btn>
+                                <span class="detailguide">{{ guideemail }}</span>
+                            </v-col>
+                            <v-col cols="12">
+                                <v-btn class="checkValue" small elevation="0" color="#FF5140" @click="sendEmail">인증하기</v-btn>
+                                <span class="detailguide">{{ guidecode }}</span>
+                                <input type="number" id="inputCode" v-model="inputAuthCode">
+                            </v-col>
+                        </v-row>
+                    </div>
                 </div>
-            </div>
 
-            <div class="infoBox">
-                <span>비밀번호</span>
-                <div class="box">
-                    <v-text-field filled rounded dense single-line v-model="password"
-                        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                        :rules="password_rule"
-                        :type="show1 ? 'text' : 'password'"
-                        @click:append="show1 = !show1"
-                        hide-details="auto"
-                        color="red">
-                    </v-text-field>
-                    <p class="detailguide">* 숫자, 영문(대문자 혹은 소문자) 포함</p>
-                    <p class="detailguide">* 8자리 이상</p>
-                    <span class="guide">{{ guidepassword }}</span>
+                <div class="signUpBox">
+                    <span>비밀번호</span>
+                    <div class="box">
+                        <v-text-field filled rounded dense single-line v-model="password"
+                            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                            :rules="password_rule"
+                            :type="show1 ? 'text' : 'password'"
+                            @click:append="show1 = !show1"
+                            hide-details="auto"
+                            color="red">
+                        </v-text-field>
+                        <p class="detailguide">* 숫자, 영문(대문자 혹은 소문자) 포함</p>
+                        <p class="detailguide">* 8자리 이상</p>
+                        <span class="guide">{{ guidepassword }}</span>
+                    </div>
+                    
+                <div class="signUpBox">
+                    <span>비밀번호 확인</span>
+                    <div class="box">
+                        <v-text-field filled rounded dense single-line v-model="passwordCheck"
+                            :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                            :type="show2 ? 'text' : 'password'"
+                            @click:append="show2 = !show2"
+                            color="red">
+                        </v-text-field>    
+                    </div>
                 </div>
-                
-            <div class="infoBox">
-                <span>비밀번호 확인</span>
-                <div class="box">
-                    <v-text-field filled rounded dense single-line v-model="passwordCheck"
-                        :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-                        :type="show2 ? 'text' : 'password'"
-                        @click:append="show2 = !show2"
-                        color="red">
-                    </v-text-field>    
-                </div>
-            </div>
-                <div class="box">
-                    <v-row align="center" justify="center">
-                        <v-col cols="12">
-                            <v-btn class="submitBtn" color="#282F33" elevation="0" @click="onSubmit">가입하기</v-btn>
-                        </v-col>
-                    </v-row>
+                    <div class="box">
+                        <v-row align="center" justify="center">
+                            <v-col cols="12">
+                                <v-btn class="submitBtn" color="#282F33" elevation="0" @click="onSubmit">가입하기</v-btn>
+                            </v-col>
+                        </v-row>
+                    </div>
                 </div>
             </div>
         </v-container>
@@ -138,10 +140,11 @@ export default {
                 if(this.password === this.passwordCheck) {
                     return true
                 } else {
+                    alert("비밀번호를 확인해주세요.")
                     return false
                 }
             } else {
-                alert("비밀번호를 확인해주세요.")
+                alert("비밀번호 형식을 확인해주세요.")
                 return false
             }
         },
@@ -187,19 +190,38 @@ export default {
 </script>
 
 <style scoped>
-@import "../../assets/styles/fonts.css";
+@import "../../../assets/styles/fonts.css";
 .out-container {
     background-color: rgb(250, 250, 250);
     height: 900px;
-}
-.signupForm {
-    width: 30%;
+    color: #282F33;
     font-family: 'SUIT-Regular';
+}
+.signUpContainer {
+@media (max-width: 767px) {
+    width: 100%;
+}
+    width: 30%;
     background-color: white;
     padding: 1%;
     height: 900px;
 }
-.infoBox {
+.signUpForm {
+    padding-top: 20px;
+}
+h2{
+    text-align: center;
+    font-weight: bold;
+    padding-block: 20px;
+    margin-top: 70px;
+    font-size: 32px;
+}
+span {
+    font-size: 13px;
+    font-weight: 600;
+    padding-left: 20px;
+}
+.signUpBox {
     padding-bottom: 10px;
     padding-top: 20px;
 }
@@ -212,25 +234,9 @@ export default {
 .detailguide {
     font-size: 12px;
     font-weight: 100;
-    color: #282F33;
     padding-left: 10px;
     margin-top: 8px;
     margin-bottom: 6px;
-}
-h2{
-    font-family: 'SUIT-Regular';
-    text-align: center;
-    font-weight: bold;
-    padding-block: 20px;
-    margin-top: 70px;
-    font-size: 32px;
-    color: #282F33;
-}
-span {
-    font-size: 13px;
-    font-weight: 600;
-    padding-left: 20px;
-    color: #282F33;
 }
 .guide {
     padding: 0;
@@ -248,7 +254,6 @@ span {
     width: 100%;
     min-height: 40px;
     color: white;
-    font-family: 'SUIT-Regular';
     font-size: 14px;
     font-weight: 200;
     margin-top: 10px;
