@@ -5,8 +5,8 @@
         <div class="infoBox">
             <span>이메일</span>
             <div class="box"><input v-model="email" readonly disabled></input></div>
-            <a href="/withdraw">
-                <span class="withdraw">회원탈퇴 ></span>
+            <a href="/withdrawal">
+                <span class="withdrawal">회원탈퇴 ></span>
             </a>
         </div>
 
@@ -85,7 +85,7 @@ export default {
             router.push('/')
         },
         async checkNickName () {
-            this.nickNameDuplicate = await this.requestCheckNickNameDuplicate({nickName: this.nickName})
+            this.nickNameDuplicate = await this.requestCheckNickNameDuplicate(this.nickName)
             if(this.nickNameDuplicate == false) {
                 this.guide = "확인이 완료되었습니다."
                 this.checkNickNameDuplicate = true;
@@ -189,7 +189,7 @@ Strong {
     padding-bottom: 20px;
     padding-top: 20px;
 }
-.withdraw {
+.withdrawal {
     font-family: 'SUIT-Regular';
     font-weight: 200;
     font-size: 12px;

@@ -1,24 +1,26 @@
 <template lang="">
     <div class="out-container">
-        <v-container class="signInForm"> 
-            <div class="loginForm">
+        <v-container class="signInContainer"> 
+            <div class="signInForm">
                 <h2>LOGIN</h2>
-                <div class="infoBox">
+                <div class="signInBox">
                     <span>이메일</span>
                     <div class="box">
-                        <v-text-field filled rounded dense v-model="email" 
-                            single-line>
+                        <v-text-field 
+                            filled rounded dense single-line
+                            v-model="email">
                         </v-text-field>
                     </div>
 
                     <span>비밀번호</span>
                     <div class="box">
-                        <v-text-field filled rounded dense v-model="password" 
-                            single-line
-                            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                            :type="show1 ? 'text' : 'password'"
+                        <v-text-field 
+                            filled rounded dense single-line
+                            v-model="password"
+                            :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                            :type="show ? 'text' : 'password'"
                             hide-details="false"
-                            @click:append="show1 = !show1">
+                            @click:append="show = !show">
                         </v-text-field>
                     </div>
 
@@ -33,7 +35,7 @@
                         </v-row>
                     </div>
                     <div class="signupBtn">
-                        <v-btn class="gotoSignup" small elevation="0" text @click="gotoSignup"><p> HAPPY CAMPER가 처음이신가요 ?　</p>　<Strong>이메일로 가입하기</Strong></v-btn>
+                        <v-btn class="gotoSignupPage" small elevation="0" text @click="gotoSignup"><p> HAPPY CAMPER가 처음이신가요 ?　</p>　<Strong>이메일로 가입하기</Strong></v-btn>
                     </div>
                 </div>
             </div>
@@ -49,7 +51,7 @@ export default {
         return {
             email: '',
             password: '',
-            show1: false,
+            show: false,
         }
     },
     methods: {
@@ -72,33 +74,31 @@ export default {
 .out-container {
     background-color: rgb(250, 250, 250);
     height: 900px;
+    color: #282F33;
+    font-family: 'SUIT-Regular';
 }
-.loginForm {
+.signInContainer {
+@media (max-width: 767px) {
+    width: 100%;
+}
+    width: 30%;
+    background-color: white;
+    padding: 1%;
+    height: 900px;
+}
+.signInForm {
     padding-top: 80px;
 }
-.checkValue {
-    border-radius: 22px;
-    font-size: 12px;
-    font-weight: 100;
-    color: rgb(255, 255, 255);
-    margin-top: 8px;
-    margin-left: 8px;
-    margin-bottom: 6px;
-}
 h2{
-    font-family: 'SUIT-Regular';
     text-align: center;
     font-weight: bold;
-    padding-block: 20px;
-    margin-top: 70px;
+    margin-top: 90px;
     font-size: 32px;
-    color: #282F33;
 }
 span {
     font-size: 13px;
     font-weight: 600;
     padding-left: 20px;
-    color: #282F33;
 }
 .box {
     border-radius: 12px;
@@ -106,22 +106,14 @@ span {
     margin-left: 1%;
     margin-bottom: 6px;
 }
-.signInForm {
-    width: 30%;
-    font-family: 'SUIT-Regular';
-    background-color: white;
-    padding: 1%;
-    height: 900px;
-}
-.infoBox {
+.signInBox {
     padding-bottom: 10px;
     padding-top: 20px;
 }
-.submitBtn {
+.submitBtn, .clearBtn {
     width: 200px;
     min-height: 40px;
     color: white;
-    font-family: 'SUIT-Regular';
     font-size: 14px;
     font-weight: 200;
     margin-top: 20px;
@@ -130,15 +122,7 @@ span {
     border-radius: 33px;
 }
 .clearBtn {
-    width: 200px;
-    min-height: 40px;
-    font-family: 'SUIT-Regular';
-    font-size: 14px;
-    font-weight: 200;
-    margin-top: 20px;
-    margin-left: 6px;
-    margin-right: 6px;
-    border-radius: 33px;
+    color: #282F33;
 }
 .signupBtn p{
     margin-bottom: 0px;
@@ -149,7 +133,7 @@ span {
 .signupBtn Strong{
     color: red;
 }
-.gotoSignup {
+.gotoSignupPage {
     margin-top: 80px;
     width: 100%;
     color: white;

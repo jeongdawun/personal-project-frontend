@@ -2,41 +2,48 @@ import router from '@/router'
 import axiosInst from '@/utility/axiosInst'
 
 export default {
-    requestLoginMemberToSpring ({ }, { email, password }) {
-        return axiosInst.post('/member/login', { email, password })
+    requestCheckEmailDuplicate ({ }, email) {
+
+        return axiosInst.get('member/check-email-duplicate', { params: { email: email }})
             .then((res) => {
-                console.log("궁금쓰 res: " + res.data)
                 if(res.data == true) {
-                    const cookieString = document.cookie;
-                    const cookies = cookieString.split(';');
-                    console.log("궁금해: " + cookies)
-    
-                    for (var i = 0; i < cookies.length; i++) {
-                        var cookie = cookies[i].trim();
-    
-                        var separatorIndex = cookie.indexOf('=');
-                        var name = cookie.substring(0, separatorIndex);
-                    
-                        if (name === "AccessToken") {
-                            localStorage.setItem("isLogin", true)
-                        }
-                    }
-                    alert('로그인되었습니다.')
-                    router.push('/')
+                    return res.data
                 } else {
-                    alert('이메일 및 비밀번호를 다시 확인해주세요.')
+                    return res.data
                 }
             })
-            .catch(() => {
-                alert('이메일 및 비밀번호를 다시 확인해주세요.')
+    },
+    requestCheckBusinessNumberDuplicate ({ }, businessNumber) {
+
+        return axiosInst.get('member/check-businessNumber-duplicate', { params: { businessNumber: businessNumber }})
+            .then((res) => {
+                if(res.data == true) {
+                    return res.data
+                } else {
+                    return res.data
+                }
             })
     },
-    requestMemberLogoutToSpring ({ }) {
+    requestCheckNickNameDuplicate ({ }, nickName) {
 
-        return axiosInst.post('/member/logout')
+        return axiosInst.get('member/check-nickName-duplicate', { params: { nickName: nickName }})
             .then((res) => {
-                localStorage.setItem("isLogin", false)
-                alert("로그아웃")
+                if(res.data == true) {
+                    return res.data
+                } else {
+                    return res.data
+                }
+            })
+    },
+    requestAuthorizeEmailToSpring ({ }, email) {
+
+        return axiosInst.get('/member/check-email-authorize', { params: { email: email }})
+            .then((res) => {
+                if(res.data > 0) {
+                    return res.data
+                } else {
+                    alert('이메일 인증이 정상적으로 완료되지 않았습니다.')
+                }
             })
     },
     requestNormalMemberSignupToSpring ({ }, payload) {
@@ -44,24 +51,10 @@ export default {
         return axiosInst.post('/member/signup-normal', payload)
             .then((res) => {
                 if(res.data == true) {
-                    alert('일반 회원 가입 성공')
+                    alert('반갑습니다!')
                     router.push('/login')
                 } else {
-                    alert('회원가입 실패!')
-                }
-            })
-    },
-    requestNormalMemberWithdrawToSpring ({ }, password) {
-
-        return axiosInst.get('/member/withdraw', { params: { password: password }})
-            .then((res) => {
-                if(res.data == true) {
-                    alert('회원탈퇴가 완료되었습니다.')
-                    localStorage.setItem("isLogin", false)
-                    router.push('/')
-                    location.reload()
-                } else {
-                    alert('회원탈퇴 실패!')
+                    alert('회원가입이 정상적으로 완료되지 않았습니다.')
                 }
             })
     },
@@ -70,105 +63,104 @@ export default {
         return axiosInst.post('/member/signup-business', payload)
             .then((res) => {
                 if(res.data == true) {
-                    alert('사업자 회원 가입 성공')
+                    alert('반갑습니다!')
                     router.push('/login')
                 } else {
-                    alert('회원가입 실패!')
+                    alert('회원가입이 정상적으로 완료되지 않았습니다.')
                 }
             })
     },
-    requestCheckEmailDuplicate ({ }, payload) {
+    requestLoginMemberToSpring ({ }, { email, password }) {
 
-        return axiosInst.post('member/check-email-duplicate', payload)
-        .then((res) => {
-            if(res.data == true) {
-                return res.data
-            } else {
-                return res.data
-            }
-        })
+        return axiosInst.post('/member/login', { email, password })
+            .then((res) => {
+                if(res.data) {
+                    const cookieString = document.cookie
+                    const cookies = cookieString.split(';')
+    
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim()
+    
+                        const separatorIndex = cookie.indexOf('=')
+                        const name = cookie.substring(0, separatorIndex)
+                    
+                        if (name === "AccessToken") {
+                            localStorage.setItem("isLogin", true)
+                        }
+                    }
+                    router.push('/')
+                } else {
+                    alert('이메일 및 비밀번호를 다시 확인해주세요.')
+                }
+            })
     },
-    requestCheckBusinessNumberDuplicate ({ }, payload) {
+    requestMemberLogoutToSpring ({ }) {
 
-        return axiosInst.post('member/check-businessNumber-duplicate', payload)
-        .then((res) => {
-            if(res.data == true) {
-                return res.data
-            } else {
-                return res.data
-            }
-        })
+        return axiosInst.get('/member/logout')
+            .then((res) => {
+                if(res.data == true) {
+                    localStorage.setItem("isLogin", false)
+                } else {
+                    alert('로그아웃이 정상적으로 완료되지 않았습니다.')
+                }
+            })
     },
-    requestCheckNickNameDuplicate ({ }, payload) {
+    requestAuthorizeForUserProfileToSpring ({ }) {
 
-        return axiosInst.post('member/check-nickName-duplicate', payload)
-        .then((res) => {
-            if(res.data == true) {
-                return res.data
-            } else {
-                return res.data
-            }
-        })
-    },
-    requestAuthorizeToSpring ({}) {
-        return axiosInst.post('/member/auth')
+        return axiosInst.get('/member/auth-userProfile')
             .then((res) => {
                 if(res.data != null) {
                     return res.data
                 } else {
-                    alert("문제 발생")
+                    alert('회원 프로필을 정상적으로 가져오지 못했습니다.')
                 }
             })
     },
-    requestAuthorizeForUserProfileToSpring ({}) {
-        return axiosInst.post('/member/auth-userProfile')
+    requestAuthorizeForSellerInfoToSpring ({ }) {
+
+        return axiosInst.get('/member/auth-sellerInfo')
             .then((res) => {
                 if(res.data != null) {
                     return res.data
                 } else {
-                    alert("문제 발생")
+                    alert('판매자 프로필을 정상적으로 가져오지 못했습니다.')
                 }
             })
     },
-    requestAuthorizeForSellerInfoToSpring ({}) {
-        return axiosInst.post('/member/auth-sellerInfo')
-            .then((res) => {
-                if(res.data != null) {
-                    return res.data
-                } else {
-                    alert("문제 발생")
-                }
-            })
-    },
-    requestAuthorizeEmailToSpring ({}, payload) {
-        return axiosInst.post('/member/check-email-authorize', payload)
-            .then((res) => {
-                if(res.data > 0) {
-                    return res.data
-                } else {
-                    alert("문제 발생")
-                }
-            })
-    },
-    requestRegisterProfileToSpring ({}, payload) {
+    requestRegisterProfileToSpring ({ }, payload) {
+
         return axiosInst.post('/member/profile-register', payload)
             .then((res) => {
                 if(res.data == true) {
-                    router.push('/')
+                    location.reload()
                     return res.data
                 } else {
-                    alert("문제 발생")
+                    alert('회원 프로필 등록이 정상적으로 완료되지 않았습니다.')
                 }
             })
     },
-    requestRegisterSellerInfoToSpring ({}, payload) {
+    requestRegisterSellerInfoToSpring ({ }, payload) {
+
         return axiosInst.post('/member/sellerInfo-register', payload)
             .then((res) => {
                 if(res.data == true) {
-                    router.push('/')
+                    location.reload()
                     return res.data
                 } else {
-                    alert("문제 발생")
+                    alert('고객센터 정보 등록이 정상적으로 완료되지 않았습니다.')
+                }
+            })
+    },
+    requestNormalMemberWithdrawalToSpring ({ }, password) {
+
+        return axiosInst.post('/member/withdrawal', null, { params: { password: password }})
+            .then((res) => {
+                if(res.data == true) {
+                    alert('회원 탈퇴가 완료되었습니다.')
+                    localStorage.setItem("isLogin", false)
+                    router.push('/')
+                } else {
+                    alert('회원탈퇴가 정상적으로 완료되지 않았습니다.')
                 }
             })
     },

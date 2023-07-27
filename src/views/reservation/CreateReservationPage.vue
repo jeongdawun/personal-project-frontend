@@ -161,7 +161,7 @@ Strong {
     padding-bottom: 40px;
     padding-top: 10px;
 }
-.withdraw {
+.withdrawal {
     font-family: 'SUIT-Regular';
     font-weight: 200;
     font-size: 14px;

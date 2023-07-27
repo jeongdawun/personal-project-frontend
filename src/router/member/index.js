@@ -7,7 +7,7 @@ import BusinessMemberSignupPage from '@/views/member/BusinessMemberSignupPage.vu
 import MemberMyPage from '@/views/member/MemberMyPage.vue'
 import NormalMemberProfileRegisterPage from '@/views/member/NormalMemberProfileRegisterPage.vue'
 import BusinessMemberSellerInfoRegisterPage from '@/views/member/BusinessMemberSellerInfoRegisterPage.vue'
-import WithdrawMemberPage from '@/views/member/WithdrawMemberPage.vue'
+import WithdrawalMemberPage from '@/views/member/WithdrawalMemberPage.vue'
 
 Vue.use(VueRouter)
 
@@ -46,9 +46,9 @@ const memberRoutes = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/withdraw',
-    name: 'WithdrawMemberPage',
-    component: WithdrawMemberPage,
+    path: '/withdrawal',
+    name: 'WithdrawalMemberPage',
+    component: WithdrawalMemberPage,
     meta: { requiresAuth: true }
   },
 ]

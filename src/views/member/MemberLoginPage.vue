@@ -19,7 +19,6 @@ export default {
         async onSubmit (payload) {
             const { email, password } = payload
             await this.requestLoginMemberToSpring({ email, password })
-            location.reload()
         },
     }
 }

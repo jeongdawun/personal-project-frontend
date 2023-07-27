@@ -43,7 +43,7 @@
                 color="red"></v-text-field>
         <div class="btnmenu">
             <v-col cols="auto">
-            <v-btn class="submitBtn" color="black" elevation="0" @click="withdrawBtn">탈퇴하기</v-btn>
+            <v-btn class="submitBtn" color="black" elevation="0" @click="withdrawalBtn">탈퇴하기</v-btn>
             <v-btn class="clearBtn" elevation="0" @click="clear">다음에 할래요!</v-btn>
         </v-col>
         </div>
@@ -65,11 +65,11 @@ export default {
         }
     },
     methods: {
-        ...mapActions(memberModule, ['requestNormalMemberWithdrawToSpring']),
-        async withdrawBtn () {
+        ...mapActions(memberModule, ['requestNormalMemberWithdrawalToSpring']),
+        async withdrawalBtn () {
             if(this.agree == true && this.password != null) {
                 const password = this.password
-                await this.requestNormalMemberWithdrawToSpring(password)
+                await this.requestNormalMemberWithdrawalToSpring(password)
             }
             if(this.agree == false && this.password != null) {
                 alert("동의 항목에 체크해주세요.")

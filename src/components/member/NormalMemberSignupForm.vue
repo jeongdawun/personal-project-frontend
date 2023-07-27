@@ -148,7 +148,7 @@ export default {
         async checkEmail () {
             this.emailValid = this.email_rule.every(rule => rule(this.email) === true);
             if(this.emailValid) {
-                this.emailDuplicate = await this.requestCheckEmailDuplicate({email: this.email})
+                this.emailDuplicate = await this.requestCheckEmailDuplicate(this.email)
                 if(!this.emailDuplicate) {
                     this.guideemail = "확인이 완료되었습니다."
                     this.checkEmailDuplicate = true;
@@ -166,7 +166,7 @@ export default {
                 return alert("중복된 이메일은 사용이 불가합니다.")
             }
             await alert("인증 코드가 발송되었습니다. 이메일을 확인해주세요.")
-            this.authCode = await this.requestAuthorizeEmailToSpring({email: this.email})
+            this.authCode = await this.requestAuthorizeEmailToSpring(this.email)
         },
         checkCode () {
             if(parseInt(this.inputAuthCode) === 0 || this.authCode === 0) {
