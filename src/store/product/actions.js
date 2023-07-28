@@ -29,6 +29,12 @@ export default {
                 console.log("res.data: " + JSON.stringify(res.data))
             });
     },
+    requestProductTop8ListToSpring({ commit }) {
+        return axiosInst.get('/product/topList')
+            .then((res) => {
+                commit(REQUEST_PRODUCT_LIST_TO_SPRING, res.data);
+            });
+    },
     requestMyProductToSpring({ }) {
         return axiosInst.get('/product/myList')
             .then((res) => {

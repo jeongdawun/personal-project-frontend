@@ -13,6 +13,7 @@
             <a @click="showAuto"><span><Strong>AUTO</Strong></span></a>
             <a @click="showGlamping"><span><Strong>GLAMPING</Strong></span></a>
             <a @click="showCaravan"><span><Strong>CARAVAN</Strong></span></a>
+            <a href="/map"><span><Strong id="mapBtn"><span class="mdi mdi-map-marker-radius"></span> 지도에서 빈자리 찾기</Strong></span></a>
             <div class="searchBox">
                 <input type="text" class="inputKeyword" v-model="keyword" placeholder="  캠핑장 이름으로 검색이 가능해요" @keyup.enter="searchProduct">
                 <button text class="searchBtn" @click="searchProduct">
@@ -91,6 +92,9 @@ export default {
             .catch(() => {})
             location.reload()
         },
+        showMap () {
+            router.push('/map')
+        },
         async searchProduct() {
             await this.$router.push(`/list/keyword/${this.keyword}`)
             location.reload()
@@ -134,11 +138,16 @@ export default {
     font-weight: 600;
     color: #73916A;
 }
-#camper {
-    font-size: 32px;
-    font-family: 'SUIT-Regular';
-    font-weight: 400;
-    color: #73916A;
+#mapBtn {
+    color: #ffffff;
+    background-color: rgb(0, 0, 0);
+    padding: 2% 11% 3% 8%;
+    border-radius: 22px;
+    font-size: 13px;
+    font-weight: 600;
+}
+.mdi.mdi-map-marker-radius {
+    color: #ff3300;
 }
 .bar2 a {
     font-family: 'SUIT-Regular';
@@ -164,7 +173,7 @@ export default {
     justify-content: center;
     align-items: center;
     width: 72%;
-    padding-right: 90px;
+    padding-right: 190px;
 }
 .inputKeyword {
     border: none;
