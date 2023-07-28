@@ -7,56 +7,56 @@
             focusable
             >
         <v-expansion-panel>
-        <v-expansion-panel-header><span class="headerMenu">상품 정보</span></v-expansion-panel-header>
-        <v-expansion-panel-content>
-            <v-text-field :value="product.category" label="카테고리" disabled></v-text-field>
-            <v-text-field :value="product.productName" label="상품명" disabled></v-text-field>
-            <v-textarea v-model="product.productDetails" label="상세내용"></v-textarea>
-        </v-expansion-panel-content>
+            <v-expansion-panel-header><span class="headerMenu">상품 정보</span></v-expansion-panel-header>
+            <v-expansion-panel-content>
+                <v-text-field :value="product.category" label="카테고리" disabled></v-text-field>
+                <v-text-field :value="product.productName" label="상품명" disabled></v-text-field>
+                <v-textarea v-model="product.productDetails" label="상세내용"></v-textarea>
+            </v-expansion-panel-content>
         </v-expansion-panel>
 
         <v-expansion-panel>
-        <v-expansion-panel-header><span class="headerMenu">상품 이미지</span></v-expansion-panel-header>
-        <v-expansion-panel-content>
-            <p><Strong>메인 이미지</Strong></p>
-            <p class="guideImage">* 메인 이미지는 변경이 불가합니다.</p>
-            <v-row>
-                <v-col cols="12">
-                    <v-img  width="300" height="auto" :src="product.productMainImage ? getImage(product.productMainImage) : ''"></v-img>
-                </v-col>
-            </v-row>
-            <p><Strong>상세이미지</Strong></p>
-            <p class="guideImage">* 상세 이미지는 5개를 필수로 등록해야 합니다.</p>
-            <p class="guideImage">* 원하는 이미지를 삭제 후 새로 등록할 수 있습니다.</p>
-            <v-row>
-                <v-col v-for="(image, index) in product.productImageNameList" :key="index" cols="4">
-                    <v-row>
-                        <v-col cols="8">
-                            <v-img width="300" height="auto" :src="product.productImageNameList ? getImage(image) : ''"></v-img>
-                        </v-col>
-                        <v-col cols="4" class="text-right">
-                            <v-btn @click="deleteAwsS3File(image)" color="primary" text icon>x</v-btn>
-                        </v-col>
-                    </v-row>
-                </v-col>
-            </v-row>
-            <v-file-input
-                    chips
-                    v-model="detailsFiles"
-                    label="상세 이미지 업로드"
-                    accept="image/*"
-                    multiple
-                    @change="handleFileUpload"
-                    ></v-file-input>
-        </v-expansion-panel-content>
+            <v-expansion-panel-header><span class="headerMenu">상품 이미지</span></v-expansion-panel-header>
+            <v-expansion-panel-content>
+                <p><Strong>메인 이미지</Strong></p>
+                <p class="guideImage">* 메인 이미지는 변경이 불가합니다.</p>
+                <v-row>
+                    <v-col cols="12">
+                        <v-img  width="300" height="auto" :src="product.productMainImage ? getImage(product.productMainImage) : ''"></v-img>
+                    </v-col>
+                </v-row>
+                <p><Strong>상세이미지</Strong></p>
+                <p class="guideImage">* 상세 이미지는 5개를 필수로 등록해야 합니다.</p>
+                <p class="guideImage">* 원하는 이미지를 삭제 후 새로 등록할 수 있습니다.</p>
+                <v-row>
+                    <v-col v-for="(image, index) in product.productImageNameList" :key="index" cols="4">
+                        <v-row>
+                            <v-col cols="8">
+                                <v-img width="300" height="auto" :src="product.productImageNameList ? getImage(image) : ''"></v-img>
+                            </v-col>
+                            <v-col cols="4" class="text-right">
+                                <v-btn @click="deleteAwsS3File(image)" color="primary" text icon>x</v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-col>
+                </v-row>
+                <v-file-input
+                        chips
+                        v-model="detailsFiles"
+                        label="상세 이미지 업로드"
+                        accept="image/*"
+                        multiple
+                        @change="handleFileUpload"
+                        ></v-file-input>
+            </v-expansion-panel-content>
         </v-expansion-panel>
 
         <v-expansion-panel>
-        <v-expansion-panel-header><span class="headerMenu">옵션 정보</span></v-expansion-panel-header>
-        <v-expansion-panel-content v-for="(productOption, index) in product.productOptionResponseFormList" :key="index">
-            <v-text-field v-model="productOption.optionName" label="옵션명"></v-text-field>
-            <v-text-field v-model="productOption.optionPrice" label="옵션 가격"></v-text-field>
-        </v-expansion-panel-content>
+            <v-expansion-panel-header><span class="headerMenu">옵션 정보</span></v-expansion-panel-header>
+            <v-expansion-panel-content v-for="(productOption, index) in product.productOptionResponseFormList" :key="index">
+                <v-text-field v-model="productOption.optionName" label="옵션명"></v-text-field>
+                <v-text-field v-model="productOption.optionPrice" label="옵션 가격"></v-text-field>
+            </v-expansion-panel-content>
         </v-expansion-panel>
 
         <v-expansion-panel>
@@ -105,8 +105,8 @@ export default {
             panel: [0],
             disabled: false,
             productDetails: '',
-            dateList: [],
-            campsiteVacancyList: [],
+            dateList: '',
+            campsiteVacancyList: '',
             imageNameList: [],
             optionNameList: [],
             optionPriceList: [],
@@ -131,7 +131,6 @@ export default {
             return`https://vue-s3-test-3737.s3.ap-northeast-2.amazonaws.com/${imageName}`;
         },
         async deleteProduct() {
-            console.log("삭제할 상품 id: " + this.product.id)
             await this.requestDeleteProductToSpring(this.product.id)
         },
         awsS3Config () {
@@ -158,9 +157,7 @@ export default {
             },
             (err, data) => {
                 if (err) {
-                return alert(
-                    'AWS 버킷 데이터 삭제에 문제가 발생했습니다: ' + err.message
-                );
+                    return alert('AWS 버킷 데이터 삭제에 문제가 발생했습니다: ' + err.message)
                 }
                 alert('AWS 버킷 데이터 삭제가 성공적으로 완료되었습니다');
             });
@@ -171,7 +168,6 @@ export default {
             }
 
             this.imageNameList = this.product.productImageNameList;
-            console.log("궁금해 값: " + this.imageNameList)
         },
         uploadAwsS3 () {    
             this.awsS3Config()
@@ -206,19 +202,10 @@ export default {
             this.productDetails = this.product.productDetails;
             this.optionNameList = this.product.productOptionResponseFormList.map((option) => option.optionName);
             this.optionPriceList = this.product.productOptionResponseFormList.map((option) => option.optionPrice);
-            this.optionModifyRequestFormList = this.unwrapData(this.product.productOptionWithVacancyResponseFormList);
+            this.optionModifyRequestFormList = this.product.productOptionWithVacancyResponseFormList
             const {id, productDetails, imageNameList, optionNameList, optionPriceList, optionModifyRequestFormList } = this
             await this.requestModifyProductToSpring({ id, productDetails, imageNameList, optionNameList, optionPriceList, optionModifyRequestFormList })
         },
-        unwrapData(arrayData) {
-            const unwrappedData = arrayData.map(obj => ({
-                ...obj,
-                dateList: obj.dateList[0],
-                campsiteVacancyList: obj.campsiteVacancyList[0]
-            }));
-
-            return unwrappedData;
-        }
     },
 }
 </script>
