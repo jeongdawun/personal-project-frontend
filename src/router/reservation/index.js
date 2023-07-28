@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import CreateReservationPage from '@/views/reservation/CreateReservationPage.vue'
 import MyReservationListPage from '@/views/reservation/MyReservationListPage.vue'
 import MyReservationDetailPage from '@/views/reservation/MyReservationDetailPage.vue'
+import KakaoPaymentPage from '@/views/reservation/KakaoPaymentPage.vue'
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,12 @@ const reservationRoutes = [
     props: {
       default: true,
     },
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/kakaosuccess/:orderId/:userId',
+    name: 'KakaoPaymentPage',
+    component: KakaoPaymentPage,
     meta: { requiresAuth: true }
   },
 ]
