@@ -62,6 +62,30 @@
             </v-row>
         </div>
 
+        <div class="infomenu">
+            <v-col cols="12" id="menutitle">시설 정보 등록
+                <v-badge
+                bordered
+                inline
+                dot
+                color="red"
+                ></v-badge>
+            </v-col>
+            <v-row no-gutters justify="center" class="infoDetails">
+                <v-col cols="12">
+                    <v-select
+                        v-model="selectedFacilities"
+                        :items="facilities"
+                        multiple
+                        chips
+                        label="시설을 선택하여 추가해주세요."
+                        variant="outlined"
+                    ></v-select>
+                </v-chip>
+                </v-col>
+            </v-row>
+        </div>
+
         <!-- 이미지-->
         <div class="infomenu">
             <v-col cols="12" id="menutitle">이미지 등록
@@ -197,6 +221,24 @@ export default {
             detailsFiles: [],
             mainImageName: '',
             imageNameList:[],
+
+            selectedFacilities: [],
+            facilities: [
+                'TOILET',
+                'SHOWER_ROOM',
+                'WATER_FOUNTAIN',
+                'WIFI',
+                'CONVENIENCE_STORE',
+                'BBQ_AREA',
+                'WALKING_TRAIL',
+                'PET_FRIENDLY',
+                'TRAMPOLINE',
+                'SWIMMING_POOL',
+                'CAFE',
+                'PLAYGROUND',
+                'SOCCER_FIELD',
+            ],
+            facilityType: []
         }
     },
     methods: {
@@ -308,9 +350,12 @@ export default {
             this.imageNameList = this.fileNames
             console.log("details image name list: " + this.imageNameList)
 
+            this.facilityType = this.selectedFacilities
+
             this.uploadAwsS3 ()
-            const { productName, category, productDetails, address, mainImageName, imageNameList, optionNameList, optionPriceList, optionsRegisterRequestFormList } = this
-            this.$emit('submit', { productName, category, productDetails, address, mainImageName, imageNameList, optionNameList, optionPriceList, optionsRegisterRequestFormList})
+            const { productName, category, productDetails, address, facilityType, mainImageName, imageNameList, optionNameList, optionPriceList, optionsRegisterRequestFormList } = this
+            console.log("시설 ", facilityType)
+            this.$emit('submit', { productName, category, productDetails, address, facilityType, mainImageName, imageNameList, optionNameList, optionPriceList, optionsRegisterRequestFormList})
         },
     },
 }

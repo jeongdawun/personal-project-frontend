@@ -204,7 +204,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #app {
     font-family: 'SUIT-Regular';
 }

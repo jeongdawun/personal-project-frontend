@@ -16,6 +16,17 @@
         </v-expansion-panel>
 
         <v-expansion-panel>
+            <v-expansion-panel-header><span class="headerMenu">시설 정보</span></v-expansion-panel-header>
+            <v-expansion-panel-content>
+                <div class="chipContainer">
+                <v-chip v-for="(facility, index) in product.facilities" :key="index" class="horizontalChip">
+                    <span>{{ facility }}</span>
+                </v-chip>
+                </div>
+            </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-expansion-panel>
             <v-expansion-panel-header><span class="headerMenu">상품 이미지</span></v-expansion-panel-header>
             <v-expansion-panel-content>
                 <p><Strong>메인 이미지</Strong></p>
@@ -112,6 +123,7 @@ export default {
             optionPriceList: [],
             optionModifyRequestForm: [],
             optionModifyRequestFormList: [],
+            facility: [],
 
             s3: null,
             awsBucketName: env.api.MAIN_AWS_BUCKET_NAME,
@@ -258,5 +270,13 @@ Strong {
     margin-left: 6px;
     margin-right: 6px;
     border-radius: 33px;
+}
+.chipContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+.horizontalChip {
+  display: inline;
+  margin-right: 5px;
 }
 </style>

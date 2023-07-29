@@ -32,6 +32,13 @@
         </v-col>
     </v-row>
 
+    <!-- 시설 정보 -->
+    <v-row>
+      <v-col v-for="(facility, index) in product.facilities" :key="index" cols="auto" class="facilityIcon" align="center">
+        <v-img :src="require(`@/assets/happycamper/facility/${facility}.png`)" width="34"></v-img>
+      </v-col>
+    </v-row>
+
     <!-- 빈자리 조회 -->
     <v-row no-gutters class="checkDate">
         <v-col cols="12" id="selectDate">
@@ -312,5 +319,8 @@ h2 {
 .cartBtn {
     background-color: #ff1e00;
     color: #ffffff;
+}
+#date {
+    font-weight: 600;
 }
 </style>
