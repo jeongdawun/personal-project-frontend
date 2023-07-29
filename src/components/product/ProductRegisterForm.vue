@@ -28,7 +28,10 @@
                     <p>상품명</p>
                 </v-col>
                 <v-col cols="10">
-                    <v-text-field v-model="productName" label="상품명을 입력하세요."></v-text-field>
+                    <v-text-field 
+                    v-model="productName" 
+                    label="상품명을 입력하세요."
+                    ></v-text-field>
                 </v-col>
             </v-row>
         </div>
@@ -57,7 +60,14 @@
                     <p>주소</p>
                 </v-col>
                 <v-col cols="10">
-                    <v-text-field v-model="address" id="address" label="주소를 검색하여 입력하세요." prepend-inner-icon="mdi-map-marker" readonly @click="postOpen"></v-text-field>
+                    <v-text-field 
+                    id="address"
+                    v-model="address"
+                    label="주소를 검색하여 입력하세요." 
+                    prepend-inner-icon="mdi-map-marker" 
+                    readonly 
+                    @click="postOpen"
+                    ></v-text-field>
                 </v-col>
             </v-row>
         </div>
@@ -74,12 +84,12 @@
             <v-row no-gutters justify="center" class="infoDetails">
                 <v-col cols="12">
                     <v-select
-                        v-model="selectedFacilities"
-                        :items="facilities"
-                        multiple
-                        chips
-                        label="시설을 선택하여 추가해주세요."
-                        variant="outlined"
+                    v-model="selectedFacilities"
+                    :items="facilities"
+                    multiple
+                    chips
+                    label="시설을 선택하여 추가해주세요."
+                    variant="outlined"
                     ></v-select>
                 </v-chip>
                 </v-col>
@@ -141,28 +151,51 @@
             <v-row no-gutters justify="center" class="infoDetails">
                 <v-row v-for="(option, index) in options" :key="index">
                     <v-col cols="4">
-                        <v-text-field v-model="option.optionName" label="옵션명을 입력하세요." @change="handleOptionNameUpload(index)"></v-text-field>
+                        <v-text-field 
+                        v-model="option.optionName" 
+                        label="옵션명을 입력하세요." 
+                        @change="handleOptionNameUpload(index)"
+                        ></v-text-field>
                     </v-col>
                     <v-col cols="3">
-                        <v-text-field v-model="option.optionPrice" label="옵션 가격을 입력하세요." @change="handleOptionPriceUpload(index)"></v-text-field>
+                        <v-text-field 
+                        v-model="option.optionPrice" 
+                        label="옵션 가격을 입력하세요." 
+                        @change="handleOptionPriceUpload(index)"
+                        ></v-text-field>
                     </v-col>
                     <v-col cols="4">
-                        <v-menu v-model="option.menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-text-field
+                        <v-menu 
+                            v-model="option.menu" 
+                            :close-on-content-click="false" 
+                            :nudge-right="40" 
+                            transition="scale-transition" 
+                            offset-y min-width="auto">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-text-field
                                 v-model="option.dates"
                                 label="기간을 선택하세요."
                                 prepend-icon="mdi-calendar"
                                 readonly
                                 v-bind="attrs"
                                 v-on="on"
-                            ></v-text-field>
-                        </template>
-                        <v-date-picker v-model="option.dates" range @input="option.menu2 = false"></v-date-picker>
+                                ></v-text-field>
+                            </template>
+                            <v-date-picker 
+                            v-model="option.dates" 
+                            @input="onDateInput"
+                            range 
+                            multiple
+                            no-title>
+                            </v-date-picker>
                         </v-menu>
                     </v-col>
                     <v-col cols="1">
-                        <v-text-field type="number" v-model="option.campsiteVacancy" @change="handleCampsiteVacancyUpload(index)"></v-text-field>
+                        <v-text-field 
+                        type="number" 
+                        v-model="option.campsiteVacancy" 
+                        @change="handleCampsiteVacancyUpload(index)"
+                        ></v-text-field>
                     </v-col>
                 </v-row>
             </v-row>
@@ -180,8 +213,7 @@
 </template>
 
 <script>
-import AWS from 'aws-sdk'
-import env from '../../env'
+import { awsS3Config, uploadAwsS3 } from '../../utility/awsS3';
 
 export default {
     head() {
@@ -193,36 +225,12 @@ export default {
     },
     data () {
         return {
-            dates: [],
-            menu2: false,
+            menu: false,
             productName: '',
             categoryName: ['오토캠핑', '글램핑', '카라반'],
             category: '',
             productDetails: '',
-
             address:'',
-
-            optionNameList: [],
-            optionPriceList: [],
-            startDate: '',
-            endDate: '',
-            campsiteVacancy: 0,
-            optionsRegisterRequestFormList: [],
-            options: [{ optionName: '', optionPrice: '', startDate: null, endDate: null, campsiteVacancy: 0 }],
-
-            s3: null,
-            awsBucketName: env.api.MAIN_AWS_BUCKET_NAME,
-            awsBucketRegion: env.api.MAIN_AWS_BUCKET_REGION,
-            awsIdentityPoolId: env.api.MAIN_AWS_BUCKET_IDENTITY_POOL_ID,
-
-            file: null,
-            mainFile: null,
-            fileNames: [],
-            detailsFiles: [],
-            mainImageName: '',
-            imageNameList:[],
-
-            selectedFacilities: [],
             facilities: [
                 'TOILET',
                 'SHOWER_ROOM',
@@ -238,10 +246,38 @@ export default {
                 'PLAYGROUND',
                 'SOCCER_FIELD',
             ],
-            facilityType: []
+            facilityType: [],
+            selectedFacilities: [],
+
+            optionNameList: [],
+            optionPriceList: [],
+            startDate: '',
+            endDate: '',
+            campsiteVacancy: 0,
+            optionsRegisterRequestFormList: [],
+            options: [{ optionName: '', optionPrice: '', startDate: null, endDate: null, campsiteVacancy: 0 }],
+
+            file: null,
+            mainFile: null,
+            fileNames: [],
+            detailsFiles: [],
+            mainImageName: '',
+            imageNameList:[],
         }
     },
+    computed: {
+        dateRangeText () {
+            return this.options.map(option => option.dates.join(' ~ '));
+        },
+    },
     methods: {
+        onDateInput() {
+            this.options.forEach(option => {
+                if (option.dates.length === 2) {
+                    this.menu = false;
+                }
+            })
+        },
         handleFileUpload() {
             this.fileNames = this.detailsFiles.map(file => file.name);
             console.log(this.fileNames);
@@ -261,6 +297,9 @@ export default {
             console.log(`옵션${optionIndex + 1} 끝 날짜:`, endDate);
         },
         handleCampsiteVacancyUpload(optionIndex) {
+            if (this.options[optionIndex].campsiteVacancy <= 0) {
+                return alert("0 이하를 입력할 수 없습니다.")
+            }
             console.log(`옵션${optionIndex + 1} 빈 자리:`, this.options[optionIndex].campsiteVacancy);
         },
         addRow() {
@@ -272,49 +311,9 @@ export default {
         clear () {
             router.push('/')
         },
-        awsS3Config () {
-            AWS.config.update({
-                region: this.awsBucketRegion,
-                credentials: new AWS.CognitoIdentityCredentials({
-                    IdentityPoolId: this.awsIdentityPoolId
-                })
-            })
-
-            this.s3 = new AWS.S3({
-                apiVersion: '2006-03-01',
-                params: {
-                    Bucket: this.awsBucketName
-                }
-            })
-        },
-        uploadAwsS3 () {    
-            this.awsS3Config()
-
-            this.s3.upload({
-                Key: this.mainFile.name,
-                Body: this.mainFile,
-                ACL: 'public-read',
-            }, (err, data) => {
-                if (err) {
-                    console.log(err)
-                    return alert("메인 이미지 업로드 중 문제 발생", err.message)
-                }
-                console.log('메인 이미지 업로드 성공!')
-            })
-            
-            this.detailsFiles.forEach((file) => {
-                this.s3.upload({
-                    Key: file.name,
-                    Body: file,
-                    ACL: 'public-read',
-                }, (err, data) => {
-                    if (err) {
-                        console.log(err);
-                        return alert("상세 이미지 업로드 중 문제 발생", err.message)
-                    }
-                    console.log(`파일 ${file.name} 업로드 성공!`)
-                });
-            });
+        uploadImages() {
+            const s3 = awsS3Config();
+            uploadAwsS3(s3, this.mainFile, this.detailsFiles)
         },
         postOpen() {
             const vm = this;
@@ -352,10 +351,16 @@ export default {
 
             this.facilityType = this.selectedFacilities
 
-            this.uploadAwsS3 ()
+            this.uploadImages()
             const { productName, category, productDetails, address, facilityType, mainImageName, imageNameList, optionNameList, optionPriceList, optionsRegisterRequestFormList } = this
-            console.log("시설 ", facilityType)
             this.$emit('submit', { productName, category, productDetails, address, facilityType, mainImageName, imageNameList, optionNameList, optionPriceList, optionsRegisterRequestFormList})
+        },
+    },
+    computed: {
+        dateRangeText () {
+            this.options.forEach(option => {
+                return option.dates.join(' ~ ')
+                });
         },
     },
 }

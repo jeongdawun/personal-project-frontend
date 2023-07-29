@@ -36,7 +36,7 @@
                     </v-menu>
                 </v-col>
                 <v-col cols="auto">
-                    <v-btn text @click="() => checkVacancies(checkInDate, checkOutDate, latitude, longitude)" id="checkStockBtn"><span>빈자리 조회하기</span></v-btn>
+                    <v-btn text @click="() => checkVacancies(checkInDate, checkOutDate, latitude, longitude)" id="checkStockBtn"><span>현재 위치에서 빈자리 조회하기</span></v-btn>
                 </v-col>
             </v-col>
         </v-row>
@@ -78,10 +78,10 @@ export default {
             checkInDate: '',
             checkOutDate: '',
             campsiteVacancy: [],
-            // latitude: 37.5620725197713,
-            // longitude: 126.96441514598358,
-            latitude: 37.63723063991143,
-            longitude: 126.4566282863237,
+            latitude: 37.5620725197713,
+            longitude: 126.96441514598358,
+            // latitude: 37.63723063991143,
+            // longitude: 126.4566282863237,
             dates: [today.toISOString().split("T")[0], tomorrow.toISOString().split("T")[0]],
         }
     },

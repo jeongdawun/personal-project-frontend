@@ -29,24 +29,24 @@
         <v-expansion-panel>
             <v-expansion-panel-header><span class="headerMenu">상품 이미지</span></v-expansion-panel-header>
             <v-expansion-panel-content>
-                <p><Strong>메인 이미지</Strong></p>
+                <p class="imgMenu"><Strong>메인 이미지</Strong></p>
                 <p class="guideImage">* 메인 이미지는 변경이 불가합니다.</p>
                 <v-row>
                     <v-col cols="12">
                         <v-img  width="300" height="auto" :src="product.productMainImage ? getImage(product.productMainImage) : ''"></v-img>
                     </v-col>
                 </v-row>
-                <p><Strong>상세이미지</Strong></p>
+                <p class="imgMenu"><Strong>상세이미지</Strong></p>
                 <p class="guideImage">* 상세 이미지는 5개를 필수로 등록해야 합니다.</p>
                 <p class="guideImage">* 원하는 이미지를 삭제 후 새로 등록할 수 있습니다.</p>
                 <v-row>
-                    <v-col v-for="(image, index) in product.productImageNameList" :key="index" cols="4">
+                    <v-col v-for="(image, index) in product.productImageNameList" :key="index" cols="4" class="detailImg">
                         <v-row>
-                            <v-col cols="8">
+                            <v-col cols="10">
                                 <v-img width="300" height="auto" :src="product.productImageNameList ? getImage(image) : ''"></v-img>
                             </v-col>
-                            <v-col cols="4" class="text-right">
-                                <v-btn @click="deleteAwsS3File(image)" color="primary" text icon>x</v-btn>
+                            <v-col cols="2" class="text-right">
+                                <v-btn @click="deleteS3File(image)" color="primary" text icon>x</v-btn>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -88,16 +88,44 @@
             </v-expansion-panel>
         </v-expansion-panels>
 
-    <a @click="deleteProduct">
-        <span class="delete">상품 삭제하기 ></span>
-    </a>
-    <v-btn class="submitBtn" color="#282F33" elevation="0" @click="onModify">수정하기</v-btn>
+        <v-row justify="start" class="deleteMenu">
+            <v-dialog
+            v-model="dialog"
+            persistent
+            max-width="290"
+            >
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                class="deleteBtn"
+                color="#535353"
+                plain
+                dark
+                v-bind="attrs"
+                v-on="on"
+                >
+                상품 삭제하기 >
+                </v-btn>
+            </template>
+            <v-card>
+                <v-card-text><span class="deleteGuide">정말 삭제하시겠습니까 ?</span></v-card-text>
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="red" plain @click="deleteProduct" class="deleteMenuBtn">
+                    삭제
+                </v-btn>
+                <v-btn color="black" plain @click="closeDialog" class="deleteMenuBtn">
+                    취소
+                </v-btn>
+                </v-card-actions>
+            </v-card>
+            </v-dialog>
+        </v-row>
+        <v-btn class="submitBtn" color="#282F33" elevation="0" @click="onModify">수정하기</v-btn>
     </v-container>
 </template>
 
 <script>
-import AWS from 'aws-sdk'
-import env from '../../env'
+import { deleteAwsS3File, uploadDetailImgAwsS3 } from '../../utility/awsS3';
 import { mapActions } from 'vuex';
 
 const productModule = 'productModule'
@@ -112,6 +140,9 @@ export default {
     },
     data () {
         return {
+            delete: false,
+            dialog: false,
+            imageUrls: {},
             id: 0,
             panel: [0],
             disabled: false,
@@ -125,11 +156,6 @@ export default {
             optionModifyRequestFormList: [],
             facility: [],
 
-            s3: null,
-            awsBucketName: env.api.MAIN_AWS_BUCKET_NAME,
-            awsBucketRegion: env.api.MAIN_AWS_BUCKET_REGION,
-            awsIdentityPoolId: env.api.MAIN_AWS_BUCKET_IDENTITY_POOL_ID,
-
             file: null,
             fileNames: [],
             detailsFiles: [],
@@ -139,41 +165,33 @@ export default {
     methods: {
         ...mapActions(productModule, ['requestDeleteProductToSpring', 'requestModifyProductToSpring']),
         getImage(imageName) {
-            console.log("요청한 사진 파일명: " + imageName)
-            return`https://vue-s3-test-3737.s3.ap-northeast-2.amazonaws.com/${imageName}`;
+            if (this.imageUrls[imageName]) {
+                return this.imageUrls[imageName]
+            }
+
+            const imageUrl = `https://vue-s3-test-3737.s3.ap-northeast-2.amazonaws.com/${imageName}`
+            this.imageUrls[imageName] = imageUrl
+
+            return imageUrl
+        },
+        openDialog() {
+            this.dialog = true
+        },
+        closeDialog() {
+            this.dialog = false
+            this.delete = false
         },
         async deleteProduct() {
-            await this.requestDeleteProductToSpring(this.product.id)
-        },
-        awsS3Config () {
-            AWS.config.update({
-                region: this.awsBucketRegion,
-                credentials: new AWS.CognitoIdentityCredentials({
-                    IdentityPoolId: this.awsIdentityPoolId
-                })
-            })
-
-            this.s3 = new AWS.S3({
-                apiVersion: '2006-03-01',
-                params: {
-                    Bucket: this.awsBucketName
-                }
-            })
-        },
-        deleteAwsS3File(key) {
-            this.awsS3Config()
+            this.delete = true
             
-            this.s3.deleteObject(
-            {
-                Key: key,
-            },
-            (err, data) => {
-                if (err) {
-                    return alert('AWS 버킷 데이터 삭제에 문제가 발생했습니다: ' + err.message)
-                }
-                alert('AWS 버킷 데이터 삭제가 성공적으로 완료되었습니다');
-            });
-
+            if(this.delete) {
+                await this.requestDeleteProductToSpring(this.product.id)
+                this.dialog = false;
+            }
+        },
+        deleteS3File(key) {
+            deleteAwsS3File(key)
+            
             const indexToRemove = this.product.productImageNameList.indexOf(key);
             if (indexToRemove !== -1) {
                 this.product.productImageNameList.splice(indexToRemove, 1);
@@ -181,31 +199,17 @@ export default {
 
             this.imageNameList = this.product.productImageNameList;
         },
-        uploadAwsS3 () {    
-            this.awsS3Config()
-            
-            this.detailsFiles.forEach((file) => {
-                this.s3.upload({
-                    Key: file.name,
-                    Body: file,
-                    ACL: 'public-read',
-                }, (err, data) => {
-                    if (err) {
-                        console.log(err);
-                        return alert("상세 이미지 업로드 중 문제 발생", err.message)
-                    }
-                    console.log(`파일 ${file.name} 업로드 성공!`)
-                });
-            });
-        },
         handleFileUpload() {
             this.fileNames = this.detailsFiles.map(file => file.name);
             console.log(this.fileNames);
         },
+        uploadImg() {
+            uploadDetailImgAwsS3(this.detailsFiles)
+        },
         async onModify () {
-            this.uploadAwsS3 ()
+            await this.uploadImg ()
 
-            this.imageNameList = this.fileNames.concat(this.product.productImageNameList);
+            this.imageNameList = await this.fileNames.concat(this.product.productImageNameList);
             if(this.imageNameList.length != 5) {
                 alert("상세 이미지는 5개를 필수로 등록해야 합니다.")
                 return
@@ -227,28 +231,33 @@ export default {
 .container {
     width: 60%;
     margin-top: 100px;
+    font-family: 'SUIT-Regular';
+    font-weight: 100;
 }
 .v-expansion-panel-header {
     color: rgb(212, 212, 214);
     height: 20px;
     border-radius: 0;
-    font-family: 'SUIT-Regular';
-    font-weight: 100;
 }
 .v-expansion-panel-content {
-    font-family: 'SUIT-Regular';
-    font-weight: 100;
     padding-top: 14px
 }
-.delete {
-    font-family: 'SUIT-Regular';
+.deleteBtn {
     font-weight: 200;
     font-size: 14px;
-    text-decoration: none;
-    color: #535353;
-    display: inline-block;
-    white-space: nowrap;
-    padding: 20px;
+    margin-top: 10px;
+    margin-bottom: 14px;
+}
+.detailImg {
+    margin-top: 10px;
+}
+.v-dialog > .v-card > .v-card__text {
+    padding-top: 20px !important;
+    font-size: 15px;
+}
+.deleteMenuBtn {
+    font-size: 15px;
+    font-weight: 600;
 }
 .headerMenu {
     color: rgb(87, 87, 87);
@@ -256,14 +265,17 @@ export default {
 Strong {
     font-weight: 600;
 }
+.imgMenu {
+    margin-top: 20px;
+}
 .guideImage {
     font-size: 14px;
+    margin-bottom: 6px;
 }
 .submitBtn {
     width: 100%;
     min-height: 40px;
     color: white;
-    font-family: 'SUIT-Regular';
     font-size: 14px;
     font-weight: 200;
     margin-top: 10px;
@@ -272,11 +284,11 @@ Strong {
     border-radius: 33px;
 }
 .chipContainer {
-  display: flex;
-  flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
 }
 .horizontalChip {
-  display: inline;
-  margin-right: 5px;
+    display: inline;
+    margin-right: 5px;
 }
 </style>

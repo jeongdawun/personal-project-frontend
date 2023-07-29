@@ -4,6 +4,7 @@ import {
 } from './mutation-types'
 
 import axiosInst from '@/utility/axiosInst'
+import router from '@/router';
 
 export default {
     requestRegisterProductToSpring ({}, payload) {
@@ -81,17 +82,18 @@ export default {
         })
     },
     requestDeleteProductToSpring({ }, id) {
-        console.log("delete 진행!")
         return axiosInst.delete(`/product/${id}`)
         .then((res) => {
-            alert("삭제가 완료되었습니다.")
+            alert("상품 삭제가 완료되었습니다.")
+            router.push('/myPage')
         })
     },
     requestModifyProductToSpring({ }, { id, productDetails, imageNameList, optionNameList, optionPriceList, optionModifyRequestFormList }) {
         return axiosInst.put(`/product/${id}`, { productDetails, imageNameList, optionNameList, optionPriceList, optionModifyRequestFormList })
             .then((res) => {
                 if(res.data == true) {
-                    alert("상품 수정 성공!")
+                    alert("상품이 성공적으로 수정되었습니다.")
+                    router.push(`/product/${id}`)
                 } else {
                     alert("상품 수정 실패")
                 }
