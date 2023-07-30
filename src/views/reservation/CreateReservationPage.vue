@@ -34,6 +34,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import router from "@/router";
 const reservationModule = 'reservationModule'
 
 export default {

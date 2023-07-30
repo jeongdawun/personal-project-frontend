@@ -84,8 +84,15 @@ export default {
     requestDeleteProductToSpring({ }, id) {
         return axiosInst.delete(`/product/${id}`)
         .then((res) => {
-            alert("상품 삭제가 완료되었습니다.")
-            router.push('/myPage')
+            if(res.data == true) {
+                alert("상품 삭제가 완료되었습니다.")
+                router.push('/myPage')
+            } else {
+                alert("예약 내역이 존재하여 상품을 삭제할 수 없습니다.")
+            }
+        })
+        .catch(() => {
+            alert('통신 실패')
         })
     },
     requestModifyProductToSpring({ }, { id, productDetails, imageNameList, optionNameList, optionPriceList, optionModifyRequestFormList }) {

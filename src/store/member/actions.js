@@ -75,6 +75,7 @@ export default {
                         }
                     }
                     router.push('/')
+                    location.reload()
                 } else {
                     alert('이메일 및 비밀번호를 다시 확인해주세요.')
                 }
