@@ -1,6 +1,7 @@
 <template lang="">
-    <div>
-        <h2>결제가 완료되었습니다.</h2>
+    <div class="paymentSuccess" justify="center">
+        <h2>결제가 완료되었습니다　>> </h2>
+        <h2 class="gotoReservation"><a href="/myReservation">　나의 주문 목록으로 이동하기</a></h2>
     </div>
 </template>
 
@@ -38,5 +39,15 @@ export default {
 h2 {
     padding-top: 200px;
     font-size: 20px;
+}
+.paymentSuccess {
+    display: flex;
+    justify-content: center;
+    color: #282F33;
+    font-family: 'SUIT-Regular';
+}
+.gotoReservation a{
+    text-decoration: none;
+    color: #2d7faf;
 }
 </style>
