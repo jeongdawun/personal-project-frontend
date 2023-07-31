@@ -15,6 +15,7 @@ export default {
             .then((res) => {
                 if(res.data == true) {
                     alert("상품 등록 성공!")
+                    router.push('/Mylist')
                 } else {
                     alert("상품 등록 실패")
                 }
