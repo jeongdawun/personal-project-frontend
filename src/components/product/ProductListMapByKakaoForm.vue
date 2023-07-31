@@ -208,14 +208,14 @@ export default {
 #app {
     font-family: 'SUIT-Regular';
 }
-.customoverlay {
+::v-deep .customoverlay {
     position: relative;
     bottom: 15px;
     padding-left: 23px;
     padding-bottom: 19px;
     border-radius: 6px;
 }
-.customoverlay a {
+::v-deep .customoverlay a {
     text-decoration: none;
 }
 .topListIcon {
@@ -223,7 +223,7 @@ export default {
     margin-top: 3px;
     margin-bottom: -160px
 }
-.customoverlay .title {
+::v-deep .customoverlay .title {
     text-align: center;
     color: #ffffff;
     font-weight: 600;
