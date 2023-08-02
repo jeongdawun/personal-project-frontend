@@ -30,6 +30,9 @@
         <v-col cols="12" id="productName">
             <span>{{ product.productName }}</span>
         </v-col>
+        <v-col cols="12" id="productAddress">
+            <span>{{ product.address }}</span>
+        </v-col>
     </v-row>
 
     <!-- 시설 정보 -->

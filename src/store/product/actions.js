@@ -69,14 +69,14 @@ export default {
             });
     },
     requestStockToSpring({ }, { id, checkInDate, checkOutDate }) {
-        return axiosInst.post('/product/check-stock', { id, checkInDate, checkOutDate })
+        return axiosInst.post('/product/check-vacancy', { id, checkInDate, checkOutDate })
         .then((res) => {
             return res.data
         })
     },
     requestStockByMapToSpring({ }, { checkInDate, checkOutDate }) {
         console.log("입력받은 날짜: " + checkInDate + " " + checkOutDate)
-        return axiosInst.post('/product/map-vacancy', { checkInDate, checkOutDate })
+        return axiosInst.post('/product/check-vacancy-by-date', { checkInDate, checkOutDate })
         .then((res) => {
             console.log("서버 응답: " + JSON.stringify(res.data))
             return res.data
