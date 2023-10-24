@@ -45,7 +45,7 @@ const memberRoutes = [
     path: '/sellerInfoPage',
     name: 'BusinessMemberSellerInfoRegisterPage',
     component: BusinessMemberSellerInfoRegisterPage,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, requireBusinessRole: true }
   },
   {
     path: '/withdrawal',

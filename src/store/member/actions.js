@@ -59,7 +59,7 @@ export default {
     requestLoginMemberToSpring ({ }, payload) {
 
         return axiosInst.post('/member/login', payload)
-            .then((res) => {
+            .then(async(res) => {
                 if(res.data) {
                     const cookieString = document.cookie
                     const cookies = cookieString.split(';')
@@ -74,7 +74,7 @@ export default {
                             localStorage.setItem("isLogin", true)
                         }
                     }
-                    router.push('/')
+                    await router.push('/')
                     location.reload()
                 } else {
                     alert('이메일 및 비밀번호를 다시 확인해주세요.')
@@ -148,6 +148,17 @@ export default {
                     router.push('/')
                 } else {
                     alert('회원탈퇴가 정상적으로 완료되지 않았습니다.')
+                }
+            })
+    },
+    requestCheckRoleToSpring () {
+
+        return axiosInst.get('/member/check-role')
+            .then((res) => {
+                if(res.data != null) {
+                    return res.data
+                } else {
+                    alert('권한 확인이 정상적으로 처리되지 않았습니다.')
                 }
             })
     },

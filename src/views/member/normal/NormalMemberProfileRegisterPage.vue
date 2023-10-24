@@ -17,8 +17,8 @@ export default {
     methods: {
         ...mapActions(memberModule, ['requestRegisterProfileToSpring']),
         async onSubmit (payload) {
-            const { email, name, contactNumber, nickName, birthday } = payload
-            await this.requestRegisterProfileToSpring({ email, name, contactNumber, nickName, birthday })
+            const { name, contactNumber, nickName, birthday } = payload
+            await this.requestRegisterProfileToSpring({ name, contactNumber, nickName, birthday })
         },
     }
 }

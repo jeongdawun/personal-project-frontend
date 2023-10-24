@@ -17,8 +17,8 @@ export default {
     methods: {
         ...mapActions(memberModule, ['requestRegisterSellerInfoToSpring']),
         async onSubmit (payload) {
-            const { email, city, street, addressDetail, zipcode, contactNumber, bank, accountNumber } = payload
-            await this.requestRegisterSellerInfoToSpring({ email, city, street, addressDetail, zipcode, contactNumber, bank, accountNumber })
+            const { city, street, addressDetail, zipcode, contactNumber, bank, accountNumber } = payload
+            await this.requestRegisterSellerInfoToSpring({ city, street, addressDetail, zipcode, contactNumber, bank, accountNumber })
         },
     }
 }
